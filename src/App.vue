@@ -3,12 +3,12 @@
 </template>
 
 <script setup lang="ts">
-const str  = "hello world"
+const str = 'hello world'
 console.log(str)
 </script>
 
 <style lang="scss" scoped>
-.title{
+.title {
   color: red;
   text-align: center;
 }
