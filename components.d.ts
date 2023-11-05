@@ -7,12 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CustomPagination: typeof import('./src/components/globalComponent/CustomPagination/CustomPagination.vue')['default']
-    ElButton: typeof import('element-plus/es')['ElButton']
-    ElPagination: typeof import('element-plus/es')['ElPagination']
-    ElRow: typeof import('element-plus/es')['ElRow']
-    Pagination: typeof import('./src/components/globalComponent/CustomPagination/Pagination.vue')['default']
-    SvgIcon: typeof import('./src/components/globalComponent/SvgIcon/SvgIcon.vue')['default']
-    Test: typeof import('./src/components/Test.vue')['default']
+    CustomPagination: (typeof import('./src/components/globalComponent/CustomPagination/CustomPagination.vue'))['default']
+    ElButton: (typeof import('element-plus/es'))['ElButton']
+    ElPagination: (typeof import('element-plus/es'))['ElPagination']
+    ElRow: (typeof import('element-plus/es'))['ElRow']
+    Pagination: (typeof import('./src/components/globalComponent/CustomPagination/Pagination.vue'))['default']
+    SvgIcon: (typeof import('./src/components/globalComponent/SvgIcon/SvgIcon.vue'))['default']
+    Test: (typeof import('./src/components/Test.vue'))['default']
   }
 }

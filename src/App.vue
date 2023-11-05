@@ -24,7 +24,7 @@ axios({
   url: '/api/user/login',
   method: 'post',
   data: { username: 'admin', password: '111111' },
-})  
+})
 </script>
 <style lang="scss" scoped>
 div {

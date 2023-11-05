@@ -9,7 +9,4 @@ import plugins from '@/plugins'
 import GlobalComponent from './components/globalComponent'
 // import './../mock/user'
 
-createApp(App)
-  .use(GlobalComponent)
-  .use(plugins)
-  .mount('#app')
+createApp(App).use(GlobalComponent).use(plugins).mount('#app')
