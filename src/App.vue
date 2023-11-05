@@ -1,15 +1,33 @@
 <template>
-  <h1 class="title">welcome to the world of wordful</h1>
+  <div>
+    <div>
+      <svg-icon icon="label" custom-style="width: 20px;"></svg-icon>
+      <svg-icon icon="message"></svg-icon>
+    </div>
+    <div>
+      <custom-pagination></custom-pagination>
+    </div>
+    <el-row class="mb-4">
+      <el-button>Default</el-button>
+      <el-button type="primary">Primary</el-button>
+      <el-button type="success">Success</el-button>
+      <el-button type="info">Info</el-button>
+      <el-button type="warning">Warning</el-button>
+      <el-button type="danger">Danger</el-button>
+    </el-row>
+  </div>
 </template>
-
-<script setup lang="ts">
-const str = 'hello world'
-console.log(str)
+<script lang="ts" setup>
+import axios from 'axios'
+console.log(axios)
+axios({
+  url: '/api/user/login',
+  method: 'post',
+  data: { username: 'admin', password: '111111' },
+})  
 </script>
-
 <style lang="scss" scoped>
-.title {
-  color: red;
-  text-align: center;
+div {
+  color: $themeColor;
 }
 </style>
