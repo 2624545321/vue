@@ -1,4 +1,4 @@
 export interface RequestConfig {
-  baseURL: string,
+  baseURL: string
   timeout: number
 }
