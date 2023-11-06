@@ -18,12 +18,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-import axios from 'axios'
-console.log(axios)
-axios({
-  url: '/api/user/login',
-  method: 'post',
-  data: { username: 'admin', password: '111111' },
+import { onMounted } from 'vue';
+import request from '@/plugins/axios'
+
+onMounted(() => {
+  request({
+    url: '/user/login',
+    method: 'post',
+    data: {
+      username: 'admin',
+      password: '111111'
+    }
+  }).then(res => {
+    console.log(res)
+  })
 })
 </script>
 <style lang="scss" scoped>

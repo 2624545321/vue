@@ -20,12 +20,14 @@
   "dependencies": {
     "axios": "^1.6.0",
     "element-plus": "^2.4.1",
+    "nprogress": "^0.2.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.15",
     "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^18.1.0",
+    "@types/nprogress": "^0.2.2",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "@vitejs/plugin-vue": "^4.2.3",
