@@ -7,20 +7,20 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CustomPagination: typeof import('./src/components/globalComponent/CustomPagination/CustomPagination.vue')['default']
-    ElButtom: typeof import('element-plus/es')['ElButtom']
-    ElButton: typeof import('element-plus/es')['ElButton']
-    ElCol: typeof import('element-plus/es')['ElCol']
-    ElForm: typeof import('element-plus/es')['ElForm']
-    ElFormItem: typeof import('element-plus/es')['ElFormItem']
-    ElInput: typeof import('element-plus/es')['ElInput']
+    CustomPagination: (typeof import('./src/components/globalComponent/CustomPagination/CustomPagination.vue'))['default']
+    ElButtom: (typeof import('element-plus/es'))['ElButtom']
+    ElButton: (typeof import('element-plus/es'))['ElButton']
+    ElCol: (typeof import('element-plus/es'))['ElCol']
+    ElForm: (typeof import('element-plus/es'))['ElForm']
+    ElFormItem: (typeof import('element-plus/es'))['ElFormItem']
+    ElInput: (typeof import('element-plus/es'))['ElInput']
     ElPagination: (typeof import('element-plus/es'))['ElPagination']
-    ElRow: typeof import('element-plus/es')['ElRow']
-    ElSpace: typeof import('element-plus/es')['ElSpace']
+    ElRow: (typeof import('element-plus/es'))['ElRow']
+    ElSpace: (typeof import('element-plus/es'))['ElSpace']
     Pagination: (typeof import('./src/components/globalComponent/CustomPagination/Pagination.vue'))['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
-    SvgIcon: typeof import('./src/components/globalComponent/SvgIcon/SvgIcon.vue')['default']
-    Test: typeof import('./src/components/Test.vue')['default']
+    RouterLink: (typeof import('vue-router'))['RouterLink']
+    RouterView: (typeof import('vue-router'))['RouterView']
+    SvgIcon: (typeof import('./src/components/globalComponent/SvgIcon/SvgIcon.vue'))['default']
+    Test: (typeof import('./src/components/Test.vue'))['default']
   }
 }

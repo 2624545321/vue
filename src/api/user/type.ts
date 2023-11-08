@@ -1,5 +1,5 @@
 interface ResponseData {
-  code: number,
+  code: number
   data: any
 }
 

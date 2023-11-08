@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router'
 export const constantRouer: RouteRecordRaw[] = [
   {
     path: '/login',
-    component: () => import('@/views/login/Login.vue')
+    component: () => import('@/views/login/Login.vue'),
   },
   {
     path: '/',
@@ -10,14 +10,14 @@ export const constantRouer: RouteRecordRaw[] = [
   },
   {
     path: '/home',
-    component: () => import('@/views/home/Home.vue')
+    component: () => import('@/views/home/Home.vue'),
   },
   {
     path: '/404',
-    component: () => import('@/views/404/404.vue')
+    component: () => import('@/views/404/404.vue'),
   },
   {
     path: '/:path(.*)',
-    redirect: '/404'
-  }
+    redirect: '/404',
+  },
 ]
