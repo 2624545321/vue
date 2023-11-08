@@ -8,5 +8,6 @@ import plugins from '@/plugins'
 // 自定义全局组件
 import GlobalComponent from './components/globalComponent'
 // import './../mock/user'
-
-createApp(App).use(GlobalComponent).use(plugins).mount('#app')
+// router
+import router from './router'
+createApp(App).use(GlobalComponent).use(plugins).use(router).mount('#app')

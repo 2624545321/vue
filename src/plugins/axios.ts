@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { RequestConfig } from '@/types/config/request'
+import type { RequestConfig } from '@/types/config/request'
 import { ElMessage } from 'element-plus'
 // progress
 import NProgress from 'nprogress'
