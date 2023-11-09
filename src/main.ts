@@ -10,4 +10,10 @@ import GlobalComponent from './components/globalComponent'
 // import './../mock/user'
 // router
 import router from './router'
-createApp(App).use(GlobalComponent).use(plugins).use(router).mount('#app')
+import pinia from './store'
+createApp(App)
+  .use(GlobalComponent)
+  .use(plugins)
+  .use(router)
+  .use(pinia)
+  .mount('#app')
