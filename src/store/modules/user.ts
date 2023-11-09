@@ -7,9 +7,9 @@ const storeConfig = {
   state: () => {
     return {
       userInfo: {},
-      token: localStorage.getItem('token') || ''
+      token: localStorage.getItem('token') || '',
     }
-  },  
+  },
   getters: {},
   actions: {
     userLogin(userInfo: UserLoginRequestParmeter, cb: any) {
