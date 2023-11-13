@@ -1,4 +1,4 @@
 export interface userState {
-  token: string,
+  token: string
   userInfo: object
 }
