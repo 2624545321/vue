@@ -23,10 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-#other
+# other
 *.zip
 *.rar
 
 # project files
-components.d.ts
 auto-imports.d.ts
+components.d.ts
