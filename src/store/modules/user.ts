@@ -1,32 +1,32 @@
 import { defineStore } from 'pinia'
 import { reqUserLogin } from '@/api/user'
 import type { UserLoginRequestParmeter } from '@/api/user/type'
+import type { userState } from './types/userState'
+import type { loginSubmitOfCallback } from '@/types/module/login'
+import { GET_TOKEN, SET_TOKEN } from '@/utils/token'
 
 const storeId = 'user'
-const storeConfig = {
-  state: () => {
+const useUserStore = defineStore(storeId, {
+  state: (): userState => {
     return {
       userInfo: {},
-      token: localStorage.getItem('token') || '',
+      token: GET_TOKEN(),
     }
   },
   getters: {},
   actions: {
-    userLogin(userInfo: UserLoginRequestParmeter, cb: any) {
+    userLogin(userInfo: UserLoginRequestParmeter, cb: loginSubmitOfCallback) {
       // console.log(userInfo)
       // console.log(this.token)
       reqUserLogin(userInfo)
         .then((res) => {
           if (res.code === 200) {
             const token = res.data.token as string
-            // @ts-ignore
             this.token = token
-            localStorage.setItem('token', token)
           } else {
-            // @ts-ignore
             this.token = ''
-            localStorage.setItem('token', '')
           }
+          SET_TOKEN(this.token)
           cb && cb(res)
         })
         .catch((err) => {
@@ -34,6 +34,5 @@ const storeConfig = {
         })
     },
   },
-}
-const useUserStore = defineStore(storeId, storeConfig)
+})
 export default useUserStore

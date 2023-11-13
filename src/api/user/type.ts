@@ -9,7 +9,6 @@ export interface UserLoginRequestParmeter {
 }
 
 export interface LoginResponseData extends ResponseData {
-  code: number
   data: {
     token?: string
     message?: string

@@ -16,18 +16,26 @@
           </div>
           <el-form :model="formOfLogin" @submit.prevent="onSubmit">
             <el-form-item>
-              <el-input
-                v-model="formOfLogin.username"
-                :prefix-icon="User"
-              ></el-input>
+              <el-input v-model="formOfLogin.username">
+                <template #prefix>
+                  <el-icon>
+                    <User />
+                  </el-icon>
+                </template>
+              </el-input>
             </el-form-item>
             <el-form-item>
               <el-input
                 type="password"
                 v-model="formOfLogin.password"
-                :prefix-icon="Lock"
                 show-password
-              ></el-input>
+              >
+                <template #prefix>
+                  <el-icon>
+                    <Lock />
+                  </el-icon>
+                </template>
+              </el-input>
             </el-form-item>
             <el-form-item>
               <el-button
@@ -48,10 +56,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { User, Lock } from '@element-plus/icons-vue'
 import { ElMessage, ElNotification } from 'element-plus'
-import type { LoginResponseData } from '@/api/user/type'
 import useUserStore from '@/store/modules/user'
+import type { LoginResponseData } from '@/api/user/type'
+import '@/utils/day'
 
 const userStore = useUserStore()
 const router = useRouter()
