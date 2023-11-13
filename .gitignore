@@ -26,3 +26,7 @@ dist-ssr
 #other
 *.zip
 *.rar
+
+# project files
+components.d.ts
+auto-imports.d.ts
