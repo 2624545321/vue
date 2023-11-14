@@ -2,7 +2,7 @@ import { dayjs } from 'element-plus'
 
 /**
  * @desc 当前小时转为文字显示
- * 
+ *
  * @return  void
  */
 export const currentHourToText = () => {

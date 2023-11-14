@@ -17,7 +17,7 @@ enum RequestUrl {
 /**
  * @desc 登录接口
  * @param { data } UserLoginRequestParmeter 请求参数
- * 
+ *
  * @return { Promise } 请求结果
  */
 export const reqUserLogin = (data: UserLoginRequestParmeter) =>
@@ -25,7 +25,7 @@ export const reqUserLogin = (data: UserLoginRequestParmeter) =>
 
 /**
  * @desc 请求用户信息
- * 
+ *
  * @return { Promise } 请求结果
  */
 export const reqUserInfo = () =>
