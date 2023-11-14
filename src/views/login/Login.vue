@@ -66,7 +66,6 @@ import { ElMessage, ElNotification, FormInstance } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 import type { LoginResponseData } from '@/api/user/type'
 import { currentHourToText } from '@/utils/day'
-import { ca, fa } from 'element-plus/es/locale/index.mjs'
 // store
 const userStore = useUserStore()
 // router
