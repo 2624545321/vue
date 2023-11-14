@@ -7,22 +7,35 @@
   </svg>
 </template>
 <script lang="ts" setup>
-defineProps({
-  perfix: {
-    type: String,
-    default: '#icon-',
-  },
-  icon: {
-    type: String,
-    default: '',
-  },
-  color: {
-    type: String,
-    default: '',
-  },
-  customStyle: {
-    type: [Object, String],
-    default: () => {},
-  },
+interface SvgIconProps {
+  perfix?: string
+  icon: string
+  color?: string
+  customStyle?: string | object
+}
+
+const props = withDefaults(defineProps<SvgIconProps>(), {
+  perfix: '#icon-',
+  color: '',
+  customStyle: '',
 })
+
+// defineProps({
+//   perfix: {
+//     type: String,
+//     default: '#icon-',
+//   },
+//   icon: {
+//     type: String,
+//     default: '',
+//   },
+//   color: {
+//     type: String,
+//     default: '',
+//   },
+//   customStyle: {
+//     type: [Object, String],
+//     default: () => {},
+//   },
+// })
 </script>

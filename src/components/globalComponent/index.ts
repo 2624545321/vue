@@ -6,6 +6,7 @@ const globalComponent = {
   CustomPagination,
 }
 
+/* 全局组件将会在此自动注入 */
 export default {
   install(app: App) {
     Object.entries(globalComponent).forEach((c) => {

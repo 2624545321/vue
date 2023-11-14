@@ -7,7 +7,6 @@ import '@/styles/index.scss'
 import plugins from '@/plugins'
 // 自定义全局组件
 import GlobalComponent from './components/globalComponent'
-// import './../mock/user'
 // router
 import router from './router'
 // store

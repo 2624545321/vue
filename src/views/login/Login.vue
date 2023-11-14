@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
     <el-row class="login-row" align="middle">
-      <el-col :span="12" :xs="0"></el-col>
-      <el-col :span="10" :xs="24" justify="center">
+      <el-col :span="12" :xs="6"></el-col>
+      <el-col :span="8" :xs="12" justify="center">
         <div class="login-from">
           <div>
             <el-space direction="vertical" :size="20">
@@ -11,7 +11,7 @@
           </div>
           <div>
             <el-space direction="vertical" :size="20">
-              <h2>欢迎来到尚硅谷</h2>
+              <h2>wolcome to admin template</h2>
             </el-space>
           </div>
           <el-form :model="formOfLogin" @submit.prevent="onSubmit">
@@ -44,7 +44,7 @@
                 class="login-submit"
                 :loading="loading"
               >
-                login
+                sign in
               </el-button>
             </el-form-item>
           </el-form>
@@ -59,7 +59,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage, ElNotification } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 import type { LoginResponseData } from '@/api/user/type'
-import '@/utils/day'
+import { currentHourToText } from '@/utils/day'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -74,6 +74,7 @@ const onSubmit = () => {
     // console.log(res)
     if (res.code === 200) {
       ElNotification({
+        title: currentHourToText(),
         message: 'sign in success!',
         type: 'success',
       })
