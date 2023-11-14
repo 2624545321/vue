@@ -14,8 +14,14 @@
               <h2>wolcome to admin template</h2>
             </el-space>
           </div>
-          <el-form :model="formOfLogin" @submit.prevent="onSubmit">
-            <el-form-item>
+          <el-form
+            ref="ruleFormRef"
+            status-icon
+            :model="formOfLogin"
+            :rules="customFormFules"
+            @submit.prevent="onSubmit(ruleFormRef as FormInstance)"
+          >
+            <el-form-item prop="username">
               <el-input v-model="formOfLogin.username">
                 <template #prefix>
                   <el-icon>
@@ -24,7 +30,7 @@
                 </template>
               </el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item prop="password">
               <el-input
                 type="password"
                 v-model="formOfLogin.password"
@@ -54,24 +60,71 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElNotification } from 'element-plus'
+import { ElMessage, ElNotification, FormInstance } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 import type { LoginResponseData } from '@/api/user/type'
 import { currentHourToText } from '@/utils/day'
-
+import { ca, fa } from 'element-plus/es/locale/index.mjs'
+// store
 const userStore = useUserStore()
+// router
 const router = useRouter()
+// status
 const loading = ref(false)
+// form 表单的引用
+const ruleFormRef = ref<FormInstance>()
+// 验证规则
+const formRules = shallowRef({
+  username: [
+    {
+      required: true,
+      message: 'Please input Activity username',
+      trigger: 'blur',
+    },
+    { min: 5, max: 12, message: 'Length should be 5 to 12', trigger: 'blur' },
+  ],
+  password: [
+    {
+      required: true,
+      message: 'Please input Activity password',
+      trigger: 'blur',
+    },
+    { min: 6, max: 14, message: 'Length should be 6 to 14', trigger: 'blur' },
+  ],
+})
+formRules
+
+// 自定义验证规则
+const validateUserName = (rule: any, value: any, callback: any) => {
+  if (value.length < 5) {
+    callback(new Error('Please input the username'))
+  }
+  callback()
+}
+const validatePassword = (rule: any, value: any, callback: any) => {
+  if (value.length < 6) {
+    callback(new Error('Please input the password'))
+  }
+  callback()
+}
+const customFormFules = shallowRef({
+  username: [{ validator: validateUserName, trigger: 'blur' }],
+  password: [{ validator: validatePassword, trigger: 'blur' }],
+})
 const formOfLogin = ref({
   username: 'admin',
   password: '111111',
 })
-const onSubmit = () => {
+const onSubmit = async (formEl: FormInstance) => {
   loading.value = true
+
+  let valid = false
+  await formEl.validate((validRes) => (valid = validRes))
+  if (!valid) return (loading.value = false)
+
   userStore.userLogin(formOfLogin.value, (res: LoginResponseData) => {
-    // console.log(res)
     if (res.code === 200) {
       ElNotification({
         title: currentHourToText(),
