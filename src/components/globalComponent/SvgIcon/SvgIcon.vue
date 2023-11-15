@@ -19,23 +19,4 @@ const props = withDefaults(defineProps<SvgIconProps>(), {
   color: '',
   customStyle: '',
 })
-
-// defineProps({
-//   perfix: {
-//     type: String,
-//     default: '#icon-',
-//   },
-//   icon: {
-//     type: String,
-//     default: '',
-//   },
-//   color: {
-//     type: String,
-//     default: '',
-//   },
-//   customStyle: {
-//     type: [Object, String],
-//     default: () => {},
-//   },
-// })
 </script>
