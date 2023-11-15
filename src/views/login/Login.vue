@@ -64,7 +64,10 @@ import { ref, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElNotification, FormInstance } from 'element-plus'
 import useUserStore from '@/store/modules/user'
-import type { LoginResponseData, UserLoginRequestParmeter } from '@/api/user/type'
+import type {
+  LoginResponseData,
+  UserLoginRequestParmeter,
+} from '@/api/user/type'
 import { validateUserName, validatePassword } from '@/service/login'
 import { currentHourToText } from '@/utils/day'
 // store
@@ -98,7 +101,7 @@ const onSubmit = async (formEl: FormInstance) => {
         message: 'sign in success!',
         type: 'success',
       })
-      router.push({ name: 'home' })
+      router.push({ name: 'index' })
     } else {
       ElMessage({
         message: res.data.message,

@@ -6,7 +6,9 @@ export const constantRouer: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    redirect: '/home',
+    // redirect: '/home',
+    name: 'index',
+    component: () => import('@/views/layout/Layout.vue'),
   },
   {
     path: '/home',
