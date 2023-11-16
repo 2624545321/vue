@@ -18,8 +18,4 @@
 // }
 // onMounted(initData())
 </script>
-<style lang="scss" scoped>
-div {
-  color: $themeColor;
-}
-</style>
+<style lang="scss" scoped></style>

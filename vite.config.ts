@@ -10,6 +10,9 @@ import path from 'path'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // mock
 import { viteMockServe } from 'vite-plugin-mock'
+// tailwindcss
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
 export default defineConfig(({ command }) => {
   return {
@@ -43,6 +46,9 @@ export default defineConfig(({ command }) => {
           javascriptEnabled: true,
           additionalData: '@import "./src/styles/variable.scss";',
         },
+      },
+      postcss: {
+        plugins: [tailwindcss, autoprefixer],
       },
     },
   }

@@ -124,3 +124,4 @@ const currentHourToText = () => {
 
   return text
 }
+currentHourToText()
