@@ -39,8 +39,6 @@ import Logo from './logo/Logo.vue'
 import customMenu from './customMenu/customMenu.vue'
 import useMenuStore from '@/store/modules/customMenu'
 const menuStore = useMenuStore()
-
-
 </script>
 <style scoped lang="scss">
 .index-layout {
