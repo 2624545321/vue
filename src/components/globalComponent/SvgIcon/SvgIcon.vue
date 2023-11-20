@@ -19,4 +19,5 @@ const props = withDefaults(defineProps<SvgIconProps>(), {
   color: '',
   customStyle: '',
 })
+props
 </script>

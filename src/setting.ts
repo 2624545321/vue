@@ -1,7 +1,7 @@
 export default {
   logo: {
     show: true,
-    logo: '/public/vite.svg',
+    logo: '/vite.svg',
     title: 'administrator template',
   },
 }

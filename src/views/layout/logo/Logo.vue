@@ -1,5 +1,5 @@
 <template>
-  <div v-if="logo.show" class="layout-logo flex justify-center">
+  <div v-if="logo.show" class="layout-logo flex justify-center items-center">
     <div class="layout-logo-icon mr-2">
       <img class="block" :src="logo.logo" />
     </div>
