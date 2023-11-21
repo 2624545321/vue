@@ -5,11 +5,6 @@ import { constantRouer } from '@/router/route'
 import type { MenuState } from '../types/menu'
 
 const storeId = 'menu'
-// const useStoreMenu = defineStore(storeId, {
-//   state: (): MenuState => ({
-//     menuRouterList: constantRouer,
-//   }),
-// })
 const useCustomMenuStore = defineStore(storeId, (): MenuState => {
   const menuRouterList = ref<RouteRecordRaw[]>(constantRouer)
 
