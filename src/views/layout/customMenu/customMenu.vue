@@ -25,10 +25,7 @@
 
     <!-- 有多个子菜单，递归调用-->
     <template v-else-if="menuItem.children && menuItem.children.length > 1">
-      <el-sub-menu
-        v-if="menuItem.meta?.show"
-        :index="menuItem.path"
-      >
+      <el-sub-menu v-if="menuItem.meta?.show" :index="menuItem.path">
         <template #title>
           <el-icon><setting /></el-icon>
           <div>{{ menuItem.children.at(0)?.meta?.menuTitle }}</div>

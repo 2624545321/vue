@@ -5,8 +5,8 @@ export const constantRouer: RouteRecordRaw[] = [
     component: () => import('@/views/login/Login.vue'),
     meta: {
       menuTitle: '登录',
-      show: true
-    }
+      show: true,
+    },
   },
   {
     path: '/',
@@ -15,7 +15,7 @@ export const constantRouer: RouteRecordRaw[] = [
     component: () => import('@/views/layout/Layout.vue'),
     meta: {
       menuTitle: '首页',
-      show: false
+      show: false,
     },
     children: [
       {
@@ -24,7 +24,7 @@ export const constantRouer: RouteRecordRaw[] = [
         component: () => import('@/views/home/Home.vue'),
         meta: {
           menuTitle: '首页',
-          show: false
+          show: false,
         },
       },
       {
@@ -33,17 +33,17 @@ export const constantRouer: RouteRecordRaw[] = [
         component: () => import('@/views/home/Home.vue'),
         meta: {
           menuTitle: '测试',
-          show: true
+          show: true,
         },
       },
-    ]
+    ],
   },
   {
     path: '/404',
     component: () => import('@/views/404/404.vue'),
     meta: {
       menuTitle: '404',
-      show: false
+      show: false,
     },
   },
   {
@@ -51,7 +51,7 @@ export const constantRouer: RouteRecordRaw[] = [
     redirect: '/404',
     meta: {
       menuTitle: 'any page',
-      show: false
+      show: false,
     },
   },
 ]
