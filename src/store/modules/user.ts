@@ -15,6 +15,13 @@ const useUserStore = defineStore(storeId, {
   },
   getters: {},
   actions: {
+    /**
+     * @desc 用户登录
+     * @param { UserLoginRequestParmeter } userInfo 用户的账号和密码
+     * @param { loginSubmitOfCallback } cb 登录请求后的回调函数
+     *
+     * @return void
+     */
     userLogin(userInfo: UserLoginRequestParmeter, cb: loginSubmitOfCallback) {
       // console.log(userInfo)
       // console.log(this.token)
@@ -30,7 +37,7 @@ const useUserStore = defineStore(storeId, {
           cb && cb(res)
         })
         .catch((err) => {
-          console.log('login err', err)
+          console.warn('login err', err)
         })
     },
   },

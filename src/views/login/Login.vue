@@ -62,7 +62,7 @@
 <script lang="ts" setup>
 import { ref, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElNotification, FormInstance } from 'element-plus'
+import { FormInstance } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 import type {
   LoginResponseData,
@@ -70,6 +70,7 @@ import type {
 } from '@/api/user/type'
 import { validateUserName, validatePassword } from '@/service/login'
 import { currentHourToText } from '@/utils/day'
+import { message, notification } from '@/utils/messageTip'
 // store
 const userStore = useUserStore()
 // router
@@ -78,15 +79,21 @@ const router = useRouter()
 const loading = ref(false)
 // form 表单的引用
 const ruleFormRef = ref<FormInstance>()
+const formOfLogin = ref<UserLoginRequestParmeter>({
+  username: 'admin',
+  password: '111111',
+})
 // 自定义验证规则
 const customFormFules = shallowRef({
   username: [{ validator: validateUserName, trigger: 'blur' }],
   password: [{ validator: validatePassword, trigger: 'blur' }],
 })
-const formOfLogin = ref<UserLoginRequestParmeter>({
-  username: 'admin',
-  password: '111111',
-})
+/**
+ * @desc 表单提交，登录逻辑
+ * @param { FormInstance } formEl 表单元素
+ *
+ * @return void
+ */
 const onSubmit = async (formEl: FormInstance) => {
   loading.value = true
 
@@ -96,17 +103,12 @@ const onSubmit = async (formEl: FormInstance) => {
 
   userStore.userLogin(formOfLogin.value, (res: LoginResponseData) => {
     if (res.code === 200) {
-      ElNotification({
+      notification('sign in success!', 'success', {
         title: currentHourToText(),
-        message: 'sign in success!',
-        type: 'success',
       })
       router.push({ name: 'index' })
     } else {
-      ElMessage({
-        message: res.data.message,
-        type: 'error',
-      })
+      message(res.data.message as string, 'error')
     }
     loading.value = false
   })
@@ -123,9 +125,11 @@ const onSubmit = async (formEl: FormInstance) => {
     // display: inline;
     h1 {
       font-size: 40px;
+      color: $text-color-white;
     }
     h2 {
       font-size: 30px;
+      color: $text-color-white;
     }
     padding: 40px;
     background: url('@/assets/images/login_form-bacc.png') no-repeat
