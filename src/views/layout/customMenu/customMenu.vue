@@ -3,8 +3,8 @@
     <!-- 没有子菜单，展示自己 -->
     <template v-if="!menuItem.children">
       <el-menu-item v-if="menuItem.meta?.show" :index="menuItem.path">
-        <el-icon><setting /></el-icon>
         <template #title>
+          <ele-icon :icon="menuItem.meta?.menuIcon || ''"></ele-icon>
           <div>{{ menuItem.meta?.menuTitle }}</div>
         </template>
       </el-menu-item>
@@ -16,7 +16,7 @@
         v-if="menuItem.children.at(0)?.meta?.show"
         :index="menuItem.path"
       >
-        <el-icon><setting /></el-icon>
+        <ele-icon :icon="menuItem.meta?.menuIcon || ''"></ele-icon>
         <template #title>
           <div>{{ menuItem.children.at(0)?.meta?.menuTitle }}</div>
         </template>
@@ -27,8 +27,8 @@
     <template v-else-if="menuItem.children && menuItem.children.length > 1">
       <el-sub-menu v-if="menuItem.meta?.show" :index="menuItem.path">
         <template #title>
-          <el-icon><setting /></el-icon>
-          <div>{{ menuItem.children.at(0)?.meta?.menuTitle }}</div>
+          <ele-icon :icon="menuItem.meta?.menuIcon || ''"></ele-icon>
+          <div>{{ menuItem.meta?.menuTitle }}</div>
         </template>
         <custom-menu :menu-list="menuItem.children"></custom-menu>
       </el-sub-menu>
@@ -36,13 +36,14 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteList } from '@/types/config'
 interface MenuProps {
-  menuList: RouteRecordRaw[]
+  menuList: RouteList
 }
 const props = withDefaults(defineProps<MenuProps>(), {
   menuList: () => [],
 })
-console.log(props)
+props
+// console.log(props)
 </script>
 <style scoped lang="scss"></style>

@@ -1,11 +1,12 @@
-import { RouteRecordRaw } from 'vue-router'
-export const constantRouer: RouteRecordRaw[] = [
+import type { RouteList } from '@/types/config'
+export const constantRouer: RouteList = [
   {
     path: '/login',
     component: () => import('@/views/login/Login.vue'),
     meta: {
       menuTitle: '登录',
       show: true,
+      menuIcon: 'ElementPlus',
     },
   },
   {
@@ -14,8 +15,9 @@ export const constantRouer: RouteRecordRaw[] = [
     name: 'index',
     component: () => import('@/views/layout/Layout.vue'),
     meta: {
-      menuTitle: '首页',
-      show: false,
+      menuTitle: '根',
+      show: true,
+      menuIcon: 'House',
     },
     children: [
       {
@@ -24,7 +26,8 @@ export const constantRouer: RouteRecordRaw[] = [
         component: () => import('@/views/home/Home.vue'),
         meta: {
           menuTitle: '首页',
-          show: false,
+          show: true,
+          menuIcon: 'House',
         },
       },
       {
@@ -34,6 +37,7 @@ export const constantRouer: RouteRecordRaw[] = [
         meta: {
           menuTitle: '测试',
           show: true,
+          menuIcon: 'House',
         },
       },
     ],
@@ -43,7 +47,7 @@ export const constantRouer: RouteRecordRaw[] = [
     component: () => import('@/views/404/404.vue'),
     meta: {
       menuTitle: '404',
-      show: false,
+      show: true,
     },
   },
   {
@@ -51,7 +55,8 @@ export const constantRouer: RouteRecordRaw[] = [
     redirect: '/404',
     meta: {
       menuTitle: 'any page',
-      show: false,
+      show: true,
+      menuIcon: 'Link',
     },
   },
 ]
