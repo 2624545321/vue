@@ -28,15 +28,15 @@
     <div class="layout-right grow flex flex-col">
       <div class="layout-tabbar">tabbar</div>
       <main class="layout-main grow overflow-auto">
-        main
-        <div class="test-div"></div>
+        <custom-main></custom-main>
       </main>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import Logo from './logo/Logo.vue'
-import customMenu from './customMenu/customMenu.vue'
+import CustomMenu from './customMenu/customMenu.vue'
+import CustomMain from './customMain/customMain.vue'
 import useMenuStore from '@/store/modules/customMenu'
 const menuStore = useMenuStore()
 </script>
@@ -54,10 +54,7 @@ const menuStore = useMenuStore()
   .layout-tabbar {
     height: $base-tabbar-height;
   }
-  .layout-main {
-    .test-div {
-      height: 120vh;
-    }
-  }
+  // .layout-main {
+  // }
 }
 </style>
