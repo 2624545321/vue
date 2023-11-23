@@ -34,25 +34,15 @@ export const constantRouer: RouteList = [
   },
   {
     path: '/authorityManagement',
-    redirect: '/authorityManagement/role',
+    redirect: '/authorityManagement/user',
     name: 'authorityManagement',
     component: () => import('@/views/layout/Layout.vue'),
     meta: {
       menuTitle: '权限管理',
       show: true,
-      menuIcon: 'House',
+      menuIcon: 'Lock',
     },
     children: [
-      {
-        path: 'role',
-        name: 'role',
-        component: () => import('@/views/authorityManagement/roleManagement/RoleManagement.vue'),
-        meta: {
-          menuTitle: '角色管理',
-          show: true,
-          menuIcon: 'House',
-        },
-      },
       {
         path: 'user',
         name: 'user',
@@ -60,7 +50,17 @@ export const constantRouer: RouteList = [
         meta: {
           menuTitle: '用户管理',
           show: true,
-          menuIcon: 'House',
+          menuIcon: 'User',
+        },
+      },
+      {
+        path: 'role',
+        name: 'role',
+        component: () => import('@/views/authorityManagement/roleManagement/RoleManagement.vue'),
+        meta: {
+          menuTitle: '角色管理',
+          show: true,
+          menuIcon: 'Lock',
         },
       },
       {
@@ -70,7 +70,60 @@ export const constantRouer: RouteList = [
         meta: {
           menuTitle: '菜单管理',
           show: true,
-          menuIcon: 'House',
+          menuIcon: 'Document',
+        },
+      },
+    ],
+  },
+  {
+    path: '/productManagement',
+    redirect: '/productManagement/role',
+    name: 'productManagement',
+    component: () => import('@/views/layout/Layout.vue'),
+    meta: {
+      menuTitle: '产品管理',
+      show: true,
+      menuIcon: 'Goods',
+    },
+    children: [
+      {
+        path: 'brand',
+        name: 'brand',
+        component: () => import('@/views/productManagement/brandManagement/BrandManagement.vue'),
+        meta: {
+          menuTitle: '品牌管理',
+          show: true,
+          menuIcon: 'Suitcase',
+        },
+      },
+      {
+        path: 'attr',
+        name: 'attr',
+        component: () => import('@/views/productManagement/attrManagement/AttrManagement.vue'),
+        meta: {
+          menuTitle: '属性管理',
+          show: true,
+          menuIcon: 'ChromeFilled',
+        },
+      },
+      {
+        path: 'spu',
+        name: 'spu',
+        component: () => import('@/views/productManagement/spuManagement/SpuManagement.vue'),
+        meta: {
+          menuTitle: 'spu管理',
+          show: true,
+          menuIcon: 'Coin',
+        },
+      },
+      {
+        path: 'sku',
+        name: 'sku',
+        component: () => import('@/views/productManagement/skuManagement/SkuManagement.vue'),
+        meta: {
+          menuTitle: 'sku管理',
+          show: true,
+          menuIcon: 'PriceTag',
         },
       },
     ],

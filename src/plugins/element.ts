@@ -10,6 +10,12 @@ import {
   House,
   Link,
   ElementPlus,
+  PriceTag,
+  Coin,
+  ChromeFilled,
+  Suitcase,
+  Goods,
+  Document,
 } from '@element-plus/icons-vue'
 
 // 引入需要使用的图标 => 全局引入
@@ -20,6 +26,12 @@ const ElementPlusIconsVue = Object.freeze({
   House,
   Link,
   ElementPlus,
+  PriceTag,
+  Coin,
+  ChromeFilled,
+  Suitcase,
+  Goods,
+  Document,
 })
 export default {
   install(app: App) {
