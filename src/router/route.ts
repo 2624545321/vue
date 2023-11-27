@@ -33,6 +33,16 @@ export const constantRouer: RouteList = [
     ],
   },
   {
+    path: '/dataScreen',
+    name: 'dataScreen',
+    component: () => import('@/views/dataScreen/dataScreen.vue'),
+    meta: {
+      menuTitle: '数据大屏',
+      show: true,
+      menuIcon: 'Monitor',
+    },
+  },
+  {
     path: '/authorityManagement',
     redirect: '/authorityManagement/user',
     name: 'authorityManagement',
@@ -46,7 +56,10 @@ export const constantRouer: RouteList = [
       {
         path: 'user',
         name: 'user',
-        component: () => import('@/views/authorityManagement/userManagement/UserManagement.vue'),
+        component: () =>
+          import(
+            '@/views/authorityManagement/userManagement/UserManagement.vue'
+          ),
         meta: {
           menuTitle: '用户管理',
           show: true,
@@ -56,7 +69,10 @@ export const constantRouer: RouteList = [
       {
         path: 'role',
         name: 'role',
-        component: () => import('@/views/authorityManagement/roleManagement/RoleManagement.vue'),
+        component: () =>
+          import(
+            '@/views/authorityManagement/roleManagement/RoleManagement.vue'
+          ),
         meta: {
           menuTitle: '角色管理',
           show: true,
@@ -66,7 +82,8 @@ export const constantRouer: RouteList = [
       {
         path: 'permission',
         name: 'permission',
-        component: () => import('@/views/authorityManagement/permission/Permission.vue'),
+        component: () =>
+          import('@/views/authorityManagement/permission/Permission.vue'),
         meta: {
           menuTitle: '菜单管理',
           show: true,
@@ -89,7 +106,10 @@ export const constantRouer: RouteList = [
       {
         path: 'brand',
         name: 'brand',
-        component: () => import('@/views/productManagement/brandManagement/BrandManagement.vue'),
+        component: () =>
+          import(
+            '@/views/productManagement/brandManagement/BrandManagement.vue'
+          ),
         meta: {
           menuTitle: '品牌管理',
           show: true,
@@ -99,7 +119,8 @@ export const constantRouer: RouteList = [
       {
         path: 'attr',
         name: 'attr',
-        component: () => import('@/views/productManagement/attrManagement/AttrManagement.vue'),
+        component: () =>
+          import('@/views/productManagement/attrManagement/AttrManagement.vue'),
         meta: {
           menuTitle: '属性管理',
           show: true,
@@ -109,7 +130,8 @@ export const constantRouer: RouteList = [
       {
         path: 'spu',
         name: 'spu',
-        component: () => import('@/views/productManagement/spuManagement/SpuManagement.vue'),
+        component: () =>
+          import('@/views/productManagement/spuManagement/SpuManagement.vue'),
         meta: {
           menuTitle: 'spu管理',
           show: true,
@@ -119,7 +141,8 @@ export const constantRouer: RouteList = [
       {
         path: 'sku',
         name: 'sku',
-        component: () => import('@/views/productManagement/skuManagement/SkuManagement.vue'),
+        component: () =>
+          import('@/views/productManagement/skuManagement/SkuManagement.vue'),
         meta: {
           menuTitle: 'sku管理',
           show: true,

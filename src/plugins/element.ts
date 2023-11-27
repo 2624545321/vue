@@ -16,6 +16,7 @@ import {
   Suitcase,
   Goods,
   Document,
+  Monitor,
 } from '@element-plus/icons-vue'
 
 // 引入需要使用的图标 => 全局引入
@@ -32,6 +33,7 @@ const ElementPlusIconsVue = Object.freeze({
   Suitcase,
   Goods,
   Document,
+  Monitor,
 })
 export default {
   install(app: App) {

@@ -4,23 +4,12 @@
       <logo></logo>
       <div class="menu-wrappe grow overflow-auto">
         <el-scrollbar>
-          <el-menu text-color="#fff" background-color="#001529">
+          <el-menu
+            :default-active="routeName"
+            text-color="#fff"
+            background-color="#001529"
+          >
             <custom-menu :menu-list="menuStore.menuRouterList"></custom-menu>
-            <!-- <el-menu-item index="1">Processing Center</el-menu-item>
-            <el-sub-menu index="2">
-              <template #title>Workspace</template>
-              <el-menu-item index="2-1">item one</el-menu-item>
-              <el-menu-item index="2-2">item two</el-menu-item>
-              <el-menu-item index="2-3">item three</el-menu-item>
-              <el-sub-menu index="2-4">
-                <template #title>item four</template>
-                <el-menu-item index="2-4-1">item one</el-menu-item>
-                <el-menu-item index="2-4-2">item two</el-menu-item>
-                <el-menu-item index="2-4-3">item three</el-menu-item>
-              </el-sub-menu>
-            </el-sub-menu>
-            <el-menu-item index="3" disabled>Info</el-menu-item>
-            <el-menu-item index="4">Orders</el-menu-item> -->
           </el-menu>
         </el-scrollbar>
       </div>
@@ -34,11 +23,21 @@
   </div>
 </template>
 <script lang="ts" setup>
+// vue plugin
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+// 组件
 import Logo from './logo/Logo.vue'
 import CustomMenu from './customMenu/customMenu.vue'
 import CustomMain from './customMain/customMain.vue'
+// store
 import useMenuStore from '@/store/modules/customMenu'
 const menuStore = useMenuStore()
+
+const $route = useRoute()
+// console.log($route)
+const routeName = computed(() => $route.name)
+// console.log(routePath.value)
 </script>
 <style scoped lang="scss">
 .index-layout {

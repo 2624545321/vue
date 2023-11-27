@@ -11,5 +11,6 @@ interface EleIconProps {
   icon: string
 }
 const props = defineProps<EleIconProps>()
+props
 </script>
 <style scoped lang="scss"></style>

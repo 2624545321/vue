@@ -1,5 +1,5 @@
 <template>
-    <h1>attr 管理</h1>
+  <h1>attr 管理</h1>
 </template>
 
 <script lang="ts" setup></script>

@@ -1,0 +1,8 @@
+// .fade-leave-active,
+.fade-enter-active {
+  transition: opacity 1s;
+}
+// .fade-leave-to,
+.fade-enter-from {
+  opacity: 0;
+}
