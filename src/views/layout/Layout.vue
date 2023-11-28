@@ -15,7 +15,9 @@
       </div>
     </div>
     <div class="layout-right grow flex flex-col">
-      <div class="layout-tabbar">tabbar</div>
+      <div class="layout-tabbar">
+        <tab-bar></tab-bar>
+      </div>
       <main class="layout-main grow overflow-auto">
         <custom-main></custom-main>
       </main>
@@ -29,6 +31,7 @@ import { useRoute } from 'vue-router'
 // 组件
 import Logo from './logo/Logo.vue'
 import CustomMenu from './customMenu/customMenu.vue'
+import TabBar from './tabBar/tabBar.vue'
 import CustomMain from './customMain/customMain.vue'
 // store
 import useMenuStore from '@/store/modules/customMenu'

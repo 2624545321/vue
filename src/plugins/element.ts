@@ -17,6 +17,11 @@ import {
   Goods,
   Document,
   Monitor,
+  Fold,
+  ArrowRight,
+  Search,
+  Refresh,
+  FullScreen,
 } from '@element-plus/icons-vue'
 
 // 引入需要使用的图标 => 全局引入
@@ -34,6 +39,11 @@ const ElementPlusIconsVue = Object.freeze({
   Goods,
   Document,
   Monitor,
+  Fold,
+  ArrowRight,
+  Search,
+  Refresh,
+  FullScreen,
 })
 export default {
   install(app: App) {
