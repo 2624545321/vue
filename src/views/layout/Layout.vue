@@ -35,8 +35,10 @@ import TabBar from './tabBar/tabBar.vue'
 import CustomMain from './customMain/customMain.vue'
 // store
 import useMenuStore from '@/store/modules/customMenu'
+import useConfigStore from '@/store/modules/config'
 const menuStore = useMenuStore()
-
+const configStore = useConfigStore()
+configStore
 const $route = useRoute()
 // console.log($route)
 const routeName = computed(() => $route.name)

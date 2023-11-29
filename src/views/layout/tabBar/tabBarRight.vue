@@ -10,7 +10,7 @@
       <el-button icon="Setting" circle />
     </div>
   </div>
-  <div class="avatar mr-4">
+  <div class="avatar mr-4 line-height-0">
     <el-avatar
       :size="32"
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
@@ -19,14 +19,15 @@
   </div>
   <div class="setting line-height-0">
     <el-dropdown>
-      <span class="el-dropdown-link">Dropdown List</span>
+      <span class="el-dropdown-link">
+        ammin
+        <ele-icon icon="ArrowDown" style="vertical-align: bottom"></ele-icon>
+      </span>
+
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>Action 1</el-dropdown-item>
-          <el-dropdown-item>Action 2</el-dropdown-item>
-          <el-dropdown-item>Action 3</el-dropdown-item>
-          <el-dropdown-item>Action 4</el-dropdown-item>
-          <el-dropdown-item>Action 5</el-dropdown-item>
+          <el-dropdown-item>个人中心</el-dropdown-item>
+          <el-dropdown-item>退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
