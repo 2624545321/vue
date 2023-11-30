@@ -15,7 +15,7 @@ export const constantRouer: RouteList = [
     name: 'index',
     component: () => import('@/views/layout/Layout.vue'),
     meta: {
-      menuTitle: '根',
+      menuTitle: '',
       show: true,
       menuIcon: 'House',
     },
@@ -94,7 +94,7 @@ export const constantRouer: RouteList = [
   },
   {
     path: '/productManagement',
-    redirect: '/productManagement/role',
+    redirect: '/productManagement/brand',
     name: 'productManagement',
     component: () => import('@/views/layout/Layout.vue'),
     meta: {

@@ -6,3 +6,41 @@
 .fade-enter-from {
   opacity: 0;
 }
+
+/*
+  进入和离开动画可以使用不同
+  持续时间和速度曲线。
+*/
+.slide-fade-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+// .slide-fade-leave-active {
+//   transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+// }
+
+// .slide-fade-leave-to,
+.slide-fade-enter-from {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+
+/* 对移动中的元素应用的过渡 */
+.list-move, 
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* 确保将离开的元素从布局流中删除
+  以便能够正确地计算移动的动画。 */
+.list-leave-active {
+  position: absolute;
+}

@@ -7,8 +7,8 @@
         :index="menuItem.name"
         @click="handleMenuItemClick"
       >
+        <ele-icon :icon="menuItem.meta?.menuIcon || ''"></ele-icon>
         <template #title>
-          <ele-icon :icon="menuItem.meta?.menuIcon || ''"></ele-icon>
           <div>{{ menuItem.meta?.menuTitle }}</div>
         </template>
       </el-menu-item>
@@ -35,7 +35,7 @@
       <el-sub-menu v-if="menuItem.meta?.show" :index="menuItem.name">
         <template #title>
           <ele-icon :icon="menuItem.meta?.menuIcon || ''"></ele-icon>
-          <div>{{ menuItem.meta?.menuTitle }}</div>
+          <span>{{ menuItem.meta?.menuTitle }}</span>
         </template>
         <custom-menu :menu-list="menuItem.children"></custom-menu>
       </el-sub-menu>

@@ -1,15 +1,20 @@
 <template>
   <div v-if="logo.show" class="layout-logo flex justify-center items-center">
-    <div class="layout-logo-icon mr-2">
+    <div class="layout-logo-icon">
       <img class="block" :src="logo.logo" />
     </div>
-    <div class="layout-logo-title">{{ logo.title }}</div>
+    <div v-show="!configStore.menuFold" class="layout-logo-title ml-2">
+      {{ logo.title }}
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
+import useConfigStore from '@/store/modules/config'
 import setting from '@/setting'
 const logo = setting.logo
-console.log(logo)
+
+const configStore = useConfigStore()
+// console.log(logo)
 // import { ref } from 'vue'
 // console.log(setting)
 // const s = ref(Object.freeze(setting))

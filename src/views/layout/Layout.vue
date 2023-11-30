@@ -1,11 +1,15 @@
 <template>
   <div class="index-layout flex">
-    <div class="layout-left flex flex-col">
+    <div
+      :class="menuFold && 'layout-left-flod'"
+      class="layout-left flex flex-col"
+    >
       <logo></logo>
       <div class="menu-wrappe grow overflow-auto">
         <el-scrollbar>
           <el-menu
             :default-active="routeName"
+            :collapse="menuFold"
             text-color="#fff"
             background-color="#001529"
           >
@@ -18,7 +22,7 @@
       <div class="layout-tabbar">
         <tab-bar></tab-bar>
       </div>
-      <main class="layout-main grow overflow-auto">
+      <main class="layout-main grow overflow-auto m-4 box-shadow">
         <custom-main></custom-main>
       </main>
     </div>
@@ -38,10 +42,11 @@ import useMenuStore from '@/store/modules/customMenu'
 import useConfigStore from '@/store/modules/config'
 const menuStore = useMenuStore()
 const configStore = useConfigStore()
-configStore
+// route
 const $route = useRoute()
 // console.log($route)
 const routeName = computed(() => $route.name)
+const menuFold = computed(() => configStore.menuFold)
 // console.log(routePath.value)
 </script>
 <style scoped lang="scss">
@@ -52,6 +57,12 @@ const routeName = computed(() => $route.name)
   width: $base-menu-width;
   height: 100%;
   background: $base-menu-background;
+  .el-menu {
+    border: none;
+  }
+}
+.layout-left-flod {
+  width: auto;
 }
 .layout-right {
   height: 100%;
