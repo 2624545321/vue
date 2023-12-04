@@ -1,10 +1,15 @@
 <template>
   <div class="tbb-btn-group flex">
     <div class="tbb-btn-item mr-4">
-      <el-button icon="Refresh" circle />
+      <el-button
+        icon="Refresh"
+        circle
+        :loading="isLoading"
+        @click="handleRefresh"
+      />
     </div>
     <div class="tbb-btn-item mr-4">
-      <el-button icon="FullScreen" circle />
+      <el-button icon="FullScreen" circle @click="handleFullScreen" />
     </div>
     <div class="tbb-btn-item mr-4">
       <el-button icon="Setting" circle />
@@ -33,5 +38,26 @@
     </el-dropdown>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import useConfigStore from '@/store/modules/config'
+import { ref } from 'vue'
+const configStore = useConfigStore()
+
+const isLoading = ref(false)
+const handleRefresh = () => {
+  isLoading.value = true
+  configStore.refresh = !configStore.refresh
+  // nextTick(() => isLoading.value = false)
+  setTimeout(() => (isLoading.value = false), 500)
+}
+
+const handleFullScreen = () => {
+  const fullScreen = document.fullscreenElement
+  if (fullScreen) {
+    document.exitFullscreen()
+  } else {
+    document.documentElement.requestFullscreen()
+  }
+}
+</script>
 <style scoped lang="scss"></style>

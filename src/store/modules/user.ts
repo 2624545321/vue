@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reqUserLogin } from '@/api/user'
+import { reqUserLogin, reqUserInfo } from '@/api/user'
 import type { UserLoginRequestParmeter } from '@/api/user/type'
 import type { userState } from '../types/userState'
 import type { loginSubmitOfCallback } from '@/types/module/login'
@@ -39,6 +39,13 @@ const useUserStore = defineStore(storeId, {
         .catch((err) => {
           console.warn('login err', err)
         })
+    },
+    getUserInfo() {
+      reqUserInfo()
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => console.warn(err))
     },
   },
 })

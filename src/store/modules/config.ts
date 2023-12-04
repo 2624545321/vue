@@ -10,7 +10,9 @@ const useConfigStore = defineStore(storeId, (): ConfigStoreType => {
   const setMenuFold = (val: boolean): void => {
     menuFold.value = val
   }
-  return { menuFold, setMenuFold }
+  // 是否刷新 <main> 中的数据
+  const refresh = ref<boolean>(false)
+  return { menuFold, setMenuFold, refresh }
 })
 
 export default useConfigStore
