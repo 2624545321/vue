@@ -3,17 +3,27 @@ import { reqUserLogin, reqUserInfo } from '@/api/user'
 import type { UserLoginRequestParmeter } from '@/api/user/type'
 import type { userState } from '../types/userState'
 import type { loginSubmitOfCallback } from '@/types/module/login'
-import { GET_TOKEN, SET_TOKEN } from '@/utils/token'
+import { GET_TOKEN, SET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
 
 const storeId = 'user'
 const useUserStore = defineStore(storeId, {
   state: (): userState => {
     return {
-      userInfo: {},
+      userInfo: null,
       token: GET_TOKEN(),
     }
   },
-  getters: {},
+  getters: {
+    avatar(): string {
+      return (
+        this.userInfo?.avatar ||
+        'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+      )
+    },
+    userName(): string {
+      return this.userInfo?.username || ''
+    },
+  },
   actions: {
     /**
      * @desc 用户登录
@@ -40,12 +50,27 @@ const useUserStore = defineStore(storeId, {
           console.warn('login err', err)
         })
     },
-    getUserInfo() {
-      reqUserInfo()
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => console.warn(err))
+    /**
+     * @desc 获取用户信息
+     *
+     * @return void
+     */
+    async getUserInfo() {
+      const res = await reqUserInfo()
+      // console.log(res)
+      if (res.code !== 200) return
+      this.userInfo = res.data.checkUser || {}
+    },
+    /**
+     * @desc 退出登录
+     *
+     * @return void
+     */
+    logout() {
+      /* 有接口的话请求退出 */
+      this.userInfo = null
+      this.token = ''
+      REMOVE_TOKEN()
     },
   },
 })

@@ -15,7 +15,7 @@ export interface LoginResponseData extends ResponseData {
   }
 }
 
-interface UserInfo {
+export interface UserInfo {
   userId: number
   avatar: string
   username: string
@@ -27,6 +27,10 @@ interface UserInfo {
   token: string
 }
 
+interface CheckUser {
+  checkUser: UserInfo
+}
+
 export interface UserInfoResponseData extends ResponseData {
-  data: UserInfo
+  data: CheckUser
 }

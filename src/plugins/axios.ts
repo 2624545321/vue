@@ -5,6 +5,11 @@ import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import useUserStore from '@/store/modules/user'
+let userStore: any = null
+// const userStore = useUserStore()
+// console.log(userStore)
+
 // NProgress.configure({
 //   easing: 'ease', // 动画方式，和css动画属性一样（默认：ease）
 //   speed: 500, // 递增进度条的速度，单位ms（默认： 200）
@@ -24,6 +29,11 @@ const requestInstance = axios.create(requestConfig)
 
 requestInstance.interceptors.request.use((config) => {
   NProgress.start()
+  !userStore && (userStore = useUserStore())
+  const token = userStore.token
+  if (token) {
+    config.headers.token = token
+  }
   return config
 })
 

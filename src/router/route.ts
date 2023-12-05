@@ -2,6 +2,7 @@ import type { RouteList } from '@/types/config'
 export const constantRouer: RouteList = [
   {
     path: '/login',
+    name: 'login',
     component: () => import('@/views/login/Login.vue'),
     meta: {
       menuTitle: '登录',
