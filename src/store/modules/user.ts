@@ -53,13 +53,14 @@ const useUserStore = defineStore(storeId, {
     /**
      * @desc 获取用户信息
      *
-     * @return void
+     * @return { Promise<string> } ok: 请求成功 err: 请求失败
      */
-    async getUserInfo() {
+    async getUserInfo(): Promise<string> {
       const res = await reqUserInfo()
       // console.log(res)
-      if (res.code !== 200) return
+      if (res.code !== 200) return 'err'
       this.userInfo = res.data.checkUser || {}
+      return 'ok'
     },
     /**
      * @desc 退出登录

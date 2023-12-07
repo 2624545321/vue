@@ -9,6 +9,7 @@ import plugins from '@/plugins'
 import GlobalComponent from './components/globalComponent'
 // router
 import router from './router'
+import './router/permission'
 // store
 import pinia from './store'
 const app = createApp(App)

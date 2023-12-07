@@ -61,7 +61,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, shallowRef } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { FormInstance } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 import type {
@@ -75,6 +75,7 @@ import { message, notification } from '@/utils/messageTip'
 const userStore = useUserStore()
 // router
 const router = useRouter()
+const route = useRoute()
 // status
 const loading = ref(false)
 // form 表单的引用
@@ -106,7 +107,7 @@ const onSubmit = async (formEl: FormInstance) => {
       notification('sign in success!', 'success', {
         title: currentHourToText(),
       })
-      router.push({ name: 'index' })
+      router.push({ name: (route.query.redirectedFrom as string) || 'index' })
     } else {
       message(res.data.message as string, 'error')
     }

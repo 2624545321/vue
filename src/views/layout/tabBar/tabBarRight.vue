@@ -36,12 +36,13 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import useConfigStore from '@/store/modules/config'
 import useUserStore from '@/store/modules/user'
 const configStore = useConfigStore()
 const userStore = useUserStore()
 const $router = useRouter()
+const $route = useRoute()
 
 const isLoading = ref(false)
 const handleRefresh = () => {
@@ -80,7 +81,10 @@ const handleDropdown = (a: string) => {
  */
 const logout = () => {
   userStore.logout()
-  $router.replace({ name: 'login' })
+  $router.replace({
+    name: 'login',
+    query: { redirectedFrom: $route.name as string },
+  })
 }
 </script>
 <style scoped lang="scss"></style>
