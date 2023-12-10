@@ -1,5 +1,5 @@
 // https://vitejs.dev/config/
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -14,7 +14,11 @@ import { viteMockServe } from 'vite-plugin-mock'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
+  // 根据当前工作目录中的 `mode` 加载 .env 文件
+  // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
+  const env = loadEnv(mode, process.cwd(), '')
+  debugger
   return {
     plugins: [
       vue(),
@@ -49,6 +53,15 @@ export default defineConfig(({ command }) => {
       },
       postcss: {
         plugins: [tailwindcss, autoprefixer],
+      },
+    },
+    server: {
+      proxy: {
+        [env.VITE_SERVE]: {
+          target: env.VITE_APP_BASE_API,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
       },
     },
   }

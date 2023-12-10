@@ -3,13 +3,11 @@ import {
   UserLoginRequestParmeter,
   LoginResponseData,
   UserInfoResponseData,
-  LogoutResponseData,
 } from './type'
 
 enum RequestUrl {
-  LOGIN = '/admin/acl/index/login',
-  USER_INFO = 'GET /admin/acl/index/info',
-  LOGOUT = '/admin/acl/index/logout',
+  LOGIN = '/user/login',
+  USER_INFO = '/user/info',
 }
 
 /*  <any, LoginResponseData> 泛型函数，不写也行
@@ -18,11 +16,11 @@ enum RequestUrl {
 
 /**
  * @desc 登录接口
- * @param { UserLoginRequestParmeter } data 请求参数
+ * @param { data } UserLoginRequestParmeter 请求参数
  *
  * @return { Promise } 请求结果
  */
-export const reqUserLogin = (data: UserLoginRequestParmeter): Promise<any> =>
+export const reqUserLogin = (data: UserLoginRequestParmeter) =>
   request.post<any, LoginResponseData>(RequestUrl.LOGIN, data)
 
 /**
@@ -30,8 +28,5 @@ export const reqUserLogin = (data: UserLoginRequestParmeter): Promise<any> =>
  *
  * @return { Promise } 请求结果
  */
-export const reqUserInfo = (): Promise<any> =>
+export const reqUserInfo = () =>
   request.get<any, UserInfoResponseData>(RequestUrl.USER_INFO)
-
-export const logout = (): Promise<any> =>
-  request.post<any, LogoutResponseData>(RequestUrl.LOGOUT)

@@ -1,8 +1,6 @@
 interface ResponseData {
   code: number
   data: any
-  message: string
-  ok: boolean
 }
 
 export interface UserLoginRequestParmeter {
@@ -11,20 +9,28 @@ export interface UserLoginRequestParmeter {
 }
 
 export interface LoginResponseData extends ResponseData {
-  data: string
+  data: {
+    token?: string
+    message?: string
+  }
 }
 
 export interface UserInfo {
+  userId: number
   avatar: string
-  name: string
+  username: string
   password: string
-  roles: string[]
+  desc: string
+  roles: string
   buttons: string[]
   routes: Array<string>
+  token: string
+}
+
+interface CheckUser {
+  checkUser: UserInfo
 }
 
 export interface UserInfoResponseData extends ResponseData {
-  data: UserInfo
+  data: CheckUser
 }
-
-export interface LogoutResponseData extends ResponseData {}

@@ -13,32 +13,9 @@
 import router from './index'
 import useUserStore from '@/store/modules/user'
 import { CustomProgress } from '@/plugins/nprogress'
-import { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
+import { RouteLocationRaw } from 'vue-router'
+import { handleUserloginSuccess } from './handleUserloginSuccess'
 const cp = new CustomProgress()
-
-/**
- * @desc 判断用户是否登录成功
- * @param { RouteLocationNormalized } to
- *
- * @return { RouteLocationRaw }
- */
-const checkUserloginSuccess = async (to: RouteLocationNormalized) => {
-  const userStore = useUserStore()
-  let path: RouteLocationRaw = {}
-  if (to.name === 'login') {
-    path.name = 'home'
-  } else {
-    if (userStore.userName) return path // 用户存在直接返回
-    const res = await userStore.getUserInfo() // 用户不存在获取数据
-    if (res === 'ok') {
-      path.name = to.name as 'string'
-    } else {
-      userStore.logout()
-      path.name = 'login'
-    }
-  }
-  return path
-}
 
 router.beforeEach(async (to, _from, next) => {
   // debugger
@@ -50,7 +27,7 @@ router.beforeEach(async (to, _from, next) => {
   let path: RouteLocationRaw = {}
   /* 判断登录状态 */
   if (token) {
-    path = await checkUserloginSuccess(to)
+    path = await handleUserloginSuccess(to)
   } else {
     if (to.name !== 'login') path.name = 'login'
   }
