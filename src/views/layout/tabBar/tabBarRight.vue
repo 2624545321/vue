@@ -28,7 +28,18 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="center">个人中心</el-dropdown-item>
-          <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+          <el-dropdown-item command="logout">
+            <el-popconfirm
+              width="220"
+              confirm-button-text="OK"
+              cancel-button-text="No, Thanks"
+              title="Are you sure to logout?"
+              @confirm="confirmEvent"
+              @cancel="cancelEvent"
+            >
+              <template #reference>退出登录</template>
+            </el-popconfirm>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -65,12 +76,20 @@ const handleDropdown = (a: string) => {
   // console.log(a)
   switch (a) {
     case 'logout':
-      logout()
+      // logout()
       break
     default:
       break
   }
 }
+const confirmEvent = () => {
+  // console.log('confirm!')
+  logout()
+}
+const cancelEvent = () => {
+  console.log('cancel!')
+}
+
 /**
  * @desc 退出登录
  * 1. 向服务器发送请求，退出登录，再次请求数据时需要携带新的 token

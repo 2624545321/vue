@@ -24,6 +24,7 @@ import {
   FullScreen,
   ArrowDown,
   Expand,
+  Plus,
 } from '@element-plus/icons-vue'
 
 // 引入需要使用的图标 => 全局引入
@@ -48,6 +49,7 @@ const ElementPlusIconsVue = Object.freeze({
   FullScreen,
   ArrowDown,
   Expand,
+  Plus,
 })
 export default {
   install(app: App) {
