@@ -8,7 +8,7 @@ import {
 
 enum RequestUrl {
   LOGIN = '/admin/acl/index/login',
-  USER_INFO = 'GET /admin/acl/index/info',
+  USER_INFO = '/admin/acl/index/info',
   LOGOUT = '/admin/acl/index/logout',
 }
 
@@ -33,5 +33,5 @@ export const reqUserLogin = (data: UserLoginRequestParmeter): Promise<any> =>
 export const reqUserInfo = (): Promise<any> =>
   request.get<any, UserInfoResponseData>(RequestUrl.USER_INFO)
 
-export const logout = (): Promise<any> =>
+export const reqLogout = (): Promise<any> =>
   request.post<any, LogoutResponseData>(RequestUrl.LOGOUT)

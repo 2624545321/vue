@@ -79,8 +79,9 @@ const handleDropdown = (a: string) => {
  *
  * @return void
  */
-const logout = () => {
-  userStore.logout()
+const logout = async () => {
+  const msg = await userStore.logout()
+  if (msg !== 'ok') return
   $router.replace({
     name: 'login',
     query: { redirectedFrom: $route.name as string },

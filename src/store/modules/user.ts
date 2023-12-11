@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reqUserLogin, reqUserInfo } from '@/api/user'
+import { reqUserLogin, reqUserInfo, reqLogout } from '@/api/user'
 import type { UserLoginRequestParmeter } from '@/api/user/type'
 import type { userState } from '../types/userState'
 import type { loginSubmitOfCallback } from '@/types/module/login'
@@ -21,7 +21,7 @@ const useUserStore = defineStore(storeId, {
       )
     },
     userName(): string {
-      return this.userInfo?.username || ''
+      return this.userInfo?.name || ''
     },
   },
   actions: {
@@ -38,7 +38,7 @@ const useUserStore = defineStore(storeId, {
       reqUserLogin(userInfo)
         .then((res) => {
           if (res.code === 200) {
-            const token = res.data.token as string
+            const token = res.data as string
             this.token = token
           } else {
             this.token = ''
@@ -57,9 +57,8 @@ const useUserStore = defineStore(storeId, {
      */
     async getUserInfo(): Promise<string> {
       const res = await reqUserInfo()
-      // console.log(res)
       if (res.code !== 200) return 'err'
-      this.userInfo = res.data.checkUser || {}
+      this.userInfo = res.data || {}
       return 'ok'
     },
     /**
@@ -67,11 +66,15 @@ const useUserStore = defineStore(storeId, {
      *
      * @return void
      */
-    logout() {
+    async logout() {
       /* 有接口的话请求退出 */
+      const res = await reqLogout()
+      console.log('有接口的话请求退出', res)
+      if (res.code !== 200) return 'err'
       this.userInfo = null
       this.token = ''
       REMOVE_TOKEN()
+      return 'ok'
     },
   },
 })

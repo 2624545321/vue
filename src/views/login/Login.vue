@@ -81,8 +81,10 @@ const loading = ref(false)
 // form 表单的引用
 const ruleFormRef = ref<FormInstance>()
 const formOfLogin = ref<UserLoginRequestParmeter>({
+  // username: 'admin',
+  // password: '111111',
   username: 'admin',
-  password: '111111',
+  password: 'atguigu123',
 })
 // 自定义验证规则
 const customFormFules = shallowRef({
@@ -109,7 +111,7 @@ const onSubmit = async (formEl: FormInstance) => {
       })
       router.push({ name: (route.query.redirectedFrom as string) || 'index' })
     } else {
-      message(res.data.message as string, 'error')
+      message(res.data, 'error')
     }
     loading.value = false
   })
