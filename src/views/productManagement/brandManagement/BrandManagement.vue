@@ -24,8 +24,12 @@
       </el-table-column>
       <el-table-column prop="address" label="品牌操作">
         <template #default="scope">
-          <el-button icon="Edit"></el-button>
-          <el-button icon="Delete" type="danger"></el-button>
+          <el-button @click="handleEdit(scope.row)" icon="Edit"></el-button>
+          <el-button
+            @click="handleDelete(scope.row)"
+            icon="Delete"
+            type="danger"
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -47,19 +51,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { baseTrademark } from '@/api/productManagement/brand'
+import type { BaseTrademarkItem } from '@/api/productManagement/brand/type'
 
-let tableData = ref<any>([])
+let tableData = ref<BaseTrademarkItem[]>([])
 const currentPage = ref<number>(1)
 const pageSize = ref<number>(5)
 const total = ref<number>(0)
 
 const getTableList = async () => {
-  const res = (await baseTrademark(currentPage.value, pageSize.value)) as any
+  const res = await baseTrademark(currentPage.value, pageSize.value)
   if (res.code !== 200) return (tableData.value = [])
   const data = res.data || {}
-  console.log(res)
+  // console.log(res)
   tableData.value = data.records || []
   total.value = data.total || 0
 }
@@ -68,12 +73,20 @@ watchEffect(() => {
   getTableList()
 })
 
-watch(currentPage, (v) => {
-  console.log('currentPage', v)
-})
-watch(pageSize, (v) => {
-  console.log('pageSize', v)
-})
+const handleEdit = (row: BaseTrademarkItem) => {
+  console.log(row)
+}
+
+const handleDelete = (row: BaseTrademarkItem) => {
+  console.log(row)
+}
+
+// watch(currentPage, (v) => {
+//   console.log('currentPage', v)
+// })
+// watch(pageSize, (v) => {
+//   console.log('pageSize', v)
+// })
 
 // onMounted(() => {
 //   getTableList()

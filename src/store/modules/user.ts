@@ -69,7 +69,7 @@ const useUserStore = defineStore(storeId, {
     async logout() {
       /* 有接口的话请求退出 */
       const res = await reqLogout()
-      console.log('有接口的话请求退出', res)
+      // console.log('有接口的话请求退出', res)
       if (res.code !== 200) return 'err'
       this.userInfo = null
       this.token = ''

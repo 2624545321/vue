@@ -1,9 +1,4 @@
-interface ResponseData {
-  code: number
-  data: any
-  message: string
-  ok: boolean
-}
+import type { ResponseData } from '@/types/config/request'
 
 export interface UserLoginRequestParmeter {
   username: string
