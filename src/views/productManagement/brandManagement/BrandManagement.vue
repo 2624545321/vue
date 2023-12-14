@@ -53,7 +53,7 @@
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue'
 import { baseTrademark } from '@/api/productManagement/brand'
-import type { BaseTrademarkItem } from '@/api/productManagement/brand/type'
+import type { BaseTrademarkItem, BaseTrademarkResponseData } from '@/api/productManagement/brand/type'
 
 let tableData = ref<BaseTrademarkItem[]>([])
 const currentPage = ref<number>(1)
@@ -61,7 +61,7 @@ const pageSize = ref<number>(5)
 const total = ref<number>(0)
 
 const getTableList = async () => {
-  const res = await baseTrademark(currentPage.value, pageSize.value)
+  const res: BaseTrademarkResponseData = await baseTrademark(currentPage.value, pageSize.value)
   if (res.code !== 200) return (tableData.value = [])
   const data = res.data || {}
   // console.log(res)
