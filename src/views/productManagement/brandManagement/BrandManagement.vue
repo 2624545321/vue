@@ -1,6 +1,6 @@
 <template>
   <div class="brand-management">
-    <el-button type="primary" icon="Plus">添加</el-button>
+    <el-button type="primary" icon="Plus" @click="handlePlusBrand">添加</el-button>
 
     <el-table
       height="70vh"
@@ -47,10 +47,13 @@
       <!-- @size-change="handleSizeChange"
         @current-change="handleCurrentChange" -->
     </div>
+    <bm-dialog v-model:visible="dialogVisible"></bm-dialog>
   </div>
+
 </template>
 
 <script lang="ts" setup>
+import BmDialog from './components/BmDialog.vue'
 import { ref, watchEffect } from 'vue'
 import { baseTrademark } from '@/api/productManagement/brand'
 import type {
@@ -62,6 +65,7 @@ let tableData = ref<BaseTrademarkItem[]>([])
 const currentPage = ref<number>(1)
 const pageSize = ref<number>(5)
 const total = ref<number>(0)
+const dialogVisible = ref(false)
 
 const getTableList = async () => {
   const res: BaseTrademarkResponseData = await baseTrademark(
@@ -86,6 +90,11 @@ const handleEdit = (row: BaseTrademarkItem) => {
 const handleDelete = (row: BaseTrademarkItem) => {
   console.log(row)
 }
+
+const handlePlusBrand = () => {
+  dialogVisible.value = true
+}
+
 
 // watch(currentPage, (v) => {
 //   console.log('currentPage', v)
