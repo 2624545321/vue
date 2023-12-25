@@ -1,6 +1,8 @@
 <template>
   <div class="brand-management">
-    <el-button type="primary" icon="Plus" @click="handlePlusBrand">添加</el-button>
+    <el-button type="primary" icon="Plus" @click="handlePlusBrand">
+      添加
+    </el-button>
 
     <el-table
       height="70vh"
@@ -49,7 +51,6 @@
     </div>
     <bm-dialog v-model:visible="dialogVisible"></bm-dialog>
   </div>
-
 </template>
 
 <script lang="ts" setup>
@@ -94,7 +95,6 @@ const handleDelete = (row: BaseTrademarkItem) => {
 const handlePlusBrand = () => {
   dialogVisible.value = true
 }
-
 
 // watch(currentPage, (v) => {
 //   console.log('currentPage', v)
