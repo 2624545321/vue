@@ -1,11 +1,27 @@
 <template>
   <el-dialog
-    :modelValue="visible"
+    v-model="dialogVisible"
     title="Tips"
     width="30%"
     :before-close="handleClose"
   >
-    <span>This is a message</span>
+    <el-form>
+      <el-form-item label="品牌名称">
+        <el-input placeholder="请输入" />
+      </el-form-item>
+      <el-form-item label="品牌 logo">
+        <el-upload
+          class="avatar-uploader"
+          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+      </el-form-item>
+    </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="handleClose">Cancel</el-button>
@@ -16,32 +32,22 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-// interface Props {
-//   visible: boolean
-//   title?: string
-// }
-// const props = withDefaults(defineProps<Props>(), {
-//   visible: false,
-//   title: '',
-// })
-
-defineProps(['title', 'visible'])
-const $emits = defineEmits(['update:visible'])
+interface Props {
+  visible: boolean
+  title?: string
+}
+const props = withDefaults(defineProps<Props>(), {
+  visible: true,
+  title: '添加品牌',
+})
 
 interface Emits {
   (e: 'update:visible', value: boolean): void
 }
-// const emits = defineEmits<Emits>()
+const emits = defineEmits<Emits>()
 
-setTimeout(() => {
-  $emits('update:visible', false)
-  console.log('emits', $emits)
-}, 2000)
-
-const handleClose = (done: () => void) => {
-  $emits('update:visible', false)
-  // dialogVisible.value = false
-  // console.log('dialogVisible', dialogVisible)
+const handleClose = () => {
+  dialogVisible.value = false
 }
 
 const dialogVisible = computed({
@@ -49,8 +55,55 @@ const dialogVisible = computed({
     return props.visible
   },
   set(val) {
-    emits('update: visible', false)
+    emits('update:visible', false)
   },
 })
+
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
+
+import type { UploadProps } from 'element-plus'
+
+const imageUrl = ref('')
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile,
+) => {
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+</style>

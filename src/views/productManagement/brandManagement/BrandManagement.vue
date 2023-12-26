@@ -66,7 +66,9 @@ let tableData = ref<BaseTrademarkItem[]>([])
 const currentPage = ref<number>(1)
 const pageSize = ref<number>(5)
 const total = ref<number>(0)
-const dialogVisible = ref(false)
+/* 对话框相关数据 */
+const dialogVisible = ref<boolean>(false)
+const dialogStatus = ref()
 
 const getTableList = async () => {
   const res: BaseTrademarkResponseData = await baseTrademark(
