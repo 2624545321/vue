@@ -2,20 +2,20 @@
   <el-dialog
     v-model="dialogVisible"
     title="Tips"
-    width="30%"
+    width="40%"
     :before-close="handleClose"
   >
     <el-form>
-      <el-form-item label="品牌名称">
+      <el-form-item label="品牌名称" label-width="80">
         <el-input placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="品牌 logo">
+      <el-form-item label="品牌 logo" label-width="80">
         <el-upload
           class="avatar-uploader"
-          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
+          action="api/admin/product/fileUpload"
+          :show-file-list="true"
+          :on-success="handleUploadSuccess"
+          :before-upload="beforeUpload"
         >
           <img v-if="imageUrl" :src="imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
@@ -31,7 +31,8 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { ElMessage } from 'element-plus'
 interface Props {
   visible: boolean
   title?: string
@@ -55,55 +56,57 @@ const dialogVisible = computed({
     return props.visible
   },
   set(val) {
-    emits('update:visible', false)
+    emits('update:visible', val)
   },
 })
-
-import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 
 import type { UploadProps } from 'element-plus'
 
 const imageUrl = ref('')
 
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
+const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  // console.log('rawFile', rawFile)
+  const type: string[] = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  if (type.indexOf(rawFile.type) === -1) {
+    ElMessage.error('picture must be image format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 4) {
+    ElMessage.error('picture size can not exceed 4MB!')
+    return false
+  }
+  const url = URL.createObjectURL(rawFile)
+  console.log(url)
+  return true
+}
+
+const handleUploadSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile,
 ) => {
+  console.log('response', response)
+  console.log('uploadFile', uploadFile)
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-}
-
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-    return false
-  }
-  return true
 }
 </script>
 <style scoped lang="scss">
-.avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
+.avatar-uploader {
+  ::v-deep() .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+  }
+  ::v-deep() .el-upload:hover {
+    border-color: var(--el-color-primary);
+  }
+  ::v-deep() .el-icon.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
+  }
 }
 </style>
