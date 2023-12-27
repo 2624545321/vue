@@ -1,15 +1,21 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
-    title="Tips"
-    width="40%"
     :before-close="handleClose"
+    :title="props.title"
+    width="40%"
   >
-    <el-form @submit.prevent="handleFormSubmit">
-      <el-form-item label="品牌名称" label-width="80">
+    <el-form
+      ref="formRef"
+      :model="formParameter"
+      label-position="left"
+      @submit.prevent="handleFormSubmit"
+      label-width="80"
+    >
+      <el-form-item label="品牌名称" prop="tmName">
         <el-input v-model="formParameter.tmName" placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="品牌 logo" label-width="80">
+      <el-form-item label="品牌 logo" prop="logoUrl">
         <el-upload
           class="avatar-uploader"
           action="api/admin/product/fileUpload"
@@ -29,18 +35,18 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="handleClose">Cancel</el-button>
-        <el-button type="primary" @click="handleClose">Confirm</el-button>
+        <el-button type="primary" @click="handleFormSubmit">Confirm</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import type { UploadProps } from 'element-plus'
+import type { UploadProps, FormInstance } from 'element-plus'
 import type { ResponseData } from '@/types/config/request'
 import type { BaseTrademarkItem } from '@/api/productManagement/brand/type'
-
+// props
 interface Props {
   visible: boolean
   title?: string
@@ -49,13 +55,14 @@ const props = withDefaults(defineProps<Props>(), {
   visible: true,
   title: '添加品牌',
 })
-
+// emits
 interface Emits {
   (e: 'update:visible', value: boolean): void
   (e: 'form-submit', value: BaseTrademarkItem): void
 }
 const emits = defineEmits<Emits>()
-
+// form
+const formRef = ref<FormInstance>()
 const formParameter = ref<BaseTrademarkItem>({
   tmName: '',
   logoUrl: '',
@@ -94,7 +101,7 @@ const handleUploadSuccess: UploadProps['onSuccess'] = (
   uploadFile,
 ) => {
   // console.log('response', response)
-  // console.log('uploadFile', uploadFile)
+  console.log('uploadFile', uploadFile)
   // formParameter.value.logoUrl = URL.createObjectURL(uploadFile.raw!)
   if (!response.data) return ElMessage.error('unknow error!')
   formParameter.value.logoUrl = response.data || ''
@@ -103,7 +110,15 @@ const handleUploadSuccess: UploadProps['onSuccess'] = (
 const handleFormSubmit = () => {
   // console.log('submit', formParameter.value)
   emits('form-submit', formParameter.value)
+  handleClose()
 }
+
+watch(dialogVisible, (v) => {
+  if (!v) {
+    // console.log(v, formRef.value?.resetFields)
+    formRef.value?.resetFields()
+  }
+})
 </script>
 <style scoped lang="scss">
 .avatar-uploader {

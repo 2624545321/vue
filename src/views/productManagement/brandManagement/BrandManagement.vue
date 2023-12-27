@@ -59,7 +59,11 @@
 <script lang="ts" setup>
 import BmDialog from './components/BmDialog.vue'
 import { ref, watchEffect } from 'vue'
-import { baseTrademark } from '@/api/productManagement/brand'
+import { ElMessage } from 'element-plus'
+import {
+  baseTrademark,
+  addOrUpdateTrademark,
+} from '@/api/productManagement/brand'
 import type {
   BaseTrademarkItem,
   BaseTrademarkResponseData,
@@ -103,8 +107,16 @@ const handlePlusBrand = () => {
   dialogStatus.value.visible = true
 }
 
-const handleFormSubmit = (form) => {
-  console.log('form', form)
+const handleFormSubmit = async (form: BaseTrademarkItem) => {
+  // console.log('form', form)
+  const res = await addOrUpdateTrademark(form)
+  // console.log('handleFormSubmit', res)
+  if (res.code === 200) {
+    ElMessage.success('添加成功0_0')
+    getTableList()
+  } else {
+    ElMessage.error('添加失败')
+  }
 }
 
 // watch(currentPage, (v) => {
