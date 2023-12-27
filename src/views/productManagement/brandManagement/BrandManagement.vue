@@ -49,7 +49,10 @@
       <!-- @size-change="handleSizeChange"
         @current-change="handleCurrentChange" -->
     </div>
-    <bm-dialog v-model:visible="dialogStatus.visible" @form-submit="handleFormSubmit"></bm-dialog>
+    <bm-dialog
+      v-model:visible="dialogStatus.visible"
+      @form-submit="handleFormSubmit"
+    ></bm-dialog>
   </div>
 </template>
 

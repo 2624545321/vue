@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 interface Emits {
-  (e: 'update:visible', value: boolean): void,
+  (e: 'update:visible', value: boolean): void
   (e: 'form-submit', value: BaseTrademarkItem): void
 }
 const emits = defineEmits<Emits>()
