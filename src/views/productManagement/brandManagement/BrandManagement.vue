@@ -49,7 +49,7 @@
       <!-- @size-change="handleSizeChange"
         @current-change="handleCurrentChange" -->
     </div>
-    <bm-dialog v-model:visible="dialogVisible"></bm-dialog>
+    <bm-dialog v-model:visible="dialogStatus.visible" @form-submit="handleFormSubmit"></bm-dialog>
   </div>
 </template>
 
@@ -67,8 +67,10 @@ const currentPage = ref<number>(1)
 const pageSize = ref<number>(5)
 const total = ref<number>(0)
 /* 对话框相关数据 */
-const dialogVisible = ref<boolean>(false)
-const dialogStatus = ref()
+const dialogStatus = ref({
+  visible: false,
+  title: '',
+})
 
 const getTableList = async () => {
   const res: BaseTrademarkResponseData = await baseTrademark(
@@ -95,7 +97,11 @@ const handleDelete = (row: BaseTrademarkItem) => {
 }
 
 const handlePlusBrand = () => {
-  dialogVisible.value = true
+  dialogStatus.value.visible = true
+}
+
+const handleFormSubmit = (form) => {
+  console.log('form', form)
 }
 
 // watch(currentPage, (v) => {

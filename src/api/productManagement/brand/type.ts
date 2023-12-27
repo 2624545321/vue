@@ -1,9 +1,9 @@
 import type { ResponseData } from '@/types/config/request'
 
 export type BaseTrademarkItem = {
-  id: number
-  createTime: string
-  updateTime: string
+  id?: number
+  createTime?: string
+  updateTime?: string
   tmName: string
   logoUrl: string
 }
