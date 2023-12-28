@@ -46,14 +46,17 @@ import { ElMessage } from 'element-plus'
 import type { UploadProps, FormInstance } from 'element-plus'
 import type { ResponseData } from '@/types/config/request'
 import type { BaseTrademarkItem } from '@/api/productManagement/brand/type'
+
 // props
 interface Props {
   visible: boolean
   title?: string
+  formData: BaseTrademarkItem | null
 }
 const props = withDefaults(defineProps<Props>(), {
   visible: true,
-  title: '添加品牌',
+  title: '',
+  // formData: null
 })
 // emits
 interface Emits {
@@ -68,8 +71,31 @@ const formParameter = ref<BaseTrademarkItem>({
   logoUrl: '',
 })
 
+/**
+ * @desc 关闭弹窗，同时清除表单数据
+ */
 const handleClose = () => {
   dialogVisible.value = false
+  formClear()
+}
+
+const formClear = () => {
+  /* 
+    el-form会记录第一次打开的值当做表单的默认值 ，
+    在后续调用resetFields会将当前绑定的数据对象设置为el-form的默认值
+    解决：手动清除表单数据
+  */
+  formRef.value?.resetFields()
+  delete formParameter.value.id
+  formParameter.value.tmName = ''
+  formParameter.value.logoUrl = ''
+  // Object.keys(formParameter.value).forEach((key) => {
+  //   if (key === 'id') {
+  //     formParameter.value.id = undefined
+  //   } else {
+  //     formParameter.value[key] = ''
+  //   }
+  // })
 }
 
 const dialogVisible = computed({
@@ -81,8 +107,21 @@ const dialogVisible = computed({
   },
 })
 
+watch(
+  () => props.formData,
+  (v) => {
+    // console.log('props.formData', v)
+    if (!v) return
+    // Object.assign(formParameter.value, v)
+    formParameter.value.id = v.id
+    formParameter.value.tmName = v.tmName
+    formParameter.value.logoUrl = v.logoUrl
+    // console.log('formParameter.value', formParameter.value)
+  },
+)
+
 const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  // console.log('rawFile', rawFile)
+  console.log('rawFile', rawFile)
   const type: string[] = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
   if (type.indexOf(rawFile.type) === -1) {
     ElMessage.error('picture must be image format!')
@@ -112,13 +151,6 @@ const handleFormSubmit = () => {
   emits('form-submit', formParameter.value)
   handleClose()
 }
-
-watch(dialogVisible, (v) => {
-  if (!v) {
-    // console.log(v, formRef.value?.resetFields)
-    formRef.value?.resetFields()
-  }
-})
 </script>
 <style scoped lang="scss">
 .avatar-uploader {

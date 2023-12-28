@@ -51,6 +51,8 @@
     </div>
     <bm-dialog
       v-model:visible="dialogStatus.visible"
+      :title="dialogTitlePrefix + dialogStatus.title"
+      :form-data="dialogStatus.formData"
       @form-submit="handleFormSubmit"
     ></bm-dialog>
   </div>
@@ -58,7 +60,7 @@
 
 <script lang="ts" setup>
 import BmDialog from './components/BmDialog.vue'
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect, computed, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
   baseTrademark,
@@ -74,9 +76,18 @@ const currentPage = ref<number>(1)
 const pageSize = ref<number>(5)
 const total = ref<number>(0)
 /* 对话框相关数据 */
-const dialogStatus = ref({
+interface DialogStatus {
+  visible: boolean
+  title: string
+  formData: BaseTrademarkItem | null
+}
+const dialogStatus = ref<DialogStatus>({
   visible: false,
-  title: '',
+  title: '品牌',
+  formData: {
+    logoUrl: '',
+    tmName: '',
+  },
 })
 
 const getTableList = async () => {
@@ -95,8 +106,16 @@ watchEffect(() => {
   getTableList()
 })
 
+const dialogTitlePrefix = computed(() => {
+  const d = dialogStatus.value.formData
+  return d?.id ? '编辑' : '添加'
+})
+
 const handleEdit = (row: BaseTrademarkItem) => {
-  console.log(row)
+  // console.log(row)
+  dialogStatus.value.formData = null
+  dialogStatus.value.visible = true
+  nextTick(() => (dialogStatus.value.formData = row))
 }
 
 const handleDelete = (row: BaseTrademarkItem) => {
@@ -104,19 +123,23 @@ const handleDelete = (row: BaseTrademarkItem) => {
 }
 
 const handlePlusBrand = () => {
+  dialogStatus.value.formData = null
   dialogStatus.value.visible = true
 }
 
 const handleFormSubmit = async (form: BaseTrademarkItem) => {
-  // console.log('form', form)
-  const res = await addOrUpdateTrademark(form)
-  // console.log('handleFormSubmit', res)
-  if (res.code === 200) {
-    ElMessage.success('添加成功0_0')
-    getTableList()
-  } else {
-    ElMessage.error('添加失败')
-  }
+  console.log('form', form)
+  dialogStatus.value.formData = form
+  ElMessage.success(dialogTitlePrefix.value + '成功0_0')
+  // return
+  // const res = await addOrUpdateTrademark(form)
+  // // console.log('handleFormSubmit', res)
+  // if (res.code === 200) {
+  //   ElMessage.success(dialogTitlePrefix.value + '成功0_0')
+  //   getTableList()
+  // } else {
+  //   ElMessage.error(dialogTitlePrefix.value + '失败@_@')
+  // }
 }
 
 // watch(currentPage, (v) => {
