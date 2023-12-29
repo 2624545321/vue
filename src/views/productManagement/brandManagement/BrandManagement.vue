@@ -70,25 +70,13 @@ import type {
   BaseTrademarkItem,
   BaseTrademarkResponseData,
 } from '@/api/productManagement/brand/type'
+import type { DialogStatus } from '@/types/module/productManagement/brandManagement'
 
+/* 表格相关数据、逻辑 */
 let tableData = ref<BaseTrademarkItem[]>([])
 const currentPage = ref<number>(1)
 const pageSize = ref<number>(5)
 const total = ref<number>(0)
-/* 对话框相关数据 */
-interface DialogStatus {
-  visible: boolean
-  title: string
-  formData: BaseTrademarkItem | null
-}
-const dialogStatus = ref<DialogStatus>({
-  visible: false,
-  title: '品牌',
-  formData: {
-    logoUrl: '',
-    tmName: '',
-  },
-})
 
 const getTableList = async () => {
   const res: BaseTrademarkResponseData = await baseTrademark(
@@ -104,6 +92,16 @@ const getTableList = async () => {
 
 watchEffect(() => {
   getTableList()
+})
+
+/* 对话框相关数据、逻辑 */
+const dialogStatus = ref<DialogStatus>({
+  visible: false,
+  title: '品牌',
+  formData: {
+    logoUrl: '',
+    tmName: '',
+  },
 })
 
 const dialogTitlePrefix = computed(() => {
@@ -128,18 +126,19 @@ const handlePlusBrand = () => {
 }
 
 const handleFormSubmit = async (form: BaseTrademarkItem) => {
-  console.log('form', form)
-  dialogStatus.value.formData = form
-  ElMessage.success(dialogTitlePrefix.value + '成功0_0')
+  // console.log('form', form)
+  // 直接赋值会导致数据得引用改变，引发问题
+  Object.assign(dialogStatus.value.formData, form)
+  // ElMessage.success(dialogTitlePrefix.value + '成功0_0')
   // return
-  // const res = await addOrUpdateTrademark(form)
-  // // console.log('handleFormSubmit', res)
-  // if (res.code === 200) {
-  //   ElMessage.success(dialogTitlePrefix.value + '成功0_0')
-  //   getTableList()
-  // } else {
-  //   ElMessage.error(dialogTitlePrefix.value + '失败@_@')
-  // }
+  const res = await addOrUpdateTrademark(form)
+  // console.log('handleFormSubmit', res)
+  if (res.code === 200) {
+    ElMessage.success(dialogTitlePrefix.value + '成功0_0')
+    getTableList()
+  } else {
+    ElMessage.error(dialogTitlePrefix.value + '失败@_@' + res.data)
+  }
 }
 
 // watch(currentPage, (v) => {

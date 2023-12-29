@@ -46,14 +46,10 @@ import { ElMessage } from 'element-plus'
 import type { UploadProps, FormInstance } from 'element-plus'
 import type { ResponseData } from '@/types/config/request'
 import type { BaseTrademarkItem } from '@/api/productManagement/brand/type'
+import type { DialogStatus } from '@/types/module/productManagement/brandManagement'
 
 // props
-interface Props {
-  visible: boolean
-  title?: string
-  formData: BaseTrademarkItem | null
-}
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<DialogStatus>(), {
   visible: true,
   title: '',
   // formData: null
