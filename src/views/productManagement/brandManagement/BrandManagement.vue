@@ -49,10 +49,11 @@
       <!-- @size-change="handleSizeChange"
         @current-change="handleCurrentChange" -->
     </div>
+    <!-- :form-data="dialogStatus.formData" -->
     <bm-dialog
       v-model:visible="dialogStatus.visible"
+      v-model:form-data="dialogStatus.formData"
       :title="dialogTitlePrefix + dialogStatus.title"
-      :form-data="dialogStatus.formData"
       @form-submit="handleFormSubmit"
     ></bm-dialog>
   </div>
@@ -111,7 +112,7 @@ const dialogTitlePrefix = computed(() => {
 
 const handleEdit = (row: BaseTrademarkItem) => {
   // console.log(row)
-  dialogStatus.value.formData = null
+  // dialogStatus.value.formData = null
   dialogStatus.value.visible = true
   nextTick(() => (dialogStatus.value.formData = row))
 }
@@ -121,17 +122,17 @@ const handleDelete = (row: BaseTrademarkItem) => {
 }
 
 const handlePlusBrand = () => {
-  dialogStatus.value.formData = null
+  // dialogStatus.value.formData = null
   dialogStatus.value.visible = true
 }
 
-const handleFormSubmit = async (form: BaseTrademarkItem) => {
+const handleFormSubmit = async () => {
   // console.log('form', form)
   // 直接赋值会导致数据得引用改变，引发问题
-  Object.assign(dialogStatus.value.formData, form)
+  // Object.assign(dialogStatus.value.formData, form)
   // ElMessage.success(dialogTitlePrefix.value + '成功0_0')
   // return
-  const res = await addOrUpdateTrademark(form)
+  const res = await addOrUpdateTrademark(dialogStatus.value.formData)
   // console.log('handleFormSubmit', res)
   if (res.code === 200) {
     ElMessage.success(dialogTitlePrefix.value + '成功0_0')
