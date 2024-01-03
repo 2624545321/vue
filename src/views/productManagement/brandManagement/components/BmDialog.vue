@@ -16,7 +16,7 @@
         <el-input v-model="comFromData.tmName" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="品牌 logo" prop="logoUrl">
-        <el-upload
+        <!-- <el-upload
           class="avatar-uploader"
           action="api/admin/product/fileUpload"
           :show-file-list="true"
@@ -29,7 +29,11 @@
             class="avatar"
           />
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
+        </el-upload> -->
+        <custom-upload
+          v-model="comFromData.logoUrl"
+          action="api/admin/product/fileUpload"
+        ></custom-upload>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -43,11 +47,12 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import useVModel from '@/utils/useVModel'
 import type { UploadProps, FormInstance } from 'element-plus'
+import useVModel from '@/utils/useVModel'
 import type { ResponseData } from '@/types/config/request'
 // import type { BaseTrademarkItem } from '@/api/productManagement/brand/type'
 import type { DialogStatus } from '@/types/module/productManagement/brandManagement'
+import CustomUpload from '@/components/customUpload/CustomUpload.vue'
 
 // props
 const props = withDefaults(defineProps<DialogStatus>(), {
@@ -133,7 +138,7 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   // console.log('rawFile', rawFile)
   const type: string[] = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
   if (type.indexOf(rawFile.type) === -1) {
-    ElMessage.error('picture must be image format!')
+    ElMessage.error('must be image format!')
     return false
   } else if (rawFile.size / 1024 / 1024 > 4) {
     ElMessage.error('picture size can not exceed 4MB!')
@@ -161,29 +166,3 @@ const handleFormSubmit = () => {
   handleClose()
 }
 </script>
-<style scoped lang="scss">
-.avatar-uploader {
-  ::v-deep() .el-upload {
-    border: 1px dashed var(--el-border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: var(--el-transition-duration-fast);
-  }
-  ::v-deep() .el-upload:hover {
-    border-color: var(--el-color-primary);
-  }
-  ::v-deep() .el-icon.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    text-align: center;
-  }
-  img {
-    max-height: 200px;
-    object-fit: scale-down;
-  }
-}
-</style>
