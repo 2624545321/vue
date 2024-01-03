@@ -1,17 +1,16 @@
 import { computed } from 'vue'
 
-const cacheMap = new WeakMap()
+// const cacheMap = new Map()
 
 export default (props: any, propName: any, emits: any) =>
   computed({
     get() {
-      // return props.formData
-      // if (!props.formData) return {}
-      // console.log('props.formData', props.formData)
-      if (cacheMap.has(props[propName])) {
-        return cacheMap.get(props[propName])
-      }
-      const proxy = new Proxy(props[propName], {
+      const currProp = props[propName]
+      // todo: 缓存不生效，待修改
+      // if (cacheMap.has(currProp)) {
+      //   return cacheMap.get(currProp)
+      // }
+      const proxy = new Proxy(currProp, {
         get(target, key) {
           // console.log('proxy get', target, key)
           return Reflect.get(target, key)
@@ -26,7 +25,9 @@ export default (props: any, propName: any, emits: any) =>
           return true
         },
       })
-      cacheMap.set(props[propName], proxy)
+      // cacheMap.set(currProp, proxy)
+      // console.log('cacheMap', cacheMap)
+      // debugger
       return proxy
     },
     set(val) {

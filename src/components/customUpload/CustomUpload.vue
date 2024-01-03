@@ -11,10 +11,11 @@
   </el-upload>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import type { CustomUploadProps } from '@/types/components/customUpload'
+import type { ResponseData } from '@/types/config/request'
 
 const props = withDefaults(defineProps<CustomUploadProps>(), {
   action: '',
@@ -53,11 +54,13 @@ const handleUploadSuccess: UploadProps['onSuccess'] = (
 ) => {
   // console.log('response', response)
   console.log('uploadFile', uploadFile)
-  // formParameter.value.logoUrl = URL.createObjectURL(uploadFile.raw!)
   if (!response.data) return ElMessage.error('unknow error!')
-  // props.formData.logoUrl = response.data || ''
   emits('update:modelValue', response.data || '')
 }
+
+onUnmounted(() => {
+  console.log('onUnmounted')
+})
 </script>
 <style scoped lang="scss">
 .avatar-uploader {

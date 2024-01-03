@@ -8,9 +8,10 @@
     <el-form
       ref="formRef"
       :model="comFromData"
-      label-position="left"
       @submit.prevent="handleFormSubmit"
-      label-width="80"
+      :rules="formRules"
+      label-position="left"
+      label-width="100"
     >
       <el-form-item label="品牌名称" prop="tmName">
         <el-input v-model="comFromData.tmName" placeholder="请输入" />
@@ -33,6 +34,7 @@
         <custom-upload
           v-model="comFromData.logoUrl"
           action="api/admin/product/fileUpload"
+          :show-file-list="true"
         ></custom-upload>
       </el-form-item>
     </el-form>
@@ -46,28 +48,20 @@
 </template>
 <script lang="ts" setup>
 import { computed, nextTick, ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import type { UploadProps, FormInstance } from 'element-plus'
-import useVModel from '@/utils/useVModel'
-import type { ResponseData } from '@/types/config/request'
-// import type { BaseTrademarkItem } from '@/api/productManagement/brand/type'
+import type { FormInstance, FormRules } from 'element-plus'
 import type { DialogStatus } from '@/types/module/productManagement/brandManagement'
 import CustomUpload from '@/components/customUpload/CustomUpload.vue'
+import useVModel from '@/utils/useVModel'
 
 // props
 const props = withDefaults(defineProps<DialogStatus>(), {
   visible: true,
   title: '',
-  // formData: () => (Object.freeze({
-  //   tmName: '',
-  //   logoUrl: '',
-  // })),
 })
 // emits
 interface Emits {
   (e: 'update:visible', value: boolean): void
   (e: 'update:formData', value: any): void
-  // (e: 'form-submit', value: BaseTrademarkItem): void
   (e: 'form-submit'): void
 }
 const emits = defineEmits<Emits>()
@@ -77,6 +71,21 @@ const formRef = ref<FormInstance>()
 //   tmName: '',
 //   logoUrl: '',
 // })
+
+const validLogoUrl = (rule: any, value: any, callback: any) => {
+  if (value.trim() === '') {
+    callback(new Error(rule.message))
+  } else {
+    callback()
+  }
+}
+
+const formRules = ref<FormRules<typeof props.formData>>({
+  tmName: [{ required: true, trigger: 'blur', message: '该项目为必填' }],
+  logoUrl: [
+    { required: true, message: '该项目为必填', validator: validLogoUrl },
+  ],
+})
 
 /**
  * @desc 关闭弹窗，同时清除表单数据
@@ -132,37 +141,17 @@ const dialogVisible = computed({
 
 /* optimize: 使用计算属性 */
 const comFromData = useVModel(props, 'formData', emits)
-// console.log('comFromData', comFromData)
-
-const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  // console.log('rawFile', rawFile)
-  const type: string[] = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-  if (type.indexOf(rawFile.type) === -1) {
-    ElMessage.error('must be image format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 4) {
-    ElMessage.error('picture size can not exceed 4MB!')
-    return false
-  }
-  // const url = URL.createObjectURL(rawFile)
-  // console.log(url)
-  return true
-}
-
-const handleUploadSuccess: UploadProps['onSuccess'] = (
-  response: ResponseData,
-  uploadFile,
-) => {
-  // console.log('response', response)
-  console.log('uploadFile', uploadFile)
-  // formParameter.value.logoUrl = URL.createObjectURL(uploadFile.raw!)
-  if (!response.data) return ElMessage.error('unknow error!')
-  props.formData.logoUrl = response.data || ''
-}
 
 const handleFormSubmit = () => {
-  // console.log('submit', formParameter.value)
-  emits('form-submit')
-  handleClose()
+  formRef.value
+    ?.validate()
+    .then(() => {
+      // console.log('res', res)
+      emits('form-submit')
+      handleClose()
+    })
+    .catch((err) => {
+      console.log('err', err)
+    })
 }
 </script>
