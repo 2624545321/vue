@@ -2,7 +2,7 @@
   <div class="index-layout flex">
     <div
       :class="menuFold && 'layout-left-flod'"
-      class="layout-left flex flex-col"
+      class="layout-left flex flex-col shrink-0"
     >
       <logo></logo>
       <div class="menu-wrappe grow overflow-auto">
@@ -22,7 +22,7 @@
       <div class="layout-tabbar">
         <tab-bar></tab-bar>
       </div>
-      <main class="layout-main grow overflow-auto m-4 box-shadow">
+      <main class="layout-main grow overflow-auto m-4">
         <custom-main></custom-main>
       </main>
     </div>

@@ -47,7 +47,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { DialogStatus } from '@/types/module/productManagement/brandManagement'
 import CustomUpload from '@/components/customUpload/CustomUpload.vue'
@@ -138,9 +138,17 @@ const dialogVisible = computed({
 //     formParameter.value.logoUrl = v.logoUrl
 //   },
 // )
-
 /* optimize: 使用计算属性 */
 const comFromData = useVModel(props, 'formData', emits)
+
+watch(
+  () => comFromData.value.logoUrl,
+  (v) => {
+    console.log(v)
+    if (!v) return
+    formRef.value!.clearValidate('logoUrl')
+  },
+)
 
 const handleFormSubmit = () => {
   formRef.value

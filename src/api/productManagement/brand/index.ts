@@ -8,6 +8,7 @@ enum URL {
   BASETRADEMARK = '/admin/product/baseTrademark/',
   ADDTRADEMARK = '/admin/product/baseTrademark/save',
   UPDATETRADEMARK = '/admin/product/baseTrademark/update',
+  DELETETRADEMARK = '/admin/product/baseTrademark/remove/',
 }
 
 /**
@@ -23,7 +24,7 @@ export const baseTrademark = (page: number, limit: number): Promise<any> =>
   )
 
 /**
- * @desc 删除或者修改品牌
+ * @desc 添加或者修改品牌
  * @param {BaseTrademarkItem} param 请求参数
  *
  * @return {Promise} 请求结果
@@ -37,4 +38,16 @@ export const addOrUpdateTrademark = (param: BaseTrademarkItem) => {
   } else {
     return request.post<any, BaseTrademarkResponseData>(URL.ADDTRADEMARK, param)
   }
+}
+
+/**
+ * @desc 删除品牌
+ * @param {number} id 品牌id
+ *
+ * @return {Promise} 请求结果
+ */
+export const deleteTradeMark = (id: number) => {
+  return request.delete<any, BaseTrademarkResponseData>(
+    URL.DELETETRADEMARK + id,
+  )
 }

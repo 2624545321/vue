@@ -1,5 +1,5 @@
 <template>
-  <div class="brand-management">
+  <div class="brand-management box-shadow">
     <el-button type="primary" icon="Plus" @click="handlePlusBrand">
       添加
     </el-button>
@@ -62,10 +62,11 @@
 <script lang="ts" setup>
 import BmDialog from './components/BmDialog.vue'
 import { ref, watchEffect, computed, nextTick } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   baseTrademark,
   addOrUpdateTrademark,
+  deleteTradeMark,
 } from '@/api/productManagement/brand'
 import type {
   BaseTrademarkItem,
@@ -76,7 +77,7 @@ import type { DialogStatus } from '@/types/module/productManagement/brandManagem
 /* 表格相关数据、逻辑 */
 let tableData = ref<BaseTrademarkItem[]>([])
 const currentPage = ref<number>(1)
-const pageSize = ref<number>(5)
+const pageSize = ref<number>(2)
 const total = ref<number>(0)
 
 const getTableList = async () => {
@@ -117,10 +118,6 @@ const handleEdit = (row: BaseTrademarkItem) => {
   nextTick(() => (dialogStatus.value.formData = row))
 }
 
-const handleDelete = (row: BaseTrademarkItem) => {
-  console.log(row)
-}
-
 const handlePlusBrand = () => {
   // dialogStatus.value.formData = null
   dialogStatus.value.visible = true
@@ -158,13 +155,57 @@ const handleFormSubmit = async () => {
 // const handleCurrentChange = (value: number) => {
 //   console.log('handleCurrentChange', value)
 // }
+
+const handleDelete = (row: BaseTrademarkItem) => {
+  // console.log(row)
+  openEditBox(row)
+}
+// todo 优化 elmessage 方法，放入全局组件中
+const openEditBox = (trademardmark: BaseTrademarkItem) => {
+  ElMessageBox.confirm(
+    `will permanently delete ${trademardmark.tmName}。`,
+    'Delete',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'error',
+      icon: 'Delete',
+    },
+  )
+    .then(async () => {
+      const res = await deleteTradeMark(trademardmark.id as number)
+      console.log('delete', res)
+      if (res.code !== 200) {
+        ElMessage({
+          type: 'info',
+          message: res.message,
+        })
+        return
+      }
+      // currentPage.value - 1 触发 watchEffect 进行数据请求
+      tableData.value.length > 1
+        ? getTableList()
+        : (currentPage.value = currentPage.value - 1)
+      ElMessage({
+        type: 'success',
+        message: res.message,
+      })
+    })
+    .catch(() => {
+      // ElMessage({
+      //   type: 'info',
+      //   message: 'Delete canceled',
+      // })
+    })
+}
 </script>
 
 <style lang="scss" scoped>
 .brand-management {
   position: relative;
   height: 100%;
-  padding: 10px;
+  // margin: 4px;
+  // padding: 6px;
 }
 .pagination {
   position: absolute;
