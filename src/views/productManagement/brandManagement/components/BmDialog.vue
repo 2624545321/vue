@@ -53,7 +53,7 @@ import type { DialogStatus } from '@/types/module/productManagement/brandManagem
 import CustomUpload from '@/components/customUpload/CustomUpload.vue'
 import useVModel from '@/utils/useVModel'
 
-// props
+// props formData 无默认值，为必填项
 const props = withDefaults(defineProps<DialogStatus>(), {
   visible: true,
   title: '',

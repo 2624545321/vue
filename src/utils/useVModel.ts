@@ -1,8 +1,13 @@
 import { computed } from 'vue'
 
 // const cacheMap = new Map()
-
-export default (props: any, propName: any, emits: any) =>
+/**
+ * @desc 组件自定义v-model
+ * @param { any } props
+ * @param { string } propName
+ * @param { any } emits
+ */
+export default (props: any, propName: string, emits: any) =>
   computed({
     get() {
       const currProp = props[propName]

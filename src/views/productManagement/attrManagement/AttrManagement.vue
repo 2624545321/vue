@@ -1,58 +1,39 @@
 <template>
   <div>
-    <el-card>
-      <el-form inline>
-        <el-form-item>
-          <el-select v-model="value" value-key="id" placeholder="Select">
-            <el-option
-              v-for="item in options"
-              :key="item.id"
-              :label="item.label"
-              :value="item"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="value" value-key="id" placeholder="Select">
-            <el-option
-              v-for="item in options"
-              :key="item.id"
-              :label="item.label"
-              :value="item"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="value" value-key="id" placeholder="Select">
-            <el-option
-              v-for="item in options"
-              :key="item.id"
-              :label="item.label"
-              :value="item"
-            />
-          </el-select>
-        </el-form-item>
-      </el-form>
+    <AttrCategory
+      v-model:cate-value="cateProps.cateValue"
+      v-model:test="test"
+    ></AttrCategory>
+    <el-card class="mt-4 mb-4">
+      <div>
+        <el-button icon="plus" type="primary">添加属性</el-button>
+      </div>
+      <el-table border class="mt-4" v-loading="true">
+        <el-table-column label="序号" width="80"></el-table-column>
+        <el-table-column label="属性名称" width="120"></el-table-column>
+        <el-table-column label="属性值名称" width="auto"></el-table-column>
+        <el-table-column label="操作" width="120"></el-table-column>
+      </el-table>
     </el-card>
-    <el-card>content</el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
+import { TrademarkCategoryProps } from '@/types/components/productManagement.ts'
+const AttrCategory = defineAsyncComponent(
+  () => import('@/components/productManagement/TrademarkCategory.vue'),
+)
 
-type Option = {
-  id: number
-  label: string
-  desc: string
-}
-const value = ref<Option>()
-const options = ref([
-  { id: 1, label: 'Option A', desc: 'Option A - 230506' },
-  { id: 2, label: 'Option B', desc: 'Option B - 230506' },
-  { id: 3, label: 'Option C', desc: 'Option C - 230506' },
-  { id: 4, label: 'Option A', desc: 'Option A - 230507' },
-])
+const test = ref('')
+
+const cateProps = ref<TrademarkCategoryProps>({
+  cateValue: {
+    firstLevel: '',
+    secondLevel: '',
+    threeLevel: '',
+  },
+})
 </script>
 
 <style lang="scss" scoped></style>

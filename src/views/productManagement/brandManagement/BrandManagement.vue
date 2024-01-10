@@ -49,7 +49,7 @@
       <!-- @size-change="handleSizeChange"
         @current-change="handleCurrentChange" -->
     </div>
-    <!-- :form-data="dialogStatus.formData" -->
+
     <bm-dialog
       v-model:visible="dialogStatus.visible"
       v-model:form-data="dialogStatus.formData"
