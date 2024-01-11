@@ -24,7 +24,7 @@
         >
           <el-option
             v-for="item in options2"
-            :label="item.label"
+            :label="item.name"
             :value="item.id"
           />
         </el-select>
@@ -36,10 +36,9 @@
           clearable
         >
           <el-option
-            v-for="item in options"
-            :key="item.id"
-            :label="item.label"
-            :value="item"
+            v-for="item in options3"
+            :label="item.name"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
@@ -47,11 +46,15 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, computed, onMounted, shallowRef } from 'vue'
+import { ref, computed, onMounted, shallowRef, watch } from 'vue'
 import { TrademarkCategoryProps } from '@/types/components/productManagement.ts'
 import useVModel from '@/utils/useVModel'
-import { getCategory1 } from '@/api/productManagement/category/index'
-import type { categoryItem } from '@/api/category/attr/type'
+import {
+  getCategory1,
+  getCategory2,
+  getCategory3,
+} from '@/api/productManagement/category/index'
+import type { categoryItem } from '@/api/productManagement/category/type'
 
 const props = defineProps<TrademarkCategoryProps>()
 // console.log(props)
@@ -75,20 +78,81 @@ const comTest = computed({
 })
 comTest
 
-onMounted(async () => {
-  const res = await getCategory1()
-  console.log('res', res)
-  if (res.code !== 200) return
-  options.value = res.data
+onMounted(() => {
+  getC1()
 })
 
 const options = shallowRef<categoryItem[]>([])
 
-const options2 = ref<categoryItem[]>([
-  { id: 10, label: 'Option A', desc: 'Option A - 230506' },
-  { id: 20, label: 'Option B', desc: 'Option B - 230506' },
-  { id: 30, label: 'Option C', desc: 'Option C - 230506' },
-  { id: 40, label: 'Option A', desc: 'Option A - 230507' },
-])
+const options2 = ref<categoryItem[]>([])
+
+const options3 = ref<categoryItem[]>([])
+
+const getC1 = async () => {
+  const res = await getCategory1()
+  // console.log('res', res)
+  if (res.code !== 200) return
+  options.value = res.data
+}
+
+/* 依赖一级id获取二级分类 */
+const getC2 = async () => {
+  const id = comCateValue.value.firstLevel
+  // console.log('getC2', id)
+  if (!id) return // 一级清空了
+  const res = await getCategory2(id)
+  // console.log('getC2', res)
+  if (res.code !== 200) return
+  options2.value = res.data
+}
+
+/* 依赖二级id，获取三级分类 */
+const getC3 = async () => {
+  // return
+  const id = comCateValue.value.secondLevel
+  if (!id) return // 二级清空了
+  const res = await getCategory3(id)
+  // console.log('getC3', res)
+  if (res.code !== 200) return
+  options3.value = res.data
+}
+
+// watchEffect(() => getC2())
+// watchEffect(() => getC3())
+
+// tood optimize clearable variable
+watch(
+  () => comCateValue.value.firstLevel,
+  (val) => {
+    // console.log(val)
+    if (!val) {
+      emits('update:cateValue', {
+        ...comCateValue.value,
+        secondLevel: '',
+        threeLevel: '',
+      })
+      options2.value = []
+      options3.value = []
+      return
+    }
+    getC2()
+  },
+)
+
+watch(
+  () => comCateValue.value.secondLevel,
+  (val) => {
+    // console.log(val)
+    if (!val) {
+      emits('update:cateValue', {
+        ...comCateValue.value,
+        threeLevel: '',
+      })
+      options3.value = []
+      return
+    }
+    getC3()
+  },
+)
 </script>
 <style scoped lang="scss"></style>

@@ -23,7 +23,7 @@ export const getCategory1 = () =>
  * @return { Promise }
  */
 export const getCategory2 = (cate2Id: number) =>
-  request.get(URL.getCategory2 + cate2Id)
+  request.get<any, categoryResponseData>(URL.getCategory2 + cate2Id)
 
 /**
  * @desc 获取二级分类
@@ -32,4 +32,4 @@ export const getCategory2 = (cate2Id: number) =>
  * @return { Promise }
  */
 export const getCategory3 = (cate3Id: number) =>
-  request.get(URL.getCategory3 + cate3Id)
+  request.get<any, categoryResponseData>(URL.getCategory3 + cate3Id)

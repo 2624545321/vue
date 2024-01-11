@@ -10,6 +10,7 @@
           <el-menu
             :default-active="routeName"
             :collapse="menuFold"
+            unique-opened
             text-color="#fff"
             background-color="#001529"
           >

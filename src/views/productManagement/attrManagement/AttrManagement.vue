@@ -6,7 +6,13 @@
     ></AttrCategory>
     <el-card class="mt-4 mb-4">
       <div>
-        <el-button icon="plus" type="primary">添加属性</el-button>
+        <el-button
+          :disabled="!Boolean(cateProps.cateValue.threeLevel)"
+          icon="plus"
+          type="primary"
+        >
+          添加属性
+        </el-button>
       </div>
       <el-table border class="mt-4" v-loading="true">
         <el-table-column label="序号" width="80"></el-table-column>
