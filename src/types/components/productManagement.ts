@@ -1,8 +1,8 @@
 export interface TrademarkCategoryProps {
   cateValue: {
-    firstLevel: string
-    secondLevel: string
-    threeLevel: string
+    firstLevel: string | number
+    secondLevel: string | number
+    threeLevel: string | number
   }
   test?: string | number
 }

@@ -34,7 +34,12 @@ requestInstance.interceptors.response.use(
   (error) => {
     console.log('response err', error)
     let message = ''
-    const status = error.response.status
+    let status = null
+    if (error.response) {
+      status = error.response.status || 0
+    } else if (error.message) {
+      message = error.message
+    }
     switch (status) {
       case 401:
         message = 'token out of date'
@@ -48,8 +53,6 @@ requestInstance.interceptors.response.use(
       case 500:
         message = 'server err'
         break
-      default:
-        message = 'unkown err'
     }
     ElMessage.error(message)
     cp.done()

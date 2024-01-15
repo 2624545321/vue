@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-// const cacheMap = new Map()
+const cacheMap = new Map()
 /**
  * @desc 组件自定义v-model
  * @param { any } props
@@ -11,10 +11,9 @@ export default (props: any, propName: string, emits: any) =>
   computed({
     get() {
       const currProp = props[propName]
-      // todo: 缓存不生效，待修改
-      // if (cacheMap.has(currProp)) {
-      //   return cacheMap.get(currProp)
-      // }
+      if (cacheMap.has(currProp)) {
+        return cacheMap.get(currProp)
+      }
       const proxy = new Proxy(currProp, {
         get(target, key) {
           // console.log('proxy get', target, key)
@@ -22,7 +21,7 @@ export default (props: any, propName: string, emits: any) =>
         },
         set(target, key, value) {
           // console.log('proxy set', target, key, value)
-          // Reflect.set(target, key, value)
+          Reflect.set(target, key, value)
           emits('update:' + propName, {
             ...target,
             [key]: value,
@@ -30,9 +29,7 @@ export default (props: any, propName: string, emits: any) =>
           return true
         },
       })
-      // cacheMap.set(currProp, proxy)
-      // console.log('cacheMap', cacheMap)
-      // debugger
+      cacheMap.set(currProp, proxy)
       return proxy
     },
     set(val) {

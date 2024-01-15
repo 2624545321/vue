@@ -1,6 +1,6 @@
 import request from '@/plugins/axios'
 
-import type { categoryResponseData } from '@/api/category/attr/type'
+import type { categoryResponseData } from '@/api/productManagement/category/type'
 
 enum URL {
   getCategory1 = '/admin/product/getCategory1/',
