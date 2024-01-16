@@ -4,5 +4,6 @@ export interface TrademarkCategoryProps {
     secondLevel: string | number
     threeLevel: string | number
   }
+  disabled?: boolean
   test?: string | number
 }

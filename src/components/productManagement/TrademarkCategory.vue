@@ -1,6 +1,6 @@
 <template>
   <el-card>
-    <el-form inline>
+    <el-form inline :disabled="disabled">
       <el-form-item label="一级分类">
         <!-- v-model="comCateValue.firstLevel" -->
         <el-select
@@ -123,34 +123,34 @@ const getC3 = async () => {
 // tood optimize clearable variable
 watch(
   () => comCateValue.value.firstLevel,
-  (val) => {
+  () => {
     // console.log(val)
-    if (!val) {
-      emits('update:cateValue', {
-        ...comCateValue.value,
-        secondLevel: '',
-        threeLevel: '',
-      })
-      options2.value = []
-      options3.value = []
-      return
-    }
+    // if (!val) {
+    // 数据改变时就要清空子下拉菜单
+    emits('update:cateValue', {
+      ...comCateValue.value,
+      secondLevel: '',
+      threeLevel: '',
+    })
+    options2.value = []
+    options3.value = []
+    // return
+    // }
     getC2()
   },
 )
 
 watch(
   () => comCateValue.value.secondLevel,
-  (val) => {
-    // console.log(val)
-    if (!val) {
-      emits('update:cateValue', {
-        ...comCateValue.value,
-        threeLevel: '',
-      })
-      options3.value = []
-      return
-    }
+  () => {
+    // if (!val) {
+    emits('update:cateValue', {
+      ...comCateValue.value,
+      threeLevel: '',
+    })
+    options3.value = []
+    // return
+    // }
     getC3()
   },
 )

@@ -67,6 +67,7 @@ const menuFold = computed(() => configStore.menuFold)
 }
 .layout-right {
   height: 100%;
+  overflow: hidden;
   .layout-tabbar {
     height: $base-tabbar-height;
   }
