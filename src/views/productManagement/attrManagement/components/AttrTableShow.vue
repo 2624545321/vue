@@ -57,7 +57,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
 import type { AttrItem } from '@/api/productManagement/attr/type'
 
 interface AttrTableShowProps {
@@ -65,13 +64,11 @@ interface AttrTableShowProps {
   tableLoading: boolean
   attrTableData: AttrItem[]
 }
-const props = withDefaults(defineProps<AttrTableShowProps>(), {
-  attrTableData: [],
-})
+const props = withDefaults(defineProps<AttrTableShowProps>(), {})
+props
 
 interface AttrTableShowEmits {
   (event: 'tableAttrPlus'): void
-  // (event: 'tableAttrPlusCancel'): void
   (event: 'tableRowEdit', value: AttrItem): void
   (event: 'tableRowDelete', value: AttrItem): void
 }
@@ -79,10 +76,6 @@ const emits = defineEmits<AttrTableShowEmits>()
 
 const handleTableAttrPlus = () => {
   emits('tableAttrPlus')
-}
-
-const handleTableAttrPlusCancel = () => {
-  emits('tableAttrPlusCancel')
 }
 
 const handleTableRowEdit = (row: AttrItem) => {

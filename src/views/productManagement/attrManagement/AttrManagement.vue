@@ -20,11 +20,9 @@
       </div>
       <div v-show="scene === 'tablePlus'">
         <attr-table-plus
-          :attr-table-plus-data="[]"
-          @table-attr-plus="handlePlusTableAttr"
-          @table-attr-plus-cancel="handlePlusTableAttrCancel"
-          @table-row-edit="handleTableRowEdit"
-          @table-row-delete="handleTableRowDelete"
+          :table-row-add-id="cateProps.cateValue.threeLevel"
+          @table-row-add-save="handleTableRowAddSave"
+          @table-attr-plus-cancel="handleTableRowAddCanael"
         ></attr-table-plus>
       </div>
     </el-card>
@@ -56,12 +54,16 @@ const AttrTablePlus = defineAsyncComponent(
 )
 
 // requset api
-import { attrInfoList } from '@/api/productManagement/attr'
+import {
+  attrInfoList,
+  attrAddOrUpdateAttrInfo,
+} from '@/api/productManagement/attr'
 // type
 import type { AttrItem } from '@/api/productManagement/attr/type'
+import { ElMessage } from 'element-plus'
 
 // 场景切换 tableShow tablePlus
-const scene = ref<string>('tableShow')
+const scene = ref<'tableShow' | 'tablePlus'>('tableShow')
 
 // 选择框相关的数据
 const test = ref('')
@@ -83,10 +85,10 @@ const handlePlusTableAttr = () => {
   cateProps.disabled = true
 }
 
-const handlePlusTableAttrCancel = () => {
-  scene.value = 'tableShow'
-  cateProps.disabled = false
-}
+// const handlePlusTableAttrCancel = () => {
+//   scene.value = 'tableShow'
+//   cateProps.disabled = false
+// }
 
 const handleTableRowEdit = (row: AttrItem) => {
   console.log('handleTableRowEdit', row)
@@ -94,6 +96,20 @@ const handleTableRowEdit = (row: AttrItem) => {
 
 const handleTableRowDelete = (row: AttrItem) => {
   console.log('handleTableRowDelete', row)
+}
+
+const handleTableRowAddSave = async (row: AttrItem) => {
+  // console.log('handleTableRowAddSave', row)
+  const res = await attrAddOrUpdateAttrInfo(row)
+  if (res.code === 200) {
+    ElMessage.success('添加成功')
+  } else {
+    ElMessage.error('添加失败')
+  }
+}
+
+const handleTableRowAddCanael = () => {
+  scene.value = 'tableShow'
 }
 
 /* 测试时注意，手机 -> 手机通讯 -> 手机 有数据 */

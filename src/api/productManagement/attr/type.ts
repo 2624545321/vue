@@ -1,20 +1,21 @@
 import type { ResponseData } from '@/types/config/request'
 
-type AttrValueItem = {
-  attrId: number
-  createTime: Date
-  id: number
-  updateTime: Date
+/* 创建时间和更新时间是后端坐，前端添加时不需要 */
+export type AttrValueItem = {
+  attrId?: number
+  createTime?: Date | string
+  id?: number
+  updateTime?: Date | string
   valueName: string
 }
 
 export type AttrItem = {
   attrName: string
-  categoryId: number
+  categoryId: number | string
   categoryLevel: number
-  createTime: Date
-  id: number
-  updateTime: Date
+  createTime?: Date | string
+  id?: number
+  updateTime?: Date | string
   attrValueList: AttrValueItem[]
 }
 
