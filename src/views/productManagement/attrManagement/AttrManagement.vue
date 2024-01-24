@@ -106,6 +106,8 @@ const handleTableRowAddSave = async (row: AttrItem) => {
   } else {
     ElMessage.error('添加失败')
   }
+  handleTableRowAddCanael()
+  getTableData()
 }
 
 const handleTableRowAddCanael = () => {
