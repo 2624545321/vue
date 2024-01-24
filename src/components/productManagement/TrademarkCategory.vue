@@ -1,8 +1,7 @@
 <template>
   <el-card>
-    <el-form inline :disabled="disabled">
+    <el-form inline :disabled="disabled" class="demo-form-inline">
       <el-form-item label="一级分类">
-        <!-- v-model="comCateValue.firstLevel" -->
         <el-select
           v-model="comCateValue.firstLevel"
           placeholder="请选择"
@@ -13,7 +12,7 @@
             :key="item.id"
             :label="item.name"
             :value="item.id"
-          />
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="二级分类">
