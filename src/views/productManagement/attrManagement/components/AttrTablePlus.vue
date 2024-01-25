@@ -126,12 +126,42 @@ const handleSubmit = async () => {
 interface AttrRowFrom {
   attrTableRowData: AttrValueItem[]
 }
+
+const reg = /\.(\d)\./
 const attrRowForm = ref<FormInstance>()
-const attrRowFormRules = reactive<FormRules>({
-  valueName: [{ required: true, trigger: 'blur' }],
-})
 const attrRowFormData = reactive<AttrRowFrom>({
   attrTableRowData: [],
+})
+const validateValueName = (
+  rule: any,
+  value: AttrValueItem['valueName'],
+  callback: any,
+) => {
+  // const res = rule.validate()
+  // console.log(res)
+  const { fullField } = rule
+  // console.log(rule, value, callback)
+  if (!value.trim()) {
+    callback(new Error(fullField + ' is required'))
+  }
+  // 字段中的数字表示value在数组中的索引位置
+  const m = fullField.match(reg)
+  const i = m[1] >>> 0
+  if (i == undefined) {
+    callback(new Error(fullField + ' is error!'))
+    return
+  }
+  if (
+    attrRowFormData.attrTableRowData.some(
+      (a, index) => index !== i && a.valueName === value,
+    )
+  ) {
+    callback(new Error('duplicate items'))
+  }
+  callback() // 不写回车无法提交 => 表单无法验证
+}
+const attrRowFormRules = reactive<FormRules>({
+  valueName: [{ trigger: 'blur', validator: validateValueName }],
 })
 
 const handleAttrRowForm = async () => {
@@ -141,24 +171,20 @@ const handleAttrRowForm = async () => {
 
 const handleTableRowAdd = () => {
   attrRowFormData.attrTableRowData.push({
-    // createTime: new Date().toLocaleDateString() + new Date().toTimeString(),
-    // updateTime: new Date().toLocaleDateString() + new Date().toTimeString(),
     valueName: '',
   })
-  // attrRowFormData.attrTableRowData.0
 }
 
 const handleTableRowAddSave = async (form: FormInstance) => {
   await form.validate()
-  const o: AttrItem = {
-    attrName: attrNameFormData.value.attrName,
-    categoryId: props.tableRowAddId,
-    categoryLevel: 3,
-    // createTime: new Date().toLocaleDateString() + new Date().toTimeString(),
-    // updateTime: new Date().toLocaleDateString() + new Date().toTimeString(),
-    attrValueList: attrRowFormData.attrTableRowData,
-  }
-  emits('tableRowAddSave', o)
+  console.log('submit')
+  // const o: AttrItem = {
+  //   attrName: attrNameFormData.value.attrName,
+  //   categoryId: props.tableRowAddId,
+  //   categoryLevel: 3,
+  //   attrValueList: attrRowFormData.attrTableRowData,
+  // }
+  // emits('tableRowAddSave', o)
 }
 
 const handleTablePlusAttrCancel = () => {

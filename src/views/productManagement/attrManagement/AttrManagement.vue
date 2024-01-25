@@ -53,6 +53,11 @@ const AttrTablePlus = defineAsyncComponent(
     ),
 )
 
+// const n = ref(1)
+// const arr = reactive([1, 2, 3])
+// console.log(n)
+// console.log(arr)
+
 // requset api
 import {
   attrInfoList,
@@ -63,7 +68,7 @@ import type { AttrItem } from '@/api/productManagement/attr/type'
 import { ElMessage } from 'element-plus'
 
 // 场景切换 tableShow tablePlus
-const scene = ref<'tableShow' | 'tablePlus'>('tableShow')
+const scene = ref<'tableShow' | 'tablePlus'>('tablePlus')
 
 // 选择框相关的数据
 const test = ref('')
