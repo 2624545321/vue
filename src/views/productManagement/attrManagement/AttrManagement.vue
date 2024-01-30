@@ -68,7 +68,7 @@ import type { AttrItem } from '@/api/productManagement/attr/type'
 import { ElMessage } from 'element-plus'
 
 // 场景切换 tableShow tablePlus
-const scene = ref<'tableShow' | 'tablePlus'>('tablePlus')
+const scene = ref<'tableShow' | 'tablePlus'>('tableShow')
 
 // 选择框相关的数据
 const test = ref('')

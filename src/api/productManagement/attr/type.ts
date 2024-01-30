@@ -7,6 +7,7 @@ export type AttrValueItem = {
   id?: number
   updateTime?: Date | string
   valueName: string
+  isEdit?: boolean
 }
 
 export type AttrItem = {

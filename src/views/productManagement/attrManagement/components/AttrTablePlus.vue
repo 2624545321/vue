@@ -14,18 +14,18 @@
           placeholder="请输入"
         ></el-input>
       </el-form-item>
+      <el-form-item>
+        <el-button
+          :disabled="!attrNameFormData.attrName"
+          icon="Plus"
+          type="primary"
+          native-type="submit"
+        >
+          添加
+        </el-button>
+        <!-- <el-button icon="Close" type="danger">取消</el-button> -->
+      </el-form-item>
     </el-form>
-    <el-form-item>
-      <el-button
-        @click="handleTableRowAdd"
-        :disabled="!attrNameFormData.attrName"
-        icon="Plus"
-        type="primary"
-      >
-        添加
-      </el-button>
-      <el-button icon="Close" type="danger">取消</el-button>
-    </el-form-item>
     <!-- todo: 验证的原理是什么？搞不懂... -->
     <el-form
       ref="attrRowForm"
@@ -42,24 +42,31 @@
         <el-table-column label="名称">
           <template #default="{ row, $index }">
             <el-form-item
+              v-show="row.isEdit"
               :prop="'attrTableRowData.' + $index + '.valueName'"
               :rules="attrRowFormRules.valueName"
+              class="pt-4"
             >
-              <el-input v-model="row.valueName" type="text"></el-input>
+              <el-input
+                :ref="(vc: HTMLInputElement) => (iptRefList[$index] = vc)"
+                v-model="row.valueName"
+                type="text"
+              ></el-input>
             </el-form-item>
+            <span v-show="!row.isEdit">{{ row.valueName }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <template #default="{ row, $index }">
+          <template #default="{ $index }">
             <el-button
-              @click="handleTableRowEdit(row, $index)"
+              @click="handleTableRowEdit($index, true)"
               icon="Edit"
               type="primary"
             >
               编辑
             </el-button>
             <el-button
-              @click="handleTableRowDelete(row)"
+              @click="handleTableRowDelete($index)"
               icon="Delete"
               type="danger"
             >
@@ -70,6 +77,7 @@
       </el-table>
       <div>
         <el-button
+          :disabled="!attrRowFormData.attrTableRowData.length"
           @click="handleTableRowAddSave(attrRowForm!)"
           type="primary"
           native-type="submit"
@@ -84,7 +92,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import type { AttrItem, AttrValueItem } from '@/api/productManagement/attr/type'
 import type { FormInstance, FormRules } from 'element-plus'
 
@@ -120,6 +128,8 @@ const handleSubmit = async () => {
   attrNameForm.value?.validate()
   // console.log('handleSubmit', res)
   handleTableRowAdd()
+  await nextTick()
+  iptRefList.at(-1)?.focus()
 }
 
 // 属性各项表单
@@ -132,6 +142,7 @@ const attrRowForm = ref<FormInstance>()
 const attrRowFormData = reactive<AttrRowFrom>({
   attrTableRowData: [],
 })
+const iptRefList = reactive<(HTMLInputElement | null)[]>([])
 const validateValueName = (
   rule: any,
   value: AttrValueItem['valueName'],
@@ -141,8 +152,9 @@ const validateValueName = (
   // console.log(res)
   const { fullField } = rule
   // console.log(rule, value, callback)
-  if (!value.trim()) {
+  if (!value?.trim()) {
     callback(new Error(fullField + ' is required'))
+    return
   }
   // 字段中的数字表示value在数组中的索引位置
   const m = fullField.match(reg)
@@ -152,12 +164,16 @@ const validateValueName = (
     return
   }
   if (
+    /* 判断重复时，当前项已经在数据中，所以不参与判断 */
     attrRowFormData.attrTableRowData.some(
       (a, index) => index !== i && a.valueName === value,
     )
   ) {
     callback(new Error('duplicate items'))
+    return
   }
+  // 取消编辑状态
+  handleTableRowEdit(i, false)
   callback() // 不写回车无法提交 => 表单无法验证
 }
 const attrRowFormRules = reactive<FormRules>({
@@ -172,30 +188,37 @@ const handleAttrRowForm = async () => {
 const handleTableRowAdd = () => {
   attrRowFormData.attrTableRowData.push({
     valueName: '',
+    isEdit: true,
   })
 }
 
 const handleTableRowAddSave = async (form: FormInstance) => {
   await form.validate()
-  console.log('submit')
-  // const o: AttrItem = {
-  //   attrName: attrNameFormData.value.attrName,
-  //   categoryId: props.tableRowAddId,
-  //   categoryLevel: 3,
-  //   attrValueList: attrRowFormData.attrTableRowData,
-  // }
-  // emits('tableRowAddSave', o)
+  // console.log('submit')
+  const o: AttrItem = {
+    attrName: attrNameFormData.value.attrName,
+    categoryId: props.tableRowAddId,
+    categoryLevel: 3,
+    attrValueList: attrRowFormData.attrTableRowData,
+  }
+  emits('tableRowAddSave', o)
+  await nextTick()
+  attrRowFormData.attrTableRowData = []
 }
 
-const handleTablePlusAttrCancel = () => {
+const handleTablePlusAttrCancel = async () => {
   emits('tableAttrPlusCancel')
+  await nextTick()
+  attrRowFormData.attrTableRowData = []
 }
 
-const handleTableRowEdit = (row: AttrValueItem, i: number) => {
-  console.log(row, i)
+const handleTableRowEdit = (i: number, status: boolean) => {
+  attrRowFormData.attrTableRowData[i].isEdit = status
+  iptRefList.at(i)?.focus()
 }
-const handleTableRowDelete = (row: AttrValueItem) => {
-  console.log(row)
+
+const handleTableRowDelete = (i: number) => {
+  attrRowFormData.attrTableRowData.splice(i, 1)
 }
 </script>
 <style scoped lang="scss"></style>
