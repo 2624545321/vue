@@ -92,12 +92,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, nextTick } from 'vue'
+import { ref, reactive, nextTick, watch } from 'vue'
 import type { AttrItem, AttrValueItem } from '@/api/productManagement/attr/type'
 import type { FormInstance, FormRules } from 'element-plus'
 
 interface AttrTablePlusProps {
-  // attrTablePlusData: AttrItem[]
+  attrTablePlusData: AttrItem | null
   tableRowAddId: number | string // 添加的属性的三级id
 }
 const props = defineProps<AttrTablePlusProps>()
@@ -180,6 +180,32 @@ const attrRowFormRules = reactive<FormRules>({
   valueName: [{ trigger: 'blur', validator: validateValueName }],
 })
 
+/* 监听传入数据，有值则为编辑 */
+watch(
+  () => props.attrTablePlusData,
+  (v) => {
+    // console.log(v)
+    if (!v) {
+      clearFormData()
+      formRest()
+    } else {
+      attrNameFormData.value.attrName = v.attrName
+      attrRowFormData.attrTableRowData = v.attrValueList
+    }
+  },
+)
+
+/* 事件相关 */
+const clearFormData = () => {
+  attrNameFormData.value.attrName = ''
+  attrRowFormData.attrTableRowData = []
+}
+
+const formRest = () => {
+  attrNameForm.value?.clearValidate()
+  attrRowForm.value?.clearValidate()
+}
+
 const handleAttrRowForm = async () => {
   await attrRowForm.value?.validate()
   // console.log(res)
@@ -203,13 +229,15 @@ const handleTableRowAddSave = async (form: FormInstance) => {
   }
   emits('tableRowAddSave', o)
   await nextTick()
-  attrRowFormData.attrTableRowData = []
+  clearFormData()
+  formRest()
 }
 
 const handleTablePlusAttrCancel = async () => {
   emits('tableAttrPlusCancel')
   await nextTick()
-  attrRowFormData.attrTableRowData = []
+  clearFormData()
+  formRest()
 }
 
 const handleTableRowEdit = (i: number, status: boolean) => {

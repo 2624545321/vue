@@ -28,6 +28,7 @@ import {
   Edit,
   Delete,
   Close,
+  InfoFilled,
 } from '@element-plus/icons-vue'
 
 // 引入需要使用的图标 => 全局引入
@@ -56,6 +57,7 @@ const ElementPlusIconsVue = Object.freeze({
   Edit,
   Delete,
   Close,
+  InfoFilled,
 })
 export default {
   install(app: App) {

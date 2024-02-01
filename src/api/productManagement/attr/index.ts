@@ -1,5 +1,6 @@
 import request from '@/plugins/axios'
 
+import type { ResponseData } from '@/types/config/request'
 import type {
   AttrResponseData,
   AttrItem,
@@ -8,6 +9,7 @@ import type {
 enum URL {
   ATTRINFOLIST = '/admin/product/attrInfoList/',
   ATTRADDORUPDATEATTRINFO = '/admin/product/saveAttrInfo',
+  ATTRDELETE = '/admin/product/deleteAttr/',
 }
 
 /**
@@ -30,3 +32,12 @@ export const attrInfoList = (c1Id: number, c2Id: number, c3Id: number) =>
  */
 export const attrAddOrUpdateAttrInfo = (attr: AttrItem) =>
   request.post<any, AttrResponseData>(URL.ATTRADDORUPDATEATTRINFO, attr)
+
+/**
+ * @desc 删除商品的某个属性
+ * @param { attrId } number 属性id
+ *
+ * @return { Promise }
+ */
+export const attrDelete = (attrId: number) =>
+  request.delete<any, ResponseData>(URL.ATTRDELETE + attrId)

@@ -44,13 +44,16 @@
           >
             编辑
           </el-button>
-          <el-button
-            @click="handleTableRowDelete(row)"
-            icon="Delete"
-            type="danger"
+          <el-popconfirm
+            width="200"
+            icon="InfoFilled"
+            :title="`Are you sure to delete ${row.attrName}?`"
+            @confirm="handleTableRowDelete(row)"
           >
-            删除
-          </el-button>
+            <template #reference>
+              <el-button icon="Delete" type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>

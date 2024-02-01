@@ -20,6 +20,7 @@
       </div>
       <div v-show="scene === 'tablePlus'">
         <attr-table-plus
+          :attr-table-plus-data="attrTableRowEditData"
           :table-row-add-id="cateProps.cateValue.threeLevel"
           @table-row-add-save="handleTableRowAddSave"
           @table-attr-plus-cancel="handleTableRowAddCanael"
@@ -35,7 +36,8 @@
  * 把数据展示、处理的逻辑发送给子组件，自己只负责收集数据，进行状态分发
  */
 import { ref, defineAsyncComponent, watch, reactive } from 'vue'
-import { TrademarkCategoryProps } from '@/types/components/productManagement.ts'
+import type { TrademarkCategoryProps } from '@/types/components/productManagement.ts'
+import { cloneDeep } from '@/utils'
 // async component
 const AttrCategory = defineAsyncComponent(
   () => import('@/components/productManagement/TrademarkCategory.vue'),
@@ -62,6 +64,7 @@ const AttrTablePlus = defineAsyncComponent(
 import {
   attrInfoList,
   attrAddOrUpdateAttrInfo,
+  attrDelete,
 } from '@/api/productManagement/attr'
 // type
 import type { AttrItem } from '@/api/productManagement/attr/type'
@@ -83,6 +86,7 @@ const cateProps = reactive<TrademarkCategoryProps>({
 
 // 表格相关的数据
 const tableLoading = ref<boolean>(false)
+let attrTableRowEditData = ref<AttrItem | null>(null)
 let attrTableData = reactive<AttrItem[]>([])
 
 const handlePlusTableAttr = () => {
@@ -96,15 +100,25 @@ const handlePlusTableAttr = () => {
 // }
 
 const handleTableRowEdit = (row: AttrItem) => {
-  console.log('handleTableRowEdit', row)
+  // console.log('handleTableRowEdit', row)
+  attrTableRowEditData.value = cloneDeep(row)
+  handlePlusTableAttr()
 }
 
-const handleTableRowDelete = (row: AttrItem) => {
-  console.log('handleTableRowDelete', row)
+const handleTableRowDelete = async (row: AttrItem) => {
+  // console.log('handleTableRowDelete', row, row.id)
+  const res = await attrDelete(row.id as number)
+  if (res.code !== 200) {
+    ElMessage.error('delete error: ' + res.message)
+    return
+  }
+  ElMessage.success('delete success')
+  getTableData()
 }
 
 const handleTableRowAddSave = async (row: AttrItem) => {
   // console.log('handleTableRowAddSave', row)
+  cateProps.disabled = false
   const res = await attrAddOrUpdateAttrInfo(row)
   if (res.code === 200) {
     ElMessage.success('添加成功')
@@ -117,6 +131,8 @@ const handleTableRowAddSave = async (row: AttrItem) => {
 
 const handleTableRowAddCanael = () => {
   scene.value = 'tableShow'
+  attrTableRowEditData.value = null
+  cateProps.disabled = false
 }
 
 /* 测试时注意，手机 -> 手机通讯 -> 手机 有数据 */
