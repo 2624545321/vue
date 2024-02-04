@@ -4,37 +4,33 @@
       添加
     </el-button>
 
-    <el-table
-      height="70vh"
-      :data="tableData"
-      :border="true"
-      stripe
+    <custom-ele-table
       style="width: 100%; margin-top: 20px"
+      height="70vh"
+      :border="true"
+      :stripe="true"
+      :table-data="tableData"
+      :table-column="tableColumn"
     >
-      <el-table-column type="index" label="序号" width="120" align="center" />
-      <el-table-column prop="tmName" label="品牌名称" />
-      <el-table-column prop="name" label="品牌LOGO">
-        <template #default="scope">
-          <div class="brand-logo">
-            <el-image
-              :src="scope.row.logoUrl"
-              fit="contain"
-              :preview-src-list="[scope.row.logoUrl]"
-            />
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="address" label="品牌操作">
-        <template #default="scope">
-          <el-button @click="handleEdit(scope.row)" icon="Edit"></el-button>
-          <el-button
-            @click="handleDelete(scope.row)"
-            icon="Delete"
-            type="danger"
-          ></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+      <template #brandLogo="scope">
+        <div class="brand-logo">
+          <el-image
+            fit="contain"
+            :preview-teleported="true"
+            :src="scope.row.logoUrl"
+            :preview-src-list="[scope.row.logoUrl]"
+          />
+        </div>
+      </template>
+      <template #address="scope">
+        <el-button @click="handleEdit(scope.row)" icon="Edit"></el-button>
+        <el-button
+          @click="handleDelete(scope.row)"
+          icon="Delete"
+          type="danger"
+        ></el-button>
+      </template>
+    </custom-ele-table>
 
     <div class="pagination">
       <el-pagination
@@ -61,7 +57,8 @@
 
 <script lang="ts" setup>
 import BmDialog from './components/BmDialog.vue'
-import { ref, watchEffect, computed, nextTick } from 'vue'
+import CustomEleTable from '@/components/customEleTable/CustomEleTable.vue'
+import { ref, watchEffect, computed, nextTick, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   baseTrademark,
@@ -76,6 +73,28 @@ import type { DialogStatus } from '@/types/module/productManagement/brandManagem
 
 /* 表格相关数据、逻辑 */
 let tableData = ref<BaseTrademarkItem[]>([])
+const tableColumn = reactive([
+  {
+    type: 'index',
+    label: '序号',
+    width: '120',
+    align: 'center',
+  },
+  {
+    prop: 'name',
+    label: '品牌LOGO',
+    slot: 'brandLogo',
+  },
+  {
+    prop: 'tmName',
+    label: '品牌名称',
+  },
+  {
+    prop: 'address',
+    label: '品牌操作',
+    slot: 'address',
+  },
+])
 const currentPage = ref<number>(1)
 const pageSize = ref<number>(2)
 const total = ref<number>(0)

@@ -82,9 +82,9 @@ const loading = ref(false)
 const ruleFormRef = ref<FormInstance>()
 const formOfLogin = ref<UserLoginRequestParmeter>({
   // username: 'admin',
-  // password: '111111',
+  password: '111111',
   username: 'admin',
-  password: 'atguigu123',
+  // password: 'atguigu123',
 })
 // 自定义验证规则
 const customFormFules = shallowRef({
