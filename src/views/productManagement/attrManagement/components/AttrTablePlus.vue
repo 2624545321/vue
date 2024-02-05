@@ -33,48 +33,46 @@
       :rules="attrRowFormRules"
       @submit.prevent="handleAttrRowForm"
     >
-      <el-table
+      <custom-ele-table
         :data="attrRowFormData.attrTableRowData"
+        :table-column="attrRowTableColumn"
         border
         class="mt-4 mb-4"
       >
-        <el-table-column label="序号" type="index" width="80"></el-table-column>
-        <el-table-column label="名称">
-          <template #default="{ row, $index }">
+        <template #rowName="{ row, index }">
+          <div v-if="index > -1">
             <el-form-item
               v-show="row.isEdit"
-              :prop="'attrTableRowData.' + $index + '.valueName'"
+              :prop="'attrTableRowData.' + index + '.valueName'"
               :rules="attrRowFormRules.valueName"
               class="pt-4"
             >
               <el-input
-                :ref="(vc: HTMLInputElement) => (iptRefList[$index] = vc)"
+                :ref="(vc: HTMLInputElement) => (iptRefList[index] = vc)"
                 v-model="row.valueName"
                 type="text"
               ></el-input>
             </el-form-item>
             <span v-show="!row.isEdit">{{ row.valueName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template #default="{ $index }">
-            <el-button
-              @click="handleTableRowEdit($index, true)"
-              icon="Edit"
-              type="primary"
-            >
-              编辑
-            </el-button>
-            <el-button
-              @click="handleTableRowDelete($index)"
-              icon="Delete"
-              type="danger"
-            >
-              删除
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+          </div>
+        </template>
+        <template #operation="{ index }">
+          <el-button
+            @click="handleTableRowEdit(index, true)"
+            icon="Edit"
+            type="primary"
+          >
+            编辑
+          </el-button>
+          <el-button
+            @click="handleTableRowDelete(index)"
+            icon="Delete"
+            type="danger"
+          >
+            删除
+          </el-button>
+        </template>
+      </custom-ele-table>
       <div>
         <el-button
           :disabled="!attrRowFormData.attrTableRowData.length"
@@ -95,6 +93,7 @@
 import { ref, reactive, nextTick, watch } from 'vue'
 import type { AttrItem, AttrValueItem } from '@/api/productManagement/attr/type'
 import type { FormInstance, FormRules } from 'element-plus'
+import CustomEleTable from '@/components/customEleTable/CustomEleTable.vue'
 
 interface AttrTablePlusProps {
   attrTablePlusData: AttrItem | null
@@ -142,6 +141,23 @@ const attrRowForm = ref<FormInstance>()
 const attrRowFormData = reactive<AttrRowFrom>({
   attrTableRowData: [],
 })
+const attrRowTableColumn = reactive([
+  {
+    label: '序号',
+    width: '80',
+    type: 'index',
+    align: 'center',
+  },
+  {
+    label: '名称',
+    slot: 'rowName',
+  },
+  {
+    label: '操作',
+    slot: 'operation',
+  },
+])
+
 const iptRefList = reactive<(HTMLInputElement | null)[]>([])
 const validateValueName = (
   rule: any,
@@ -158,7 +174,12 @@ const validateValueName = (
   }
   // 字段中的数字表示value在数组中的索引位置
   const m = fullField.match(reg)
+  // console.log(m)
   const i = m[1] >>> 0
+  if (i < 0) {
+    callback()
+    return
+  }
   if (i == undefined) {
     callback(new Error(fullField + ' is error!'))
     return

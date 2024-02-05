@@ -1,5 +1,5 @@
 <template>
-  <el-table :height="height" :data="tableData" :border="true" :stripe="stripe">
+  <el-table v-bind="$attrs">
     <el-table-column
       v-for="(column, i) of tableColumn"
       :key="i"
@@ -17,29 +17,31 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { useAttrs } from 'vue'
-type T_data<T> = T[]
+// import { useAttrs } from 'vue'
+// todo : add generic
+// type T_data<T> = T[]
 interface TableProps {
-  loading?: boolean
-  stripe?: boolean
-  border?: boolean
-  height?: string
-  tableData: T_data
-  tableColumn: T_data
+  // loading?: boolean
+  // stripe?: boolean
+  // border?: boolean
+  // height?: string
+  // tableData: T_data<T>
+  // tableColumn: T_data<T>
+  // tableData: any
+  tableColumn: any
 }
 
 // const props = defineProps<TableProps>()
 const props = withDefaults(defineProps<TableProps>(), {
-  loading: false,
-  stripe: false,
-  border: false,
-  height: 'auto',
+  // loading: false,
+  // stripe: false,
+  // border: false,
+  // height: 'auto',
 })
-console.log('TableProps', props)
-const $attrs = useAttrs()
-console.log($attrs)
-
-const handleEdit = () => {}
-const handleDelete = () => {}
+props
+// console.log('TableProps', props)
+// const $attrs = useAttrs()
+// $attrs
+// console.log($attrs)
 </script>
 <style scoped lang="scss"></style>

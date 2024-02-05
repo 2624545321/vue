@@ -9,7 +9,7 @@
       height="70vh"
       :border="true"
       :stripe="true"
-      :table-data="tableData"
+      :data="tableData"
       :table-column="tableColumn"
     >
       <template #brandLogo="scope">
