@@ -14,8 +14,8 @@
 <!-- <script lang="ts" setup></script> -->
 <script lang="tsx" setup>
 import { ref } from 'vue'
-// import dayjs from 'dayjs'
-const dayjs = (p) => p
+import dayjs from 'dayjs'
+// const dayjs = (p) => p
 import {
   ElButton,
   ElIcon,

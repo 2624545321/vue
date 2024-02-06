@@ -1,50 +1,35 @@
 <template>
-  <div>
-    <h1>Spu 管理</h1>
-    <el-select
-      v-model="value"
-      class="m-2"
-      placeholder="Select"
-      size="large"
-      style="width: 240px"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
+  <div class="h-full relative">
+    <AttrCategory
+      v-model:cate-value="cateProps.cateValue"
+      :disabled="cateProps.disabled"
+    ></AttrCategory>
+
+    <el-card class="mt-4 mb-4">
+      <spu-table-show v-show="scene === 'tableShow'"></spu-table-show>
+
+      <spu-table-plus v-show="scene === 'tablePlus'"></spu-table-plus>
+    </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import AttrCategory from '@/components/productManagement/TrademarkCategory.vue'
+import SpuTableShow from './components/SpuTableShow.vue'
+import SpuTablePlus from './components/SpuTablePlus.vue'
+import { ref, reactive } from 'vue'
+import type { TrademarkCategoryProps } from '@/types/components/productManagement.ts'
 
-const value = ref('')
+const cateProps = reactive<TrademarkCategoryProps>({
+  cateValue: {
+    firstLevel: '',
+    secondLevel: '',
+    threeLevel: '',
+  },
+  disabled: false,
+})
 
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
+const scene = ref<'tableShow' | 'tablePlus'>('tableShow')
 </script>
 
 <style lang="scss" scoped></style>

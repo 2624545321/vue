@@ -17,9 +17,11 @@
   </el-table>
 </template>
 <script lang="ts" setup>
+// import type { PropType } from 'vue'
 // import { useAttrs } from 'vue'
 // todo : add generic
 // type T_data<T> = T[]
+type Ta = any[]
 interface TableProps {
   // loading?: boolean
   // stripe?: boolean
@@ -28,7 +30,7 @@ interface TableProps {
   // tableData: T_data<T>
   // tableColumn: T_data<T>
   // tableData: any
-  tableColumn: any
+  tableColumn: Ta
 }
 
 // const props = defineProps<TableProps>()
