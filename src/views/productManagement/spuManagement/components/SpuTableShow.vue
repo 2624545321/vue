@@ -8,16 +8,20 @@
     >
       添加SPU
     </el-button>
-    <custom-ele-table
-      class="mt-4"
-      :data="spuData"
-      :table-column="spuTableColumn"
-    >
+    <custom-ele-table class="mt-4" :data="data" :table-column="spuTableColumn">
       <template #operation>
-        <el-button icon="Plus" size="small" type="primary"></el-button>
-        <el-button icon="Edit" size="small" type="warning"></el-button>
-        <el-button icon="InfoFilled" size="small" type="info"></el-button>
-        <el-button icon="Delete" size="small" type="danger"></el-button>
+        <el-tooltip content="添加SKU">
+          <el-button icon="Plus" size="small" type="primary"></el-button>
+        </el-tooltip>
+        <el-tooltip content="编辑SPU">
+          <el-button icon="Edit" size="small" type="warning"></el-button>
+        </el-tooltip>
+        <el-tooltip content="查看列表">
+          <el-button icon="InfoFilled" size="small" type="info"></el-button>
+        </el-tooltip>
+        <el-tooltip content="删除SPU">
+          <el-button icon="Delete" size="small" type="danger"></el-button>
+        </el-tooltip>
       </template>
     </custom-ele-table>
 
@@ -37,10 +41,23 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
 import type { TableColumn } from '@/types/components/customEleTable'
+import type { SpuProductItem } from '@/api/productManagement/spu/type'
+import useVModel from '@/utils/useVModel'
+// import { watch } from 'vue';
 
-const btnDisabled = ref(false)
+interface TableProps {
+  pagination: Pagination
+  data: SpuProductItem[]
+  btnDisabled?: boolean
+}
+const props = defineProps<TableProps>()
+
+interface Emits {
+  (e: 'update:pagination', value: any): void
+}
+const emits = defineEmits<Emits>()
+
 const handleTableSpuPlus = () => {}
 
 const spuTableColumn: TableColumn[] = [
@@ -51,13 +68,13 @@ const spuTableColumn: TableColumn[] = [
     align: 'center',
   },
   {
-    prop: 'attrName',
+    prop: 'spuName',
     label: 'SPU名称',
     // width: '120',
   },
   {
     label: 'SPU描述',
-    slot: 'attrValueName',
+    slot: 'description',
   },
   {
     label: '操作',
@@ -66,14 +83,13 @@ const spuTableColumn: TableColumn[] = [
   },
 ]
 
-const spuData = []
-spuData.push({})
+useVModel(props, 'pagination', emits)
+// watch(vModelPagination, (v) => {
+//   console.log('vModelPagination', v)
+// }, { deep: true })
 
-const pagination = ref({
-  currentPage: 1,
-  pageSize: 5,
-  total: 0,
-})
+// const spuData: TableColumn[] = []
+// spuData.push({} as TableColumn)
 </script>
 <style scoped lang="scss">
 .pagination {

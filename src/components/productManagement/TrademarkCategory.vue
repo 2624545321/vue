@@ -71,7 +71,7 @@ const comTest = computed({
     return props.test
   },
   set(v) {
-    console.log(v)
+    // console.log(v)
     emits('update:test', v)
   },
 })

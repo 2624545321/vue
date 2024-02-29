@@ -1,7 +1,8 @@
 export type TableColumn = {
   type?: string
   label: string
-  prop: string
+  prop?: string
+  slot?: string
   minWidth?: string | number
   width?: string | number
   className?: string

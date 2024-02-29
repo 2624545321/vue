@@ -6,6 +6,8 @@ const cacheMap = new Map()
  * @param { any } props
  * @param { string } propName
  * @param { any } emits
+ *
+ * @return { proxy } 代理后的props
  */
 export default (props: any, propName: string, emits: any) =>
   computed({
