@@ -153,6 +153,14 @@ export const constantRouer: RouteList = [
     ],
   },
   {
+    path: '/themeSwitch',
+    name: 'themeSwitch',
+    component: () => import('@/views/themeSwitch/ThemeSwitch.vue'),
+    meta: {
+      permission: false,
+    },
+  },
+  {
     path: '/404',
     component: () => import('@/views/404/404.vue'),
     meta: {

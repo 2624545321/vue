@@ -20,6 +20,12 @@ const cp = new CustomProgress()
 router.beforeEach(async (to, _from, next) => {
   // debugger
   cp.start()
+  /* 是否需要权限，默认需要，不需要直接走 */
+  const meta = to.meta || {}
+  if (meta.hasOwnProperty('permission') && !meta.permission) {
+    next()
+    return
+  }
   // next()
   // return
   const userStore = useUserStore()
