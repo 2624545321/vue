@@ -1,10 +1,10 @@
 <template>
-  <div class="mt-4">
+  <div class="theme-switch pt-4">
     主题切换
     <el-radio-group v-model="theme" class="ml-4">
       <el-radio-button label="light" value="light" />
       <el-radio-button label="dark" value="dark" />
-      <el-radio-button label="follow os" value="os" />
+      <el-radio-button label="followOs" value="followOs" />
     </el-radio-group>
 
     <ul>
@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue'
 const cacheKey = 'gry_pageTheme'
-type Theme = 'light' | 'dark' | 'os'
+type Theme = 'light' | 'dark' | 'followOs'
 const theme = ref<Theme>(
   (window.localStorage.getItem(cacheKey) as Theme) || 'light',
 )
@@ -39,7 +39,7 @@ const followOs = () => {
 }
 
 watchEffect(() => {
-  if (theme.value === 'os') {
+  if (theme.value === 'followOs') {
     followOs()
     matchOs.addEventListener('change', followOs)
   } else {
@@ -50,10 +50,14 @@ watchEffect(() => {
 })
 </script>
 <style scoped lang="scss">
+.theme-switch {
+  color: var(--text-color);
+  height: 100vh;
+  background-color: var(--main-bg);
+}
 ul {
   width: 500px;
   margin: auto;
-  color: var(--text-color);
   background-color: var(--text-bg);
 }
 </style>
