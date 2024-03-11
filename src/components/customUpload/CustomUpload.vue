@@ -1,13 +1,20 @@
 <template>
   <el-upload
     class="avatar-uploader"
+    :list-type="listType"
     :action="props.action"
+    v-model:file-list="props.customFileList"
     :show-file-list="props.showFileList"
     :on-success="handleUploadSuccess"
     :before-upload="beforeUpload"
   >
-    <img v-if="value" :src="value" class="avatar" />
-    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    <template v-if="listType !== 'picture-card'">
+      <img v-if="value" :src="value" class="avatar" />
+      <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    </template>
+    <template v-else>
+      <el-icon><Plus /></el-icon>
+    </template>
   </el-upload>
 </template>
 <script lang="ts" setup>
@@ -21,9 +28,17 @@ const props = withDefaults(defineProps<CustomUploadProps>(), {
   action: '',
   showFileList: false,
   modelValue: '',
+  listType: 'text',
+  customFileList: () => []
 })
 
-const emits = defineEmits(['update:modelValue'])
+interface Emits<T> {
+  (e: 'update:modelValue', value: T): () => void
+  (e: 'update:customFileList', value: T): () => void
+}
+const emits = defineEmits<Emits<any>>()
+// const emitFileList = useVModel(props, 'fileList', emits)
+// emitFileList
 
 const value = computed({
   get() {
@@ -55,7 +70,21 @@ const handleUploadSuccess: UploadProps['onSuccess'] = (
   // console.log('response', response)
   console.log('uploadFile', uploadFile)
   if (!response.data) return ElMessage.error('unknow error!')
-  emits('update:modelValue', response.data || '')
+  switch (props.listType) {
+    case 'text':
+      emits('update:modelValue', response.data || '')
+      break
+    case 'picture-card':
+      console.log('customFileList')
+      const l = props.customFileList || []
+      l.push(response.data || '')
+      emits('update:customFileList', l)
+      break
+    case 'picture':
+      break
+    default:
+      console.warn('an unexpected mistake')
+  }
 }
 
 onUnmounted(() => {
