@@ -5,6 +5,6 @@ export interface CustomUploadProps {
   action: string
   showFileList?: boolean
   modelValue?: string
-  listType?: 'text'| 'picture' | 'picture-card',
+  listType?: 'text' | 'picture' | 'picture-card'
   customFileList?: string[]
 }

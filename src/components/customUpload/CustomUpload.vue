@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<CustomUploadProps>(), {
   showFileList: false,
   modelValue: '',
   listType: 'text',
-  customFileList: () => []
+  customFileList: () => [],
 })
 
 interface Emits<T> {

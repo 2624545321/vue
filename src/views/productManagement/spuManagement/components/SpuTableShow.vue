@@ -8,16 +8,26 @@
     >
       添加SPU
     </el-button>
-    <custom-ele-table class="mt-4" :data="data" :table-column="spuTableColumn">
+    <custom-ele-table
+      class="mt-4"
+      height="55vh"
+      :data="data"
+      :table-column="spuTableColumn"
+    >
       <template #operation>
         <el-tooltip content="添加SKU">
           <el-button icon="Plus" size="small" type="primary"></el-button>
         </el-tooltip>
         <el-tooltip content="编辑SPU">
-          <el-button icon="Edit" size="small" type="warning"></el-button>
+          <el-button
+            icon="Edit"
+            size="small"
+            type="warning"
+            @click="handleTableSpuPlus"
+          ></el-button>
         </el-tooltip>
         <el-tooltip content="查看列表">
-          <el-button icon="InfoFilled" size="small" type="info"></el-button>
+          <el-button icon="View" size="small" type="default"></el-button>
         </el-tooltip>
         <el-tooltip content="删除SPU">
           <el-button icon="Delete" size="small" type="danger"></el-button>
@@ -55,10 +65,13 @@ const props = defineProps<TableProps>()
 
 interface Emits {
   (e: 'update:pagination', value: any): void
+  (e: 'spuPlusOrEdit', value: any): void
 }
 const emits = defineEmits<Emits>()
 
-const handleTableSpuPlus = () => {}
+const handleTableSpuPlus = () => {
+  emits('spuPlusOrEdit', 'plus')
+}
 
 const spuTableColumn: TableColumn[] = [
   {
@@ -74,7 +87,8 @@ const spuTableColumn: TableColumn[] = [
   },
   {
     label: 'SPU描述',
-    slot: 'description',
+    // slot: 'description',
+    prop: 'description',
   },
   {
     label: '操作',

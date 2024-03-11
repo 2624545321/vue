@@ -10,10 +10,15 @@
         v-show="scene === 'tableShow'"
         v-model:pagination="tableShowPagination"
         :data="tableShowData"
-        :btn-disabled="Boolean(cateProps.cateValue.threeLevel)"
+        :btn-disabled="Boolean(!cateProps.cateValue.threeLevel)"
+        @spuPlusOrEdit="handleSpuPlusOrEdit"
       ></spu-table-show>
 
-      <spu-table-plus v-show="scene === 'tablePlus'"></spu-table-plus>
+      <spu-plus-or-edit
+        v-show="scene === 'spuPlusOrEdit'"
+        @cancel="handleSpuPlusOrEditCancel"
+      ></spu-plus-or-edit>
+      <sku-plus-or-edit v-show="scene === 'skuPlusOrEdit'"></sku-plus-or-edit>
     </el-card>
   </div>
 </template>
@@ -21,7 +26,8 @@
 <script lang="ts" setup>
 import AttrCategory from '@/components/productManagement/TrademarkCategory.vue'
 import SpuTableShow from './components/SpuTableShow.vue'
-import SpuTablePlus from './components/SpuTablePlus.vue'
+import SpuPlusOrEdit from './components/SpuPlusOrEdit.vue'
+import SkuPlusOrEdit from './components/SkuPlusOrEdit.vue'
 import { ref, reactive, watch, computed } from 'vue'
 // type
 import type { TrademarkCategoryProps } from '@/types/components/productManagement'
@@ -41,7 +47,10 @@ const cateProps = reactive<TrademarkCategoryProps>({
   disabled: false,
 })
 
-const scene = ref<'tableShow' | 'tablePlus'>('tableShow')
+type Scene = 'tableShow' | 'spuPlusOrEdit' | 'skuPlusOrEdit'
+const scene = ref<Scene>('tableShow')
+
+const setScene = (s: Scene) => (scene.value = s)
 
 // tableShow 相关数据 | 逻辑
 const tableShowData = ref<SpuProductItem[]>([])
@@ -68,7 +77,7 @@ const getTableData = async (
   pagination: ReqPagination,
 ) => {
   const res = await getSpuProductList(params, pagination)
-  console.log(res)
+  // console.log(res)
   if (res.code !== 200) {
     tableShowData.value = []
     tableShowPagination.total = 0
@@ -80,18 +89,26 @@ const getTableData = async (
 }
 
 watch(
-  () => cateProps.cateValue.threeLevel,
+  [
+    () => cateProps.cateValue.threeLevel,
+    () => tableShowPagination.currentPage,
+    () => tableShowPagination.pageSize,
+  ],
   () => {
     getTableData(comTableShowParams.value, comTsPagination.value)
   },
 )
-watch(
-  () => tableShowPagination,
-  () => {
-    getTableData(comTableShowParams.value, comTsPagination.value)
-  },
-  { deep: true },
-)
+
+// SpuPlusOrEditCancel
+const handleSpuPlusOrEdit = (e) => {
+  console.log('handleSpuPlusOrEdit', e)
+  setScene('spuPlusOrEdit')
+}
+
+const handleSpuPlusOrEditCancel = () => {
+  console.log('handleSpuPlusOrEditCancel')
+  setScene('tableShow')
+}
 </script>
 
 <style lang="scss" scoped></style>
