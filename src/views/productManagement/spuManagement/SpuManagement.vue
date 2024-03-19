@@ -16,19 +16,24 @@
 
       <spu-plus-or-edit
         v-show="scene === 'spuPlusOrEdit'"
+        :request-key="spuEditKey"
+        :edit-item-id="spuEditId"
         @cancel="handleSpuPlusOrEditCancel"
       ></spu-plus-or-edit>
+
       <sku-plus-or-edit v-show="scene === 'skuPlusOrEdit'"></sku-plus-or-edit>
     </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, reactive, watch, computed } from 'vue'
+// public
 import AttrCategory from '@/components/productManagement/TrademarkCategory.vue'
+// 子组件
 import SpuTableShow from './components/SpuTableShow.vue'
 import SpuPlusOrEdit from './components/SpuPlusOrEdit.vue'
 import SkuPlusOrEdit from './components/SkuPlusOrEdit.vue'
-import { ref, reactive, watch, computed } from 'vue'
 // type
 import type { TrademarkCategoryProps } from '@/types/components/productManagement'
 import type {
@@ -47,12 +52,22 @@ const cateProps = reactive<TrademarkCategoryProps>({
   disabled: false,
 })
 
+// const enum SCENE {
+//   a = 'tableShow',
+//   b = 'spuPlusOrEdit',
+//   c = 'skuPlusOrEdit'
+// }
+
 type Scene = 'tableShow' | 'spuPlusOrEdit' | 'skuPlusOrEdit'
 const scene = ref<Scene>('tableShow')
+// const scene = ref<SCENE>(SCENE.a)
 
 const setScene = (s: Scene) => (scene.value = s)
 
-// tableShow 相关数据 | 逻辑
+const spuEditKey = ref<number>(-1)
+const spuEditId = ref<number>(-1)
+
+/* *** tableShow 相关数据 | 逻辑 *** */
 const tableShowData = ref<SpuProductItem[]>([])
 const comTableShowParams = computed(() => {
   return {
@@ -99,14 +114,16 @@ watch(
   },
 )
 
-// SpuPlusOrEditCancel
-const handleSpuPlusOrEdit = (e) => {
-  console.log('handleSpuPlusOrEdit', e)
+/* spu详情 展示 | 编辑逻辑 */
+const handleSpuPlusOrEdit = (action: string, row: SpuProductItem) => {
+  // console.log('handleSpuPlusOrEdit', action, row)
+  spuEditKey.value = new Date().getTime()
+  spuEditId.value = row.id
   setScene('spuPlusOrEdit')
 }
 
 const handleSpuPlusOrEditCancel = () => {
-  console.log('handleSpuPlusOrEditCancel')
+  // console.log('handleSpuPlusOrEditCancel')
   setScene('tableShow')
 }
 </script>

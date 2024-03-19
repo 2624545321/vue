@@ -4,6 +4,7 @@ export type SpuProductListReqestParams = {
   category3Id: number | string
 }
 
+/* 列表相关 */
 export type SpuProductItem = {
   id: number
   createTime: string
@@ -31,4 +32,51 @@ export interface SpuProductListResponseData extends ResponseData {
     searchCount: boolean
     pages: boolean
   }
+}
+
+/* spu info */
+
+type BaseItem = {
+  id?: number
+  createTime: string
+  updateTime: string
+  spuId: number
+}
+
+// 销售属性
+export type SpuSaleAttrItem = BaseItem & {
+  baseSaleAttrId: number
+  saleAttrValueName: string
+  saleAttrName: string
+  isChecked: null
+}
+
+// 图片数据
+export type SpuImageItem = BaseItem & {
+  imgName: string
+  imgUrl: string
+}
+
+/* 某个spu的信息 */
+type b = Omit<BaseItem, 'spuId'>
+export type spuItem = b & {
+  spuName: string
+  description: string
+  category3Id?: number
+  tmId: number
+  spuSaleAttrValueList: SpuSaleAttrItem[]
+  spuImageList: SpuImageItem[]
+  spuPosterList: SpuImageItem[]
+}
+
+export interface SpuInfoResData extends ResponseData {
+  data: spuItem
+}
+
+/* 销售属性 */
+export type BaseSaleAttrItem = b & {
+  name: string
+}
+export interface BaseSaleAttrListResData extends ResponseData {
+  data: BaseSaleAttrItem[]
 }

@@ -14,7 +14,7 @@
       :data="data"
       :table-column="spuTableColumn"
     >
-      <template #operation>
+      <template #operation="{ row }">
         <el-tooltip content="添加SKU">
           <el-button icon="Plus" size="small" type="primary"></el-button>
         </el-tooltip>
@@ -23,7 +23,7 @@
             icon="Edit"
             size="small"
             type="warning"
-            @click="handleTableSpuPlus"
+            @click="handleTableSpuPlus(row)"
           ></el-button>
         </el-tooltip>
         <el-tooltip content="查看列表">
@@ -65,12 +65,12 @@ const props = defineProps<TableProps>()
 
 interface Emits {
   (e: 'update:pagination', value: any): void
-  (e: 'spuPlusOrEdit', value: any): void
+  (e: 'spuPlusOrEdit', action: string, info: SpuProductItem): void
 }
 const emits = defineEmits<Emits>()
 
-const handleTableSpuPlus = () => {
-  emits('spuPlusOrEdit', 'plus')
+const handleTableSpuPlus = (row: SpuProductItem) => {
+  emits('spuPlusOrEdit', 'plus', row)
 }
 
 const spuTableColumn: TableColumn[] = [
