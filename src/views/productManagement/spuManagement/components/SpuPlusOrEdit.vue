@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-form label-width="100" label-position="left" :model="form">
       <el-form-item label="SPU名称">
         <el-input v-model="form.spuName" placeholder="请输入" />
@@ -91,6 +91,8 @@ interface Emits {
 }
 const emits = defineEmits<Emits>()
 
+const loading = ref<boolean>(false)
+
 const createForm = (): SpuPlusOrEditForm => ({
   id: -1,
   createTime: '',
@@ -146,6 +148,7 @@ const setImageList = (list: SpuImageItem[]) => {
 
 // todo: 看一下老师怎么回显图片列表
 const getSpuItemDetail = async (id: number) => {
+  loading.value = true
   const res_info = await getSpuInfoById(id)
   const res_sale = await baseSaleAttrList()
   const res_trademark = await getBaseTrademarkList()
@@ -171,6 +174,7 @@ const getSpuItemDetail = async (id: number) => {
   // console.log('info', res_info)
   // console.log('res_sale', res_sale)
   // console.log('res_trademark', res_trademark)
+  loading.value = false
 }
 
 watchEffect(() => {

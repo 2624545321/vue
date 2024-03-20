@@ -9,6 +9,7 @@
       <spu-table-show
         v-show="scene === 'tableShow'"
         v-model:pagination="tableShowPagination"
+        :loading="tableShowLoading"
         :data="tableShowData"
         :btn-disabled="Boolean(!cateProps.cateValue.threeLevel)"
         @spuPlusOrEdit="handleSpuPlusOrEdit"
@@ -68,6 +69,7 @@ const spuEditKey = ref<number>(-1)
 const spuEditId = ref<number>(-1)
 
 /* *** tableShow 相关数据 | 逻辑 *** */
+const tableShowLoading = ref(false)
 const tableShowData = ref<SpuProductItem[]>([])
 const comTableShowParams = computed(() => {
   return {
@@ -91,16 +93,19 @@ const getTableData = async (
   params: SpuProductListReqestParams,
   pagination: ReqPagination,
 ) => {
+  tableShowLoading.value = true
   const res = await getSpuProductList(params, pagination)
   // console.log(res)
   if (res.code !== 200) {
     tableShowData.value = []
     tableShowPagination.total = 0
+    tableShowLoading.value = false
     return
   }
   const records = res.data.records || []
   tableShowData.value = records
   tableShowPagination.total = res.data.total
+  tableShowLoading.value = false
 }
 
 watch(

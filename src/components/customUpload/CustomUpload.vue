@@ -7,6 +7,7 @@
     :show-file-list="props.showFileList"
     :on-success="handleUploadSuccess"
     :before-upload="beforeUpload"
+    :on-remove="handleRemove"
   >
     <template v-if="listType !== 'picture-card'">
       <img v-if="value" :src="value" class="avatar" />
@@ -18,9 +19,10 @@
   </el-upload>
 </template>
 <script lang="ts" setup>
-import { computed, onUnmounted } from 'vue'
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
-import type { UploadProps } from 'element-plus'
+// type
+import type { UploadFile, UploadProps } from 'element-plus'
 import type { CustomUploadProps } from '@/types/components/customUpload'
 import type { ResponseData } from '@/types/config/request'
 
@@ -67,17 +69,22 @@ const handleUploadSuccess: UploadProps['onSuccess'] = (
   response: ResponseData,
   uploadFile,
 ) => {
-  // console.log('response', response)
+  console.log('response', response)
   console.log('uploadFile', uploadFile)
   if (!response.data) return ElMessage.error('unknow error!')
+
   switch (props.listType) {
     case 'text':
       emits('update:modelValue', response.data || '')
       break
     case 'picture-card':
-      console.log('customFileList')
       const l = props.customFileList || []
-      l.push(response.data || '')
+      l.push({
+        url: response.data || '',
+        name: uploadFile.name,
+        uid: uploadFile.uid,
+        status: uploadFile.status,
+      })
       emits('update:customFileList', l)
       break
     case 'picture':
@@ -87,9 +94,27 @@ const handleUploadSuccess: UploadProps['onSuccess'] = (
   }
 }
 
-onUnmounted(() => {
-  console.log('onUnmounted')
-})
+const handleRemove = (uploadFile: UploadFile) => {
+  // console.log('uploadFile', uploadFile)
+  // console.log('uploadFiles', uploadFiles)
+  switch (props.listType) {
+    case 'text':
+      // emits('update:modelValue', response.data || '')
+      break
+    case 'picture-card':
+      const l = props.customFileList.filter((c) => c.uid !== uploadFile.uid)
+      emits('update:customFileList', l)
+      break
+    case 'picture':
+      break
+    default:
+      console.warn('an unexpected mistake')
+  }
+}
+
+// onUnmounted(() => {
+//   console.log('onUnmounted')
+// })
 </script>
 <style scoped lang="scss">
 .avatar-uploader {

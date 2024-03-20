@@ -11,6 +11,7 @@
     <custom-ele-table
       class="mt-4"
       height="55vh"
+      v-loading="loading"
       :data="data"
       :table-column="spuTableColumn"
     >
@@ -60,6 +61,7 @@ interface TableProps {
   pagination: Pagination
   data: SpuProductItem[]
   btnDisabled?: boolean
+  loading?: boolean
 }
 const props = defineProps<TableProps>()
 
