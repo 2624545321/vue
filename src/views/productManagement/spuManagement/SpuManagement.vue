@@ -120,15 +120,18 @@ watch(
 )
 
 /* spu详情 展示 | 编辑逻辑 */
-const handleSpuPlusOrEdit = (action: string, row: SpuProductItem) => {
+const handleSpuPlusOrEdit = (_: string, row: SpuProductItem) => {
   // console.log('handleSpuPlusOrEdit', action, row)
   spuEditKey.value = new Date().getTime()
   spuEditId.value = row.id
   setScene('spuPlusOrEdit')
 }
 
-const handleSpuPlusOrEditCancel = () => {
+const handleSpuPlusOrEditCancel = (msg: string) => {
   // console.log('handleSpuPlusOrEditCancel')
+  if (msg === 'updateList') {
+    getTableData(comTableShowParams.value, comTsPagination.value)
+  }
   setScene('tableShow')
 }
 </script>

@@ -35,7 +35,6 @@ export interface SpuProductListResponseData extends ResponseData {
 }
 
 /* spu info */
-
 type BaseItem = {
   id?: number
   createTime: string
@@ -46,10 +45,13 @@ type BaseItem = {
 // 销售属性
 export type SpuSaleAttrItem = BaseItem & {
   baseSaleAttrId: number
-  saleAttrValueName: string
+  saleAttrValueName?: string
   saleAttrName: string
   isChecked: null
+  spuSaleAttrValueList: Omit<SpuSaleAttrItem, 'spuSaleAttrValueList'>[]
 }
+
+// type Sp = Omit<SpuSaleAttrItem, 'spuSaleAttrValueList'>
 
 // 图片数据
 export type SpuImageItem = BaseItem & {
@@ -64,7 +66,7 @@ export type spuItem = b & {
   description: string
   category3Id?: number
   tmId: number
-  spuSaleAttrValueList: SpuSaleAttrItem[]
+  spuSaleAttrList: SpuSaleAttrItem[]
   spuImageList: SpuImageItem[]
   spuPosterList: SpuImageItem[]
 }
