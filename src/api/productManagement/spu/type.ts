@@ -64,8 +64,8 @@ type b = Omit<BaseItem, 'spuId'>
 export type spuItem = b & {
   spuName: string
   description: string
-  category3Id?: number
-  tmId: number
+  category3Id?: number | string
+  tmId: number | string
   spuSaleAttrList: SpuSaleAttrItem[]
   spuImageList: SpuImageItem[]
   spuPosterList: SpuImageItem[]

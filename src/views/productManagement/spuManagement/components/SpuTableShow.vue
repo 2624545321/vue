@@ -2,7 +2,7 @@
   <div>
     <el-button
       :disabled="btnDisabled"
-      @click="handleTableSpuPlus"
+      @click="handleTableSpuPlusOrEdit('puls')"
       icon="plus"
       type="primary"
     >
@@ -24,7 +24,7 @@
             icon="Edit"
             size="small"
             type="warning"
-            @click="handleTableSpuPlus(row)"
+            @click="handleTableSpuPlusOrEdit('edit', row)"
           ></el-button>
         </el-tooltip>
         <el-tooltip content="查看列表">
@@ -67,12 +67,12 @@ const props = defineProps<TableProps>()
 
 interface Emits {
   (e: 'update:pagination', value: any): void
-  (e: 'spuPlusOrEdit', action: string, info: SpuProductItem): void
+  (e: 'spuPlusOrEdit', action: string, info?: SpuProductItem): void
 }
 const emits = defineEmits<Emits>()
 
-const handleTableSpuPlus = (row: SpuProductItem) => {
-  emits('spuPlusOrEdit', 'plus', row)
+const handleTableSpuPlusOrEdit = (action: string, row?: SpuProductItem) => {
+  emits('spuPlusOrEdit', action, row)
 }
 
 const spuTableColumn: TableColumn[] = [

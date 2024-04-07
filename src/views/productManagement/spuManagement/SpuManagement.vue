@@ -17,6 +17,7 @@
 
       <spu-plus-or-edit
         v-show="scene === 'spuPlusOrEdit'"
+        :category3-id="cateProps.cateValue.threeLevel"
         :request-key="spuEditKey"
         :edit-item-id="spuEditId"
         @cancel="handleSpuPlusOrEditCancel"
@@ -66,7 +67,7 @@ const scene = ref<Scene>('tableShow')
 const setScene = (s: Scene) => (scene.value = s)
 
 const spuEditKey = ref<number>(-1)
-const spuEditId = ref<number>(-1)
+const spuEditId = ref<number | string>(-1)
 
 /* *** tableShow 相关数据 | 逻辑 *** */
 const tableShowLoading = ref(false)
@@ -120,10 +121,10 @@ watch(
 )
 
 /* spu详情 展示 | 编辑逻辑 */
-const handleSpuPlusOrEdit = (_: string, row: SpuProductItem) => {
+const handleSpuPlusOrEdit = (_: string, row?: SpuProductItem) => {
   // console.log('handleSpuPlusOrEdit', action, row)
   spuEditKey.value = new Date().getTime()
-  spuEditId.value = row.id
+  spuEditId.value = row?.id || ''
   setScene('spuPlusOrEdit')
 }
 

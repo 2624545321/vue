@@ -121,7 +121,15 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watchEffect, computed } from 'vue'
+import {
+  ref,
+  reactive,
+  watchEffect,
+  computed,
+  onMounted,
+  unref,
+  toRaw,
+} from 'vue'
 import { ElMessage } from 'element-plus'
 import CustomUpload from '@/components/customUpload/CustomUpload.vue'
 import CustomEleTable from '@/components/customEleTable/CustomEleTable.vue'
@@ -148,8 +156,9 @@ import type { UnionOfArray } from '@/types/util'
 import { cloneDeep } from '@/utils'
 
 interface Props {
+  category3Id: number | string
   requestKey: number // 监听变化，变化时说明点击了编辑，请求数据
-  editItemId: number // 点击编辑的数据项的 id
+  editItemId: number | string // 点击编辑的数据项的 id
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -165,12 +174,12 @@ const emits = defineEmits<Emits>()
 const loading = ref<boolean>(false)
 
 const createForm = (): SpuPlusOrEditForm => ({
-  id: -1,
   createTime: '',
+  id: 0,
   updateTime: '',
   spuName: '',
   description: '',
-  tmId: -1,
+  tmId: '',
   spuSaleAttrList: [],
   spuImageList: [],
   spuPosterList: [],
@@ -215,18 +224,12 @@ const setImageList = (list: SpuImageItem[]) => {
   })
 }
 
-const getSpuItemDetail = async (id: number) => {
-  loading.value = true
-  const res_info = await getSpuInfoById(id)
+/**
+ * @desc 获取对应基本的信息（添加或者编辑都需要：品牌、销售属性）
+ */
+const getBaseInfo = async () => {
   const res_sale = await baseSaleAttrList()
   const res_trademark = await getBaseTrademarkList()
-
-  if (res_info.code === 200) {
-    form.value = res_info.data || createForm()
-    setImageList(form.value.spuImageList)
-  } else {
-    form.value = createForm()
-  }
 
   if (res_sale.code === 200) {
     saleAttrList.value = res_sale.data || []
@@ -239,14 +242,35 @@ const getSpuItemDetail = async (id: number) => {
   } else {
     trademarkList.value = []
   }
+}
+
+/**
+ * @desc 获取对应spu的详情（编辑时）
+ */
+const getSpuItemDetail = async (id: number | string) => {
+  loading.value = true
+  const res_info = await getSpuInfoById(id as number)
+
+  if (res_info.code === 200) {
+    form.value = res_info.data || createForm()
+    setImageList(form.value.spuImageList)
+  } else {
+    form.value = createForm()
+  }
+
   // console.log('info', res_info)
   // console.log('res_sale', res_sale)
   // console.log('res_trademark', res_trademark)
   loading.value = false
 }
 
+onMounted(() => {
+  getBaseInfo()
+})
+
 watchEffect(() => {
-  if (props.editItemId < 1 || props.requestKey < 1) return
+  // 都大于 1 才会 获取详情
+  if (Number(props.editItemId) < 1 || props.requestKey < 1) return
   getSpuItemDetail(props.editItemId)
 })
 
@@ -341,7 +365,19 @@ const handleFormSubmit = async () => {
     },
   )
 
-  const res = await addOrUpdateSpuInfo(form.value)
+  /* 添加时的逻辑
+  添加时缺少 category3Id
+  把 id 去掉
+  */
+  const params = toRaw(unref(form))
+  if (!params.category3Id) {
+    params.category3Id = props.category3Id
+  }
+  if (!params.id) {
+    Reflect.deleteProperty(params, 'id')
+  }
+
+  const res = await addOrUpdateSpuInfo(params)
   // console.log('save', res)
   if (res.code === 200) {
     ElMessage.success(res.message)
@@ -352,6 +388,8 @@ const handleFormSubmit = async () => {
 }
 
 const handleCancel = (msg: ClosedEditPageMsg) => {
+  form.value = createForm()
+  setImageList([])
   emits('cancel', msg)
 }
 </script>
