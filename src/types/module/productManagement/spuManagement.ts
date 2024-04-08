@@ -9,4 +9,9 @@ type Time = {
 }
 export type ShowSpuImageList = UploadUserFile & Partial<Time>
 
-export type ClosedEditPageMsg = 'updateList'
+const a = ['updateList', 'cancel'] as const
+export type ClosedEditPageMsg = (typeof a)[number]
+
+export interface Emits_Custom {
+  (e: 'cancel', v: ClosedEditPageMsg): void
+}

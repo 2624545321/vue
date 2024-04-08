@@ -1,6 +1,6 @@
 export type TableColumn = {
   type?: string
-  label: string
+  label?: string
   prop?: string
   slot?: string
   minWidth?: string | number

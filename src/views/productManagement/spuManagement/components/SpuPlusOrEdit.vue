@@ -145,6 +145,7 @@ import type {
   SpuPlusOrEditForm,
   ShowSpuImageList,
   ClosedEditPageMsg,
+  Emits_Custom,
 } from '@/types/module/productManagement/spuManagement'
 import type {
   BaseSaleAttrItem,
@@ -154,6 +155,8 @@ import type { TrademarkItem } from '@/api/baseTrademark/type'
 import type { UnionOfArray } from '@/types/util'
 // util
 import { cloneDeep } from '@/utils'
+// const
+import { createSpuForm } from './../const'
 
 interface Props {
   category3Id: number | string
@@ -166,24 +169,11 @@ const props = withDefaults(defineProps<Props>(), {
   editItemId: -1,
 })
 
-interface Emits {
-  (e: 'cancel', value: string): void
-}
-const emits = defineEmits<Emits>()
+const emits = defineEmits<Emits_Custom>()
 
 const loading = ref<boolean>(false)
 
-const createForm = (): SpuPlusOrEditForm => ({
-  createTime: '',
-  id: 0,
-  updateTime: '',
-  spuName: '',
-  description: '',
-  tmId: '',
-  spuSaleAttrList: [],
-  spuImageList: [],
-  spuPosterList: [],
-})
+const createForm = (): SpuPlusOrEditForm => createSpuForm
 // form 表单
 const form = ref<SpuPlusOrEditForm>(createForm())
 // 全部的品牌
