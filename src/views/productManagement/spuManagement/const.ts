@@ -1,7 +1,8 @@
 import type { TableColumn } from '@/types/components/customEleTable'
 // type
 import type { SpuPlusOrEditForm } from '@/types/module/productManagement/spuManagement'
-
+import type { SkuData } from '@/types'
+/* spu related */
 export const createSpuForm = (): SpuPlusOrEditForm => {
   return {
     createTime: '',
@@ -16,6 +17,22 @@ export const createSpuForm = (): SpuPlusOrEditForm => {
   }
 }
 
+/* sku relate */
+export const createSkuForm = (): SkuData => {
+  return {
+    category3Id: '',
+    spuId: '', //已有的SPU的ID
+    tmId: '', //SPU品牌的ID
+    skuName: '', //sku名字
+    price: '', //sku价格
+    weight: '', //sku重量
+    skuDesc: '', //sku的描述
+    skuAttrValueList: [],
+    skuSaleAttrValueList: [],
+    skuDefaultImg: '', //sku图片地址
+  }
+}
+
 export const createSkuTableColumn = (): TableColumn[] => {
   return [
     {
@@ -25,11 +42,12 @@ export const createSkuTableColumn = (): TableColumn[] => {
     },
     {
       label: '图片',
-      prop: 'saleAttrName',
+      // prop: 'imgUrl',
+      slot: 'imgUrl',
     },
     {
       label: '名称',
-      slot: 'saleAttrName',
+      prop: 'imgName',
     },
     {
       label: '操作',

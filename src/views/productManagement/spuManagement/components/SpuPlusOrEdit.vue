@@ -145,7 +145,8 @@ import type {
   SpuPlusOrEditForm,
   ShowSpuImageList,
   ClosedEditPageMsg,
-  Emits_Custom,
+  Custom_Emits,
+  Custom_Props,
 } from '@/types/module/productManagement/spuManagement'
 import type {
   BaseSaleAttrItem,
@@ -158,22 +159,16 @@ import { cloneDeep } from '@/utils'
 // const
 import { createSpuForm } from './../const'
 
-interface Props {
-  category3Id: number | string
-  requestKey: number // 监听变化，变化时说明点击了编辑，请求数据
-  editItemId: number | string // 点击编辑的数据项的 id
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Custom_Props>(), {
   requestKey: -1,
   editItemId: -1,
 })
 
-const emits = defineEmits<Emits_Custom>()
+const emits = defineEmits<Custom_Emits>()
 
 const loading = ref<boolean>(false)
 
-const createForm = (): SpuPlusOrEditForm => createSpuForm
+const createForm = createSpuForm
 // form 表单
 const form = ref<SpuPlusOrEditForm>(createForm())
 // 全部的品牌

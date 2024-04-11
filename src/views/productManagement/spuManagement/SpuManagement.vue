@@ -13,6 +13,7 @@
         :data="tableShowData"
         :btn-disabled="Boolean(!cateProps.cateValue.threeLevel)"
         @spuPlusOrEdit="handleSpuPlusOrEdit"
+        @skuPlusOrEdit="handleSkuPlusOrEdit"
       ></spu-table-show>
 
       <spu-plus-or-edit
@@ -23,7 +24,13 @@
         @cancel="handleSpuPlusOrEditCancel"
       ></spu-plus-or-edit>
 
-      <sku-plus-or-edit v-show="scene === 'skuPlusOrEdit'"></sku-plus-or-edit>
+      <sku-plus-or-edit
+        v-show="scene === 'skuPlusOrEdit'"
+        :request-key="skuEditKey"
+        :edit-item-id="skuEditId"
+        :cate-value="cateProps.cateValue"
+        @cancel="handleSpuPlusOrEditCancel"
+      ></sku-plus-or-edit>
     </el-card>
   </div>
 </template>
@@ -42,6 +49,7 @@ import type {
   SpuProductListReqestParams,
   SpuProductItem,
 } from '@/api/productManagement/spu/type'
+import type { Scene } from '@/types/module/productManagement/spuManagement'
 // request
 import { getSpuProductList } from '@/api/productManagement/spu'
 
@@ -54,20 +62,14 @@ const cateProps = reactive<TrademarkCategoryProps>({
   disabled: false,
 })
 
-// const enum SCENE {
-//   a = 'tableShow',
-//   b = 'spuPlusOrEdit',
-//   c = 'skuPlusOrEdit'
-// }
-
-type Scene = 'tableShow' | 'spuPlusOrEdit' | 'skuPlusOrEdit'
 const scene = ref<Scene>('tableShow')
-// const scene = ref<SCENE>(SCENE.a)
-
 const setScene = (s: Scene) => (scene.value = s)
 
 const spuEditKey = ref<number>(-1)
 const spuEditId = ref<number | string>(-1)
+
+const skuEditKey = ref<number>(-1)
+const skuEditId = ref<number | string>(-1)
 
 /* *** tableShow 相关数据 | 逻辑 *** */
 const tableShowLoading = ref(false)
@@ -128,6 +130,14 @@ const handleSpuPlusOrEdit = (_: string, row?: SpuProductItem) => {
   setScene('spuPlusOrEdit')
 }
 
+/* sku详情 展示 | 编辑逻辑 */
+const handleSkuPlusOrEdit = (_: string, row?: SpuProductItem) => {
+  skuEditKey.value = new Date().getTime()
+  skuEditId.value = row?.id || ''
+  setScene('skuPlusOrEdit')
+}
+
+/* spu | sku 的取消按钮 */
 const handleSpuPlusOrEditCancel = (msg: string) => {
   // console.log('handleSpuPlusOrEditCancel')
   if (msg === 'updateList') {
