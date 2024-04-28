@@ -1,0 +1,173 @@
+/* *** 自定义组件的公共样式 *** */
+@import './mixin.scss';
+/* 卡片 */
+.oo-card-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 日期 */
+.reveal-time {
+  margin-left: 40px;
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--main-color);
+  font-weight: 400;
+}
+
+.oo-card-item {
+  //   width: 280px;
+  width: 16%;
+  height: 1.425rem;
+  display: flex;
+  align-items: center;
+  //   justify-content: center;
+  // background: url('~@/assets/imgs/spreadOverview/overallOverview/card-bacc.png')
+  //   no-repeat center/100%;
+  border: 2px solid #f4f4f4;
+
+  .card-item-icon {
+    width: 0.8125rem;
+    flex-shrink: 0;
+    margin-left: 5%;
+    img {
+      display: block;
+      max-width: 100%;
+      margin: auto;
+    }
+  }
+  .card-item-info {
+    flex-grow: 1;
+    color: #434343;
+    margin-left: 5%;
+    span {
+      font-weight: 700;
+    }
+    p {
+      margin-top: 0.175rem;
+      color: #707070;
+      font-weight: 400;
+    }
+  }
+}
+// .oo-card-item:nth-of-type(n + 4) {
+//   background: url('~@/assets/imgs/spreadOverview/overallOverview/card-bacc2.png')
+//     no-repeat center/100%;
+// }
+
+/* 稿件传播排行 */
+.ml-serial {
+  // padding: 0px 1px 0 4px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  text-align: center;
+  line-height: 20px;
+  color: #fff;
+  font-style: normal;
+  border-radius: 4px;
+  background-color: #f3a716;
+  &.ml-serial-01 {
+    background-color: #cc3c2f;
+  }
+  &.ml-serial-02 {
+    background-color: #8c93c5;
+  }
+  &.ml-serial-03 {
+    background-color: #4ebb00;
+  }
+  &.ml-serial-04 {
+    background-color: #4486c4;
+  }
+}
+
+// 分页
+.custom-pagination {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// 详情
+.common-detail {
+  height: 100%;
+  overflow: auto;
+  @include scrollBar;
+}
+
+.common-detail__main {
+  padding: 0 20px 20px 20px;
+}
+
+// 转载媒体地域分布列表
+.distribute-list {
+  padding: 0px 0.25rem;
+  // margin-top: 15px;
+  li {
+    height: 46px;
+    line-height: 46px;
+    font-size: 16px;
+    border-bottom: 1px solid #eef1f3;
+    text-align: left;
+    padding: 0 5px;
+    &:nth-of-type(n + 4) .ml-serial {
+      color: #7e6b5a;
+      background-color: rgba(0, 0, 0, 0);
+    }
+    .ml-serial {
+      margin-right: 10px;
+    }
+    .last-num {
+      float: right;
+      color: var(--main-color);
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+}
+
+/* 垂直滚动柱形图 */
+.verticalbar-item {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  margin-top: 30px;
+  &:nth-of-type(n + 4) .ml-serial {
+    color: #7e6b5a;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .verticalbar-label {
+    width: 115px;
+    flex-shrink: 0;
+    font-size: 16px;
+    color: #6b6b6b;
+  }
+  .verticalbar-bar {
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 16px;
+    position: relative;
+    background-color: #eee;
+    border-radius: 2px;
+    overflow: hidden;
+    // cursor: pointer;
+    .bar-inner {
+      width: 0;
+      height: 100%;
+      border-radius: 2px;
+    }
+  }
+  .verticalbar-count {
+    width: 45px;
+    flex-shrink: 0;
+    font-size: 16px;
+    color: #6b6b6b;
+    text-align: right;
+  }
+}
+
+.no-seamless > div > div:nth-of-type(2) {
+  visibility: hidden;
+}

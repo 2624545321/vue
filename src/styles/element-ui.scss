@@ -1,0 +1,297 @@
+/* 改变主题色变量 */
+$--color-primary: #ce3e31;
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import '~element-ui/packages/theme-chalk/src/index';
+@import '~@/styles/mixin.scss';
+// cover some element-ui styles
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type='file'] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block;
+  }
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+// date picker
+.customStyle__ele-data-pciker {
+  &.el-date-editor {
+    width: 250px;
+    height: 0.45rem;
+    line-height: 0.45rem;
+    .el-range__icon,
+    .el-range-separator {
+      line-height: 0.375rem;
+    }
+  }
+}
+
+// .el-range-editor--small .el-range-input {
+//   font-size: .1625rem;
+// }
+
+// table custom style
+.customStyle-ele__table {
+  &.el-table {
+    color: #000;
+    // font-size: 0.175rem;
+    // font-size: 14px;
+    .el-table__body-wrapper {
+      border: 1px solid #e2e2e3;
+      @include scrollBar;
+    }
+    thead {
+      // font-size: 0.2rem;
+      // font-size: 16px;
+      // font-weight: 500;
+      color: #707070;
+    }
+    th > .cell {
+      font-weight: normal;
+    }
+    // td,
+    // th {
+    //   padding: 0.175rem 0;
+    // }
+    .cell {
+      padding-left: 0;
+      padding-right: 0;
+      .manuscript-title {
+        font-size: 14px !important;
+      }
+    }
+  }
+
+  &.no-border {
+    .el-table__body-wrapper {
+      border: none;
+    }
+  }
+
+  // &.el-table--striped .el-table__body tr.el-table__row--striped td {
+  //   background-color: #fafafa;
+  // }
+}
+
+.customStyle-ele__table-list {
+  &.el-table {
+    thead {
+      color: #000;
+    }
+    th > .cell {
+      font-weight: 700;
+    }
+    .el-table__title {
+      .cell {
+        padding-left: 0.125rem;
+        padding-right: 0.125rem;
+        // .manuscript-title {
+        //   font-size: 0.175rem;
+        // }
+      }
+    }
+  }
+}
+
+.customStyle-ele__table-sort {
+  th > .cell {
+    height: 46px;
+  }
+  .caret-wrapper {
+    display: flex;
+    margin: auto;
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.statistics__table {
+  th.el-table__cell.is-leaf,
+  .el-table td.el-table__cell {
+    color: var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+    font-size: 16px;
+  }
+}
+
+// el-menu
+.el-menu-item:focus {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+// form
+.customStyle-ele__from.el-form--inline {
+  line-height: 0;
+  .el-radio-group {
+    vertical-align: top;
+  }
+  .el-form-item {
+    margin-right: 0px;
+  }
+  .el-form-item--small.el-form-item {
+    margin-bottom: 0;
+    // .el-form-item__content {
+    //   line-height: .375rem;
+    // }
+  }
+  // .el-input__inner {
+  // width: 2.5rem;
+  // width: 2.25rem;
+  // height: 0.4rem;
+  // line-height: 0.4rem;
+  // }
+  .el-range-editor.el-input__inner {
+    // width: 3rem;
+    // width: 2.5rem;
+    width: 240px;
+  }
+  .el-form-item__content > .tas-custom-btn {
+    // padding: 0.0875rem 0.4rem;
+    padding: 7px 0.4rem;
+  }
+  .el-button--small {
+    padding: 0.1rem 0.4rem;
+  }
+  // .el-range-editor--small {
+  //   .el-range__icon,
+  //   .el-range__close-icon {
+  //     line-height: 0.25rem;
+  //   }
+  //   .el-range-separator {
+  //     line-height: 0.25rem;
+  //   }
+  // }
+}
+
+// pagination
+.el-pagination {
+  .btn-next,
+  .btn-prev {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+.flbtn,
+.el-pagination .btn-prev,
+.el-pagination .btn-next,
+.el-pager li,
+.el-pager li.btn-quicknext,
+.el-pager li.btn-quickprev {
+  min-width: 26px;
+  height: 26px;
+  // padding: 0 6px;
+  margin-left: 10px;
+  line-height: 26px;
+  color: #959595;
+  font-weight: normal;
+  border: 1px solid #bebebe;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+.el-pagination__editor,
+.el-pagination__sizes .el-input--mini .el-input__icon,
+.el-pagination__sizes .el-select .el-input__inner,
+.el-pagination__editor.el-input .el-input__inner,
+.el-pagination span:not([class*='suffix']),
+.el-pagination button,
+.el-pager .more::before {
+  height: 26px;
+  line-height: 26px;
+  color: #959595;
+  // margin: 0;
+}
+.el-pager li.active + li:hover,
+.el-pager li:hover {
+  color: rgba(234, 79, 61, 1);
+  border-color: currentColor;
+  background-color: rgba(234, 79, 61, 0.1);
+}
+.el-pager li.active + li {
+  border-left: 1px solid #bebebe;
+}
+.el-pager li.active {
+  background-color: var(--main-color);
+  color: #fff;
+  border-color: transparent;
+}
+
+// el-tabs
+.el-tabs__item {
+  font-size: 16px;
+}
+
+// el-message
+.el-message {
+  font-size: 16px;
+}
+
+// el-tooltip
+.tooltip-abstract {
+  max-width: 70vw;
+  max-height: 400px;
+  font-size: 15px;
+  overflow: auto;
+  @include scrollBar;
+}
+
+// .el-popover
+.custom-popover {
+  // padding: 20px;
+  .el-popover__title {
+    padding-top: 0.1rem;
+    color: var(--main-color);
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  // form
+  .customStyle-ele__from.el-form--inline {
+    .el-button--small {
+      transform: translateY(-2px);
+    }
+  }
+}

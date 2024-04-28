@@ -1,0 +1,176 @@
+:root {
+  --main-color: #ce3e31;
+  --main-border-radius: 3px;
+  --main-border-color: #f4e2e1;
+}
+
+.mt-20 {
+  margin-top: 0.25rem;
+}
+// font-size
+.fs-12 {
+  font-size: 12px;
+}
+.fs-14 {
+  // font-size: 0.175rem !important;
+  font-size: 14px !important;
+}
+.fs-14-static {
+  font-size: 14px !important;
+}
+.fs-16 {
+  // font-size: 0.2rem;
+  font-size: 16px;
+}
+.fs-18 {
+  // font-size: 0.225rem;
+  font-size: 18px;
+}
+.fs-20 {
+  // font-size: .25rem;
+  font-size: 20px;
+}
+.fs-22 {
+  // font-size: .275rem;
+  font-size: 22px;
+}
+.fs-24 {
+  // font-size: .3rem;
+  font-size: 24px;
+}
+.fs-26 {
+  // font-size: .325rem;
+  font-size: 26px;
+}
+.fs-30 {
+  // font-size: .375rem;
+  font-size: 30px;
+}
+.fs-45 {
+  // font-size: .5625rem;
+  font-size: 45px;
+}
+.fs-60 {
+  // font-size: .75rem;
+  font-size: 60px;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.relative {
+  position: relative;
+}
+
+// text overflow hidden
+.f-oh1 {
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.f-oh--none {
+  overflow: auto !important;
+  -webkit-line-clamp: initial !important;
+  text-overflow: initial !important;
+  display: block !important;
+  white-space: initial !important;
+  -webkit-box-orient: initial !important;
+}
+
+.f-oh2 {
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.f-oh3 {
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.list-height {
+  // height: calc(100vh - 50px);
+  height: 100%;
+  overflow: auto;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.spread-shadow {
+  box-shadow: 0 0 6px 2px #ececec;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.default {
+  cursor: default !important;
+}
+
+.pointer-none {
+  pointer-events: none !important;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.height-full {
+  height: 100%;
+}
+
+@media screen and (max-width: 1560px) {
+  /* .fs-12 {
+    font-size: 12px;
+  }
+  .fs-14 {
+    font-size: 12px !important;
+  }
+  .fs-16 {
+    font-size: 14px;
+  }
+  .fs-18 {
+    font-size: 16px;
+  }
+  .fs-20 {
+    font-size: 18px;
+  }
+  .fs-22 {
+    font-size: 20px;
+  }
+  .fs-24 {
+    font-size: 22px;
+  }
+  .fs-26 {
+    font-size: 24px;
+  } */
+  // .fs-30 { // 标题，先不变小
+  //   font-size: 26px;
+  // }
+  /* .fs-45 {
+    font-size: 40px;
+  }
+  .fs-60 {
+    font-size: 50px;
+  } */
+}

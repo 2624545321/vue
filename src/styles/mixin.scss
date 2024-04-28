@@ -1,0 +1,36 @@
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar-track-piece {
+    background: #fff;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    // background: rgba(206, 62, 49, 0.4);
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+  }
+}
+
+@mixin scrollView {
+  height: calc(100% - 56px);
+  overflow-y: auto;
+  @include scrollBar;
+}
+
+@mixin relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
