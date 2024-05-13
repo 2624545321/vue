@@ -4,7 +4,6 @@ export interface SkuAttrValueItem {
   attrId: number | string //平台属性的ID
   valueId: number | string //属性值的ID
 }
-
 export interface SkuSaleAttrValueItem {
   saleAttrId: number | string //属性ID
   saleAttrValueId: number | string //属性值的ID

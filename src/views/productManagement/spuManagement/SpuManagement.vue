@@ -122,7 +122,7 @@ watch(
   },
 )
 
-/* spu详情 展示 | 编辑逻辑 */
+/* spu详情 添加 | 编辑逻辑 */
 const handleSpuPlusOrEdit = (_: string, row?: SpuProductItem) => {
   // console.log('handleSpuPlusOrEdit', action, row)
   spuEditKey.value = new Date().getTime()
@@ -130,7 +130,7 @@ const handleSpuPlusOrEdit = (_: string, row?: SpuProductItem) => {
   setScene('spuPlusOrEdit')
 }
 
-/* sku详情 展示 | 编辑逻辑 */
+/* sku详情 添加 | 编辑逻辑 */
 const handleSkuPlusOrEdit = (_: string, row?: SpuProductItem) => {
   skuEditKey.value = new Date().getTime()
   skuEditId.value = row?.id || ''

@@ -95,7 +95,8 @@ import type {
 import type { AttrItem } from '@/api/productManagement/attr/type'
 // request
 import { getSpuInfoById } from '@/api/productManagement/spu'
-import { attrInfoList } from '@/api/productManagement/attr'
+// hooks
+import { useAttrInfoList } from '@/hooks/modue/useProductManagement'
 
 const props = withDefaults(defineProps<Custom_Props>(), {
   requestKey: -1,
@@ -110,7 +111,7 @@ const spuInfo = ref(createSpuForm())
 const form = ref(createSkuForm())
 
 // 平台 属性
-const platformAttr = ref<AttrItem[]>([])
+let platformAttr = ref<AttrItem[]>([])
 
 // 图片
 const tableColumn = createSkuTableColumn()
@@ -122,7 +123,7 @@ const handleCancel = (msg: ClosedEditPageMsg) => {
 }
 
 /**
- * @desc 获取对应 sku 相关数据
+ * @desc 页面显示时 获取对应 sku 相关数据
  */
 const getSpuItemDetail = async (
   spuId: number | string,
@@ -138,18 +139,12 @@ const getSpuItemDetail = async (
   }
 
   // 平台属性的展示
-  const { firstLevel, secondLevel, threeLevel } = cateValue || {}
-  const res_attr = await attrInfoList(
-    Number(firstLevel),
-    Number(secondLevel),
-    Number(threeLevel),
-  )
-  if (res_attr.code !== 200 || !Array.isArray(res_attr.data)) {
-    return (platformAttr.value = [])
-  }
-  platformAttr.value = res_attr.data
-
-  loading.value = false
+  // const res_attr = await useAttrInfoList(cateValue, (res) => {
+  //   loading.value = false
+  //   platformAttr.value = res.data.value
+  // })
+  const res_attr = await useAttrInfoList(cateValue)
+  platformAttr.value = res_attr!.data.value
 }
 
 watchEffect(() => {
