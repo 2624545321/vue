@@ -1,5 +1,5 @@
 <template>
-  <el-table v-bind="$attrs">
+  <el-table ref="$table" v-bind="$attrs">
     <el-table-column
       v-for="(column, i) of tableColumn"
       :key="i"
@@ -18,7 +18,8 @@
 </template>
 <script lang="ts" setup>
 // import type { PropType } from 'vue'
-// import { useAttrs } from 'vue'
+import { ref } from 'vue'
+import { ElTable } from 'element-plus'
 // todo : add generic
 // type T_data<T> = T[]
 type Ta = any[]
@@ -41,9 +42,11 @@ const props = withDefaults(defineProps<TableProps>(), {
   // height: 'auto',
 })
 props
-// console.log('TableProps', props)
-// const $attrs = useAttrs()
-// $attrs
-// console.log($attrs)
+
+const $table = ref<InstanceType<typeof ElTable> | null>()
+
+defineExpose({
+  $table,
+})
 </script>
 <style scoped lang="scss"></style>

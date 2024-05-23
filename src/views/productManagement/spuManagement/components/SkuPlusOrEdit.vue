@@ -1,5 +1,9 @@
 <template>
-  <el-form label-width="80" label-position="left">
+  <el-form
+    label-width="80"
+    label-position="left"
+    @submit.prevent="handleSkuFormSubmit"
+  >
     <el-form-item label="SKU名称">
       <el-input v-model="form.skuName" placeholder="请输入" />
     </el-form-item>
@@ -56,6 +60,7 @@
 
     <el-form-item label="图片名称">
       <custom-ele-table
+        ref="imageTableRef"
         :table-column="tableColumn"
         :data="spuInfo.spuImageList"
         border
@@ -70,8 +75,17 @@
           />
         </template>
 
-        <template #operation>
-          <el-button size="small" type="primary" text bg>设为默认</el-button>
+        <template #operation="{ row }">
+          <el-button
+            size="small"
+            type="primary"
+            text
+            bg
+            :disabled="form.skuDefaultImg === row.imgUrl"
+            @click="handleTableImageDefault(row)"
+          >
+            设为默认
+          </el-button>
         </template>
       </custom-ele-table>
     </el-form-item>
@@ -93,10 +107,16 @@ import type {
   Custom_Props,
 } from '@/types/module/productManagement/spuManagement'
 import type { AttrItem } from '@/api/productManagement/attr/type'
+import type { SpuImageItem } from '@/api/productManagement/spu/type'
+import type { CustomEleTableInstance } from '@/types/components/customEleTable'
 // request
 import { getSpuInfoById } from '@/api/productManagement/spu'
+import { saveSkuInfo } from '@/api/productManagement/sku'
 // hooks
 import { useAttrInfoList } from '@/hooks/modue/useProductManagement'
+// utils
+import { cloneDeep } from '@/utils'
+import { ElMessage } from 'element-plus'
 
 const props = withDefaults(defineProps<Custom_Props>(), {
   requestKey: -1,
@@ -114,12 +134,13 @@ const form = ref(createSkuForm())
 let platformAttr = ref<AttrItem[]>([])
 
 // 图片
+// const imageTable = ref<TableInstance>()
+let imageTableRef = ref<CustomEleTableInstance>()
 const tableColumn = createSkuTableColumn()
-
-const handleCancel = (msg: ClosedEditPageMsg) => {
-  // console.log('msg', msg)
-  form.value = createSkuForm()
-  emits('cancel', msg)
+const handleTableImageDefault = (row: SpuImageItem) => {
+  form.value.skuDefaultImg = row.imgUrl
+  imageTableRef.value?.$table?.clearSelection()
+  imageTableRef.value?.$table?.toggleRowSelection(row, true)
 }
 
 /**
@@ -152,5 +173,33 @@ watchEffect(() => {
   if (Number(props.editItemId) < 1 || props.requestKey < 1) return
   getSpuItemDetail(props.editItemId, props.cateValue)
 })
+
+const handleCancel = (msg: ClosedEditPageMsg) => {
+  // console.log('msg', msg)
+  form.value = createSkuForm()
+  emits('cancel', msg)
+}
+
+const handleSkuFormSubmit = async () => {
+  const _formData = cloneDeep(form.value)
+  _formData.skuAttrValueList = _formData.skuAttrValueList.filter(
+    (it) => it != undefined,
+  )
+  _formData.skuAttrValueList = _formData.skuAttrValueList.filter(
+    (it) => it != undefined,
+  )
+  _formData.category3Id = spuInfo.value.category3Id as number
+  _formData.spuId = spuInfo.value.id as number
+  _formData.tmId = spuInfo.value.tmId
+
+  try {
+    const res = await saveSkuInfo(_formData)
+    if (res.code === 200) {
+      ElMessage.success(res.message)
+    } else ElMessage.error(res.message)
+  } catch (error: any) {
+    ElMessage.error(error)
+  }
+}
 </script>
 <style scoped lang="scss"></style>

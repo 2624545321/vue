@@ -2,7 +2,7 @@
   <div>
     <el-button
       :disabled="btnDisabled"
-      @click="handleTableSpuPlusOrEdit('puls')"
+      @click="handleTableSpuPlusOrEdit('plus')"
       icon="plus"
       type="primary"
     >
@@ -33,13 +33,31 @@
           ></el-button>
         </el-tooltip>
         <el-tooltip content="查看列表">
-          <el-button icon="View" size="small" type="default"></el-button>
+          <el-button
+            icon="View"
+            size="small"
+            type="default"
+            @click="handleViewSkuList(row)"
+          ></el-button>
         </el-tooltip>
-        <el-tooltip content="删除SPU">
-          <el-button icon="Delete" size="small" type="danger"></el-button>
-        </el-tooltip>
+        <el-popconfirm
+          title="Are you sure to delete this?"
+          @confirm="handleDeleteSpu(row)"
+        >
+          <template #reference>
+            <el-button
+              icon="Delete"
+              size="small"
+              type="danger"
+              @mouseenter="visible = !visible"
+              @mouseleave="visible = !visible"
+            ></el-button>
+          </template>
+        </el-popconfirm>
       </template>
     </custom-ele-table>
+
+    <ElTooltipVirtualTirgger v-model:visible="visible" />
 
     <div class="pagination">
       <el-pagination
@@ -60,7 +78,8 @@
 import type { TableColumn } from '@/types/components/customEleTable'
 import type { SpuProductItem } from '@/api/productManagement/spu/type'
 import useVModel from '@/utils/useVModel'
-// import { watch } from 'vue';
+import ElTooltipVirtualTirgger from '@/components/elTooltipVirtualTirgger/ElTooltipVirtualTirgger.vue'
+import { ref } from 'vue'
 
 interface TableProps {
   pagination: Pagination
@@ -74,6 +93,8 @@ interface Emits {
   (e: 'update:pagination', value: any): void
   (e: 'spuPlusOrEdit', action: string, info?: SpuProductItem): void
   (e: 'skuPlusOrEdit', action: string, info?: SpuProductItem): void
+  (e: 'viewSkuList', info: SpuProductItem): void
+  (e: 'deleteSpu', info: SpuProductItem): void
 }
 const emits = defineEmits<Emits>()
 
@@ -81,8 +102,16 @@ const handleTableSpuPlusOrEdit = (action: string, row?: SpuProductItem) => {
   emits('spuPlusOrEdit', action, row)
 }
 
-const handleTableSkuPlusOrEdit = (action: string, row?: SpuProductItem) => {
+const handleTableSkuPlusOrEdit = (action: string, row: SpuProductItem) => {
   emits('skuPlusOrEdit', action, row)
+}
+
+const handleViewSkuList = (row: SpuProductItem) => {
+  emits('viewSkuList', row)
+}
+
+const handleDeleteSpu = (row: SpuProductItem) => {
+  emits('deleteSpu', row)
 }
 
 const spuTableColumn: TableColumn[] = [
@@ -116,6 +145,8 @@ useVModel(props, 'pagination', emits)
 
 // const spuData: TableColumn[] = []
 // spuData.push({} as TableColumn)
+
+const visible = ref(false)
 </script>
 <style scoped lang="scss">
 .pagination {

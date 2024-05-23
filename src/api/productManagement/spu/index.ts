@@ -18,6 +18,8 @@ enum URL {
   saveSpuInfo = '/admin/product/saveSpuInfo',
   // POST /admin/product/updateSpuInfo
   updateSpuInfo = '/admin/product/updateSpuInfo',
+  // DELETE /admin/product/deleteSpu/{spuId}
+  deleteSpu = '/admin/product/deleteSpu/',
 }
 
 export const getSpuProductList = (
@@ -43,3 +45,6 @@ export const addOrUpdateSpuInfo = (data: spuItem) => {
     return request.post<any, ResponseData>(URL.updateSpuInfo, data)
   }
 }
+
+export const deleteSpu = (spuId: number) =>
+  request.delete(URL.deleteSpu + spuId)

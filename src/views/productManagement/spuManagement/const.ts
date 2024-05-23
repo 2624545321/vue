@@ -55,3 +55,25 @@ export const createSkuTableColumn = (): TableColumn[] => {
     },
   ]
 }
+
+export const createSkuListColumn = (): TableColumn[] => {
+  return [
+    {
+      label: 'sku名字',
+      prop: 'skuName',
+      'show-overflow-tooltip': true,
+    },
+    {
+      label: 'sku价格',
+      prop: 'price',
+    },
+    {
+      label: 'sku重量',
+      prop: 'weight',
+    },
+    {
+      label: 'sku图片',
+      slot: 'skuDefaultImg',
+    },
+  ]
+}

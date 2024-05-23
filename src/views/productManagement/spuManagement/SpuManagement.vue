@@ -14,6 +14,8 @@
         :btn-disabled="Boolean(!cateProps.cateValue.threeLevel)"
         @spuPlusOrEdit="handleSpuPlusOrEdit"
         @skuPlusOrEdit="handleSkuPlusOrEdit"
+        @view-sku-list="handleViewSkuList"
+        @delete-spu="handleDeleteSpu"
       ></spu-table-show>
 
       <spu-plus-or-edit
@@ -32,6 +34,8 @@
         @cancel="handleSpuPlusOrEditCancel"
       ></sku-plus-or-edit>
     </el-card>
+
+    <skuList v-model:modelValue="skuListVisible" :table-data="skuListData" />
   </div>
 </template>
 
@@ -43,6 +47,7 @@ import AttrCategory from '@/components/productManagement/TrademarkCategory.vue'
 import SpuTableShow from './components/SpuTableShow.vue'
 import SpuPlusOrEdit from './components/SpuPlusOrEdit.vue'
 import SkuPlusOrEdit from './components/SkuPlusOrEdit.vue'
+import SkuList from './components/SkuList.vue'
 // type
 import type { TrademarkCategoryProps } from '@/types/components/productManagement'
 import type {
@@ -50,8 +55,10 @@ import type {
   SpuProductItem,
 } from '@/api/productManagement/spu/type'
 import type { Scene } from '@/types/module/productManagement/spuManagement'
+import type { SkuData } from '@/types'
 // request
 import { getSpuProductList } from '@/api/productManagement/spu'
+import { findBySpuId } from '@/api/productManagement/sku'
 
 const cateProps = reactive<TrademarkCategoryProps>({
   cateValue: {
@@ -70,6 +77,9 @@ const spuEditId = ref<number | string>(-1)
 
 const skuEditKey = ref<number>(-1)
 const skuEditId = ref<number | string>(-1)
+
+const skuListData = ref<SkuData[]>([])
+const skuListVisible = ref<boolean>(false)
 
 /* *** tableShow 相关数据 | 逻辑 *** */
 const tableShowLoading = ref(false)
@@ -121,6 +131,7 @@ watch(
     getTableData(comTableShowParams.value, comTsPagination.value)
   },
 )
+/* *** tableShow 相关数据 | 逻辑 结束 *** */
 
 /* spu详情 添加 | 编辑逻辑 */
 const handleSpuPlusOrEdit = (_: string, row?: SpuProductItem) => {
@@ -144,6 +155,21 @@ const handleSpuPlusOrEditCancel = (msg: string) => {
     getTableData(comTableShowParams.value, comTsPagination.value)
   }
   setScene('tableShow')
+}
+
+/* 查看sku列表 */
+const handleViewSkuList = async (row: SpuProductItem) => {
+  // console.log(row)
+  skuListVisible.value = true
+  const res = await findBySpuId(row.id)
+  skuListData.value = res.data || []
+  // console.log('handleViewSkuList', res)
+}
+
+/* 删除 某一条 spu */
+const handleDeleteSpu = (row: SpuProductItem) => {
+  // deleteSpu
+  console.log(row)
 }
 </script>
 

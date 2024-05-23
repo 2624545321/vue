@@ -1,3 +1,7 @@
+import CustomEleTable from '@/components/customEleTable/CustomEleTable.vue'
+
+export type CustomEleTableInstance = InstanceType<typeof CustomEleTable>
+
 export type TableColumn = {
   type?: string
   label?: string
@@ -12,6 +16,8 @@ export type TableColumn = {
   align?: string
   headerAlign?: string
   filterClassName?: string
+  showOverflowTooltip?: boolean
+  'show-overflow-tooltip'?: boolean
 }
 
 /* @desc tableColumn prop form element table soucre

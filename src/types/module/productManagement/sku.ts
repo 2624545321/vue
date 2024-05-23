@@ -21,6 +21,8 @@ export interface SkuData {
   skuDefaultImg: string //sku图片地址
 }
 
-export interface SaveSkuInfoResponse extends ResponseData {
-  // data: SkuData
+export interface SaveSkuInfoResponse extends ResponseData {}
+
+export interface FindBySpuIdResponse extends ResponseData {
+  data: SkuData[]
 }
