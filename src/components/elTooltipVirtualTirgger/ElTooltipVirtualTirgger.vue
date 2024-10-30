@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     v-model:visible="visible"
-    content="删除SPU"
+    :content="content"
     virtual-triggering
     :virtual-ref="triggerRef"
   ></el-tooltip>
@@ -10,10 +10,12 @@
 /**
  * @desc elementPlus tooltip 虚拟触发
  */
-import { onMounted, onUnmounted, ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
+import { useEventListener } from '@/hooks/util/useEventListener'
 
 interface Props {
   visible: boolean
+  content?: string
 }
 interface Emits {
   (e: 'update:visible', v: boolean): void
@@ -35,6 +37,16 @@ const triggerRef = ref({
   },
 })
 
+// 是否设置了位置
+const alreadySetPos = ref<boolean>(false)
+
+watch(visible, (v) => {
+  /* 关闭时取消位置设置 */
+  if (!v) {
+    nextTick(() => (alreadySetPos.value = false))
+  }
+})
+
 const position = ref({
   top: 0,
   left: 0,
@@ -43,19 +55,24 @@ const position = ref({
 })
 
 const mousemoveHandler = (e: MouseEvent) => {
+  if (!visible.value) return
+  if (!e.target) return
+  if (alreadySetPos.value) return
+  alreadySetPos.value = true
+  /* const style = window.getComputedStyle(e.target)
+  const width = style.width
+  const height = style.height */
+  const rect = e.target.getBoundingClientRect()
+  const x = rect.left + rect.width / 2
+  const y = rect.bottom
   position.value = DOMRect.fromRect({
     width: 0,
     height: 0,
-    x: e.clientX,
-    y: e.clientY,
+    x,
+    y,
   })
 }
-onMounted(() => {
-  document.addEventListener('mousemove', mousemoveHandler)
-})
 
-onUnmounted(() => {
-  document.removeEventListener('mousemove', mousemoveHandler)
-})
+useEventListener(document, 'mousemove', mousemoveHandler)
 </script>
 <style scoped lang="scss"></style>
