@@ -49,15 +49,18 @@
               icon="Delete"
               size="small"
               type="danger"
-              @mouseenter="visible = !visible"
-              @mouseleave="visible = !visible"
+              @mouseenter="visible_deleteTip = !visible_deleteTip"
+              @mouseleave="visible_deleteTip = !visible_deleteTip"
             ></el-button>
           </template>
         </el-popconfirm>
       </template>
     </custom-ele-table>
 
-    <ElTooltipVirtualTirgger v-model:visible="visible" />
+    <ElTooltipVirtualTirgger
+      v-model:visible="visible_deleteTip"
+      content="删除SPU?"
+    />
 
     <div class="pagination">
       <el-pagination
@@ -146,7 +149,7 @@ useVModel(props, 'pagination', emits)
 // const spuData: TableColumn[] = []
 // spuData.push({} as TableColumn)
 
-const visible = ref(false)
+const visible_deleteTip = ref(false)
 </script>
 <style scoped lang="scss">
 .pagination {
